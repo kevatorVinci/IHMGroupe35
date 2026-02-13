@@ -49,6 +49,10 @@
     <div class="header">
         <h1>🎮 Cartographie du Projet : Vinci Arena</h1>
         <p>Index des 37 Interfaces Homme-Machine (IHM) - <b>Clique sur un badge pour changer son état</b></p>
+        <div style="margin-top: 15px;">
+            <button onclick="exporterDonnees()" style="padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; margin-right: 10px; font-weight: 600;">📋 Exporter (pour commit)</button>
+            <button onclick="importerDonnees()" style="padding: 10px 20px; background: #059669; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">📥 Importer depuis JSON</button>
+        </div>
     </div>
 
     <div class="category-block">
@@ -133,19 +137,107 @@
 </div>
 
 <script>
+    // ===== SYSTÈME DE SAUVEGARDE =====
+    const STORAGE_KEY = 'ihm_statuts';
+    
+    // Charger les statuts au démarrage
+    document.addEventListener('DOMContentLoaded', function() {
+        chargerStatuts();
+    });
+
     function toggleStatus(badge) {
-        // Si le badge est "À faire" (rouge)
+        const ihmItem = badge.closest('.ihm-item');
+        const ihmName = ihmItem.querySelector('span').innerText;
+        
         if (badge.classList.contains('badge-todo')) {
             badge.classList.remove('badge-todo');
             badge.classList.add('badge-done');
             badge.innerText = 'Fait';
-        } 
-        // Si le badge est "Fait" (vert)
-        else {
+        } else {
             badge.classList.remove('badge-done');
             badge.classList.add('badge-todo');
             badge.innerText = 'À faire';
         }
+        
+        // Sauvegarder automatiquement
+        sauvegarderStatuts();
+    }
+
+    function sauvegarderStatuts() {
+        const statuts = {};
+        document.querySelectorAll('.ihm-item').forEach(item => {
+            const ihmName = item.querySelector('span').innerText;
+            const badge = item.querySelector('.badge');
+            statuts[ihmName] = badge.classList.contains('badge-done') ? 'fait' : 'todo';
+        });
+        
+        const data = {
+            lastUpdate: new Date().toISOString(),
+            statuts: statuts
+        };
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        console.log('✅ Statuts sauvegardés:', data);
+    }
+
+    function chargerStatuts() {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            const data = JSON.parse(saved);
+            console.log('📂 Chargement des statuts:', data);
+            
+            document.querySelectorAll('.ihm-item').forEach(item => {
+                const ihmName = item.querySelector('span').innerText;
+                const badge = item.querySelector('.badge');
+                
+                if (data.statuts && data.statuts[ihmName]) {
+                    if (data.statuts[ihmName] === 'fait') {
+                        badge.classList.remove('badge-todo');
+                        badge.classList.add('badge-done');
+                        badge.innerText = 'Fait';
+                    } else {
+                        badge.classList.remove('badge-done');
+                        badge.classList.add('badge-todo');
+                        badge.innerText = 'À faire';
+                    }
+                }
+            });
+        }
+    }
+
+    // Exporter les données pour les sauvegarder dans le fichier JSON (copier dans le presse-papier)
+    function exporterDonnees() {
+        const statuts = {};
+        document.querySelectorAll('.ihm-item').forEach(item => {
+            const ihmName = item.querySelector('span').innerText;
+            const badge = item.querySelector('.badge');
+            statuts[ihmName] = badge.classList.contains('badge-done') ? 'fait' : 'todo';
+        });
+        
+        const data = {
+            lastUpdate: new Date().toISOString(),
+            statuts: statuts
+        };
+        
+        const jsonString = JSON.stringify(data, null, 4);
+        navigator.clipboard.writeText(jsonString).then(() => {
+            alert('✅ Données copiées dans le presse-papier!\n\nCollez-les dans le fichier data/ihm_status.json puis faites un commit pour sauvegarder.');
+        });
+    }
+
+    // Importer depuis un fichier JSON
+    function importerDonnees() {
+        fetch('data/ihm_status.json')
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+                chargerStatuts();
+                alert('✅ Données importées depuis le fichier JSON!');
+            })
+            .catch(err => {
+                alert('❌ Erreur: Impossible de charger data/ihm_status.json');
+                console.error(err);
+            });
     }
 </script>
 
