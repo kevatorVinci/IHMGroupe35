@@ -1,12 +1,12 @@
 {
-    "lastUpdate": "2026-02-13T12:33:01.163Z",
+    "lastUpdate": "2026-02-13T12:54:50.719Z",
     "statuts": {
         "IHM 1": "fait",
         "IHM 2": "fait",
         "IHM 3": "fait",
         "IHM 4": "fait",
         "IHM 5": "todo",
-        "IHM 6": "todo",
+        "IHM 6": "fait",
         "IHM 7": "fait",
         "IHM 8": "todo",
         "IHM 9": "todo",
@@ -37,6 +37,6 @@
         "IHM 34": "todo",
         "IHM 35": "todo",
         "IHM 36": "todo",
-        "IHM 37": "todo"
+        "IHM 37": "fait"
     }
 }
