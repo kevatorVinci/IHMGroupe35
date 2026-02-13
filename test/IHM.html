@@ -205,7 +205,7 @@
         }
     }
 
-    // Exporter les données pour les sauvegarder dans le fichier JSON (copier dans le presse-papier)
+    // Exporter les données - TÉLÉCHARGE le fichier JSON directement
     function exporterDonnees() {
         const statuts = {};
         document.querySelectorAll('.ihm-item').forEach(item => {
@@ -220,9 +220,19 @@
         };
         
         const jsonString = JSON.stringify(data, null, 4);
-        navigator.clipboard.writeText(jsonString).then(() => {
-            alert('✅ Données copiées dans le presse-papier!\n\nCollez-les dans le fichier data/ihm_status.json puis faites un commit pour sauvegarder.');
-        });
+        
+        // Créer un fichier à télécharger
+        const blob = new Blob([jsonString], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ihm_status.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        alert('✅ Fichier téléchargé!\n\n📁 Remplacez le fichier dans:\ntest/data/ihm_status.json\n\nPuis faites un commit pour sauvegarder.');
     }
 
     // Importer depuis un fichier JSON
@@ -235,7 +245,7 @@
                 alert('✅ Données importées depuis le fichier JSON!');
             })
             .catch(err => {
-                alert('❌ Erreur: Impossible de charger data/ihm_status.json');
+                alert('❌ Erreur: Impossible de charger data/ihm_status.json\n\nOuvrez cette page via un serveur local (Live Server)');
                 console.error(err);
             });
     }
