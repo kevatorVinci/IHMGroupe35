@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan du projet - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f1f5f9; color: #334155; padding: 40px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 32px; color: #0f172a; margin-bottom: 10px; }
+        .header p { color: #64748b; font-size: 16px; }
+
+        .category-block { background: #fff; border-radius: 12px; padding: 25px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid #2563eb; }
+        .category-title { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        
+        .ihm-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .ihm-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: #f8fafc; border-radius: 6px; border: 1px solid #e2e8f0; }
+        .ihm-item a { text-decoration: none; color: #334155; font-weight: 500; flex-grow: 1; display: flex; align-items: center; gap: 10px; }
+        .ihm-item a:hover { color: #2563eb; }
+        
+        /* --- BADGES CLIQUABLES --- */
+        .badge { 
+            padding: 6px 10px; 
+            border-radius: 4px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            text-transform: uppercase; 
+            cursor: pointer;
+            user-select: none;
+            transition: 0.2s;
+            min-width: 75px;
+            text-align: center;
+        }
+        .badge:hover { filter: brightness(0.95); transform: scale(1.05); }
+        .badge:active { transform: scale(0.95); }
+
+        .badge-done { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .badge-todo { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎮 Cartographie du Projet : Vinci Arena</h1>
+        <p>Index des 37 Interfaces Homme-Machine (IHM) - <b>Clique sur un badge pour changer son état</b></p>
+    </div>
+
+    <div class="category-block">
+        <h2 class="category-title">🏠 1. Accueil et navigation</h2>
+        <ul class="ihm-list">
+            <li class="ihm-item"><a href="accueil.html"><span>IHM 1</span> Page d’accueil (visiteur + connecté)</a> <span class="badge badge-done" onclick="toggleStatus(this)">Fait</span></li>
+            <li class="ihm-item"><a href="connexion.html"><span>IHM 2</span> Page de connexion</a> <span class="badge badge-done" onclick="toggleStatus(this)">Fait</span></li>
+            <li class="ihm-item"><a href="inscription.html"><span>IHM 3</span> Page d’inscription</a> <span class="badge badge-done" onclick="toggleStatus(this)">Fait</span></li>
+            <li class="ihm-item"><a href="equipes_publique.html"><span>IHM 4</span> Page “équipes / membres” publique</a> <span class="badge badge-done" onclick="toggleStatus(this)">Fait</span></li>
+        </ul>
+    </div>
+
+    <div class="category-block">
+        <h2 class="category-title">👤 2. Espace membre / profil</h2>
+        <ul class="ihm-list">
+            <li class="ihm-item"><a href="#"><span>IHM 5</span> Tableau de bord membre (avec équipe)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 6</span> Tableau de bord membre (sans équipe)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="profil.html"><span>IHM 7</span> Page de profil (vue)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 8</span> Page d’édition de profil</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 9</span> Gestion des indisponibilités</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 10</span> Page “Mon activité”</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+        </ul>
+    </div>
+
+    <div class="category-block">
+        <h2 class="category-title">🛡️ 3. Équipes / Teams</h2>
+        <ul class="ihm-list">
+            <li class="ihm-item"><a href="equipes.html"><span>IHM 11</span> Page “Mon équipe” – vue responsable</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="equipes.html"><span>IHM 12</span> Page “Mon équipe” – vue simple membre</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="equipes_publique.html"><span>IHM 13</span> Page “Toutes les équipes”</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="creer_equipe.html"><span>IHM 14</span> Écran “Créer une team”</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="gestion_adhesions.html"><span>IHM 15</span> Écran “Demandes d’adhésion à ma team”</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 16</span> Écran “Rejoindre une équipe”</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 17</span> Message “Vous êtes déjà dans une équipe”</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+        </ul>
+    </div>
+
+    <div class="category-block">
+        <h2 class="category-title">🏆 4. Tournois et matchs (public / membre)</h2>
+        <ul class="ihm-list">
+            <li class="ihm-item"><a href="liste_tournois.html"><span>IHM 18</span> Liste des tournois (recherche avancée)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 19</span> Détail d’un tournoi terminé</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 20</span> Détail d’un tournoi à venir</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+        </ul>
+    </div>
+
+    <div class="category-block">
+        <h2 class="category-title">⚙️ 5. IHM administrateur</h2>
+        <ul class="ihm-list">
+            <li class="ihm-item"><a href="admin-dashboard.html"><span>IHM 21</span> Tableau de bord administrateur</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="gestion_admins.html"><span>IHM 22</span> Gestion des administrateurs</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="creer_tournoi.html"><span>IHM 23</span> Créer un tournoi</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="modifier_tournoi.html"><span>IHM 24</span> Modifier un tournoi</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="liste_tournois_admin.html"><span>IHM 25</span> Liste des tournois (vue admin)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="gestion_inscriptions.html"><span>IHM 26</span> Inscriptions des teams à un tournoi</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="generation_planning.html"><span>IHM 27</span> Génération du planning</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="edition_planning.html"><span>IHM 28</span> Édition manuelle du planning</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="detail_match.html"><span>IHM 29</span> Saisie du résultat d’un match</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+        </ul>
+    </div>
+
+    <div class="category-block">
+        <h2 class="category-title">📋 6. IHM responsables de team pour les matchs</h2>
+        <ul class="ihm-list">
+            <li class="ihm-item"><a href="matchs_tournoi.html"><span>IHM 30</span> Liste des matchs de ma team</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="selection_joueurs.html"><span>IHM 31</span> Sélection des joueurs pour un match (4/4)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="detail_match.html"><span>IHM 32</span> Détail d’un match – vue responsable</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="detail_match.html"><span>IHM 33</span> Confirmer / contester un résultat</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+        </ul>
+    </div>
+
+    <div class="category-block">
+        <h2 class="category-title">📊 7 & 8. Résultats & Notifications</h2>
+        <ul class="ihm-list">
+            <li class="ihm-item"><a href="resultats_matchs.html"><span>IHM 34</span> Page “Résultats des matchs” (Partie 7)</a> <span class="badge badge-done" onclick="toggleStatus(this)">Fait</span></li>
+            <li class="ihm-item"><a href="detail_match.html"><span>IHM 35</span> Détail d’un match – vue publique (Partie 7)</a> <span class="badge badge-done" onclick="toggleStatus(this)">Fait</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 36</span> Centre de notifications (Partie 8)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="#"><span>IHM 37</span> Indicateur de notifications (Header)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+        </ul>
+    </div>
+
+</div>
+
+<script>
+    function toggleStatus(badge) {
+        // Si le badge est "À faire" (rouge)
+        if (badge.classList.contains('badge-todo')) {
+            badge.classList.remove('badge-todo');
+            badge.classList.add('badge-done');
+            badge.innerText = 'Fait';
+        } 
+        // Si le badge est "Fait" (vert)
+        else {
+            badge.classList.remove('badge-done');
+            badge.classList.add('badge-todo');
+            badge.innerText = 'À faire';
+        }
+    }
+</script>
+
+</body>
+</html>

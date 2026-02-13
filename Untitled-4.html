@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des tournois - Administration</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles de base --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f4f7f6; color: #333; padding: 30px; }
+        
+        /* Layout */
+        .admin-container { max-width: 1100px; margin: 0 auto; background-color: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+
+        /* En-tête de la page */
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .page-title { font-size: 24px; font-weight: 700; color: #0a1f44; display: flex; align-items: center; gap: 10px; }
+        
+        /* Bouton "Nouveau Tournoi" */
+        .btn-create {
+            background-color: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+        .btn-create:hover { background-color: #1d4ed8; }
+
+        /* Barre de filtres */
+        .filter-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .search-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+        }
+        
+        .status-select {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            min-width: 150px;
+        }
+
+        /* --- Tableau --- */
+        .table-responsive { overflow-x: auto; }
+        
+        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        
+        th { text-align: left; padding: 15px; background-color: #f1f5f9; color: #475569; font-weight: 600; font-size: 14px; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 15px; border-bottom: 1px solid #e2e8f0; vertical-align: middle; }
+        
+        tr:hover { background-color: #f8fafc; }
+
+        /* Styles des colonnes spécifiques */
+        .col-name { font-weight: 500; color: #0f172a; }
+        .col-date { color: #64748b; font-size: 14px; }
+        
+        /* Badges d'état */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-encours { background-color: #dcfce7; color: #166534; } /* Vert */
+        .status-avenir { background-color: #dbeafe; color: #1e40af; } /* Bleu */
+        .status-termine { background-color: #f1f5f9; color: #475569; } /* Gris */
+        .status-brouillon { background-color: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; } /* Orange */
+
+        /* Boutons d'action (Modifier/Supprimer) */
+        .action-buttons { display: flex; gap: 8px; }
+        
+        .btn-icon {
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            cursor: pointer;
+            background: transparent;
+            transition: 0.2s;
+            color: #64748b;
+        }
+        
+        .btn-edit:hover { background-color: #e0f2fe; color: #0284c7; }
+        .btn-delete:hover { background-color: #fee2e2; color: #dc2626; }
+
+    </style>
+</head>
+<body>
+
+<div class="admin-container">
+    <header class="page-header">
+        <h1 class="page-title">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></svg>
+            Gérer les tournois
+        </h1>
+        <a href="creer_tournoi.html" class="btn-create">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            Nouveau tournoi
+        </a>
+    </header>
+
+    <div class="filter-bar">
+        <input type="text" class="search-input" placeholder="Rechercher un tournoi par nom...">
+        <select class="status-select">
+            <option value="all">Tous les états</option>
+            <option value="en_cours">En cours</option>
+            <option value="avenir">À venir</option>
+            <option value="termine">Terminé</option>
+            <option value="brouillon">Brouillon</option>
+        </select>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom du tournoi</th>
+                    <th>Dates</th>
+                    <th>Inscrits</th>
+                    <th>État</th>
+                    <th style="text-align: right;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="col-name">Championnat d'Hiver 2024</td>
+                    <td class="col-date">01 Déc - 15 Déc 2024</td>
+                    <td>16 / 32</td>
+                    <td><span class="status-badge status-encours">En cours</span></td>
+                    <td class="action-buttons" style="justify-content: flex-end;">
+                        <a href="modifier_tournoi.html?id=1" class="btn-icon btn-edit" title="Modifier">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                        </a>
+                        <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteItem(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-name">Coupe de Printemps 2025</td>
+                    <td class="col-date">10 Mar - 20 Mar 2025</td>
+                    <td>5 / 64</td>
+                    <td><span class="status-badge status-avenir">À venir</span></td>
+                    <td class="action-buttons" style="justify-content: flex-end;">
+                        <a href="modifier_tournoi.html?id=2" class="btn-icon btn-edit" title="Modifier">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                        </a>
+                        <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteItem(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-name">Tournoi Éclair Hebdo #42</td>
+                    <td class="col-date">15 Nov 2024</td>
+                    <td>8 / 8</td>
+                    <td><span class="status-badge status-termine">Terminé</span></td>
+                    <td class="action-buttons" style="justify-content: flex-end;">
+                        <a href="modifier_tournoi.html?id=3" class="btn-icon btn-edit" title="Modifier">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                        </a>
+                        <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteItem(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </td>
+                </tr>
+
+                 <tr>
+                    <td class="col-name">Projet Tournoi Halloween</td>
+                    <td class="col-date">-- -- ----</td>
+                    <td>0 / 100</td>
+                    <td><span class="status-badge status-brouillon">Brouillon</span></td>
+                    <td class="action-buttons" style="justify-content: flex-end;">
+                        <a href="modifier_tournoi.html?id=4" class="btn-icon btn-edit" title="Modifier">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+                        </a>
+                        <button class="btn-icon btn-delete" title="Supprimer" onclick="deleteItem(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // Petite fonction JS pour simuler la suppression d'une ligne
+    function deleteItem(button) {
+        if(confirm("Confirmer la suppression de ce tournoi ?")) {
+            // Trouve la ligne (tr) parente du bouton et la supprime
+            var row = button.closest('tr');
+            row.style.opacity = '0'; // Petite animation
+            setTimeout(function() {
+                row.remove();
+            }, 300);
+        }
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body, html { 
+            height: 100%;
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f0f2f5; 
+        }
+
+        /* --- Barre de navigation supérieure --- */
+        .navbar {
+            background-color: #112b4f; /* Bleu foncé de la maquette */
+            height: 70px;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo-img-nav {
+            height: 45px;
+            width: auto;
+            border-radius: 4px;
+            display: block;
+        }
+
+        /* --- Conteneur principal avec image de fond --- */
+        .login-wrapper {
+            /* Hauteur totale moins la hauteur de la navbar */
+            height: calc(100vh - 70px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* L'IMAGE DE FOND PROVIENT DU DOSSIER 'image' */
+            background-image: url('image/fond.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+        }
+
+        /* --- Fenêtre de connexion (Modale) --- */
+        .login-card {
+            background-color: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Titre "Se connecter" en haut à gauche */
+        .login-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #334155;
+            margin-bottom: 20px;
+        }
+
+        /* Logo centré dans la carte */
+        .login-card-logo {
+            display: block;
+            margin: 0 auto 30px auto;
+            height: 60px;
+            border-radius: 4px;
+        }
+
+        /* Formulaire */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #334155;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #112b4f;
+        }
+
+        .form-control::placeholder {
+            color: #94a3b8;
+        }
+
+        /* Bouton de soumission (Bleu foncé) */
+        .btn-submit {
+            width: 100%;
+            background-color: #112b4f;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 10px;
+            margin-bottom: 25px;
+        }
+
+        .btn-submit:hover {
+            background-color: #1e40af;
+        }
+
+        /* Liens secondaires (Mot de passe oublié, Créer un compte) */
+        .secondary-links {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .text-link {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            transition: color 0.2s;
+        }
+
+        .text-link:hover {
+            color: #112b4f;
+            text-decoration: underline;
+        }
+
+        /* Bouton Retour Accueil (Tout en bas) */
+        .return-home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 35px;
+            color: #475569;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .return-home:hover {
+            color: #112b4f;
+        }
+
+        /* Responsive Mobile */
+        @media (max-width: 480px) {
+            .login-card { margin: 20px; padding: 30px 20px; }
+            .navbar { padding: 0 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="accueil.html">
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+        </a>
+    </header>
+
+    <div class="login-wrapper">
+        
+        <div class="login-card">
+            <h1 class="login-title">Se connecter</h1>
+            
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="login-card-logo">
+
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="email" class="form-label">Adresse Email</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="nom@exemple.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Mot de passe</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Se connecter</button>
+            </form>
+
+            <div class="secondary-links">
+                <a href="#" class="text-link">Mot de passe oublié ?</a>
+                <a href="inscription.html" class="text-link">Créer un compte</a>
+            </div>
+
+            <a href="accueil.html" class="return-home">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Retourner à l'accueil
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

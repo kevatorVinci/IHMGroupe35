@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rechercher un tournoi - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f0f2f5; 
+            color: #334155; 
+        }
+
+        /* --- Barre de navigation --- */
+        .navbar {
+            background-color: #112b4f;
+            height: 70px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+
+        .nav-links { display: flex; align-items: center; gap: 30px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 15px; transition: color 0.2s; }
+        .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+
+        .btn-register {
+            background-color: #b45309; 
+            color: white !important;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-decoration: none !important;
+            transition: background-color 0.2s;
+        }
+        .btn-register:hover { background-color: #92400e; }
+
+        /* --- Contenu principal --- */
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 20px;
+        }
+
+        /* --- Panneau de recherche (Bleu foncé) --- */
+        .search-panel {
+            background-color: #112b4f;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-header {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-label {
+            color: white;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .form-control:focus { border-color: #f59e0b; box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3); }
+
+        /* --- Filtres (Pilules) --- */
+        .filter-pills {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .pill-btn {
+            padding: 8px 20px;
+            background-color: #e2e8f0;
+            color: #475569;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .pill-btn:hover { background-color: #cbd5e1; }
+        .pill-btn.active { background-color: #93c5fd; color: #1e3a8a; } /* Bleu clair de la maquette */
+
+        /* --- Disposition en 3 colonnes (Résultats) --- */
+        .results-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Lignes verticales de séparation */
+        .col-past { border-right: 2px solid #cbd5e1; padding-right: 30px; }
+        .col-live { border-right: 2px solid #cbd5e1; padding-right: 30px; }
+        
+        /* En-tête de colonne */
+        .col-title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        /* Design des cartes Tournoi (Simples et blanches) */
+        .t-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            transition: 0.2s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            min-height: 120px;
+        }
+        .t-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            border-color: #94a3b8;
+        }
+
+        .card-name { font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 8px; }
+        .card-dates { font-size: 13px; color: #64748b; margin-bottom: 8px; }
+        .card-teams { font-size: 12px; color: #475569; font-weight: 500; margin-top: auto; }
+
+        /* Responsive Mobile */
+        @media (max-width: 900px) {
+            .search-grid { grid-template-columns: repeat(2, 1fr); }
+            .results-layout { grid-template-columns: 1fr; gap: 40px; }
+            .col-past, .col-live { border-right: none; padding-right: 0; border-bottom: 2px solid #cbd5e1; padding-bottom: 20px; }
+        }
+        @media (max-width: 500px) {
+            .search-grid { grid-template-columns: 1fr; }
+            .navbar { padding: 15px 20px; flex-direction: column; height: auto; gap: 15px; }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="accueil.html">
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+        </a>
+        <nav class="nav-links">
+            <a href="accueil.html">Accueil</a>
+            <a href="liste_tournois.html" class="active">Tournoi</a>
+            <a href="equipes_publique.html">Equipe</a>
+            <a href="connexion.html">Connexion</a>
+            <a href="inscription.html" class="btn-register">Inscription</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        
+        <h1 class="page-title">Rechercher un tournoi</h1>
+
+        <div class="search-panel">
+            <div class="search-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                Critères de recherche
+            </div>
+            
+            <div class="search-grid">
+                <div class="form-group">
+                    <label class="form-label">Nom d'équipe</label>
+                    <input type="text" class="form-control" placeholder="Rechercher par nom d'équipe">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tag de joueur</label>
+                    <input type="text" class="form-control" placeholder="Rechercher par tag...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date de début de tournoi</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date de fin de tournoi</label>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-pills">
+            <button class="pill-btn active" onclick="filterColumns('all', this)">Tous</button>
+            <button class="pill-btn" onclick="filterColumns('past', this)">Passés</button>
+            <button class="pill-btn" onclick="filterColumns('live', this)">En cours</button>
+            <button class="pill-btn" onclick="filterColumns('upcoming', this)">A venir</button>
+        </div>
+
+        <div class="results-layout" id="results-container">
+            
+            <div class="column col-past" id="col-past">
+                <h2 class="col-title">Tournoi passés</h2>
+                
+                <a href="#" class="t-card">
+                    <div class="card-name">Coupe d'Automne 2025</div>
+                    <div class="card-dates">01 Oct - 15 Oct 2025</div>
+                    <div class="card-teams">🏆 Vainqueur : SkyWalkers</div>
+                </a>
+                
+                <a href="#" class="t-card">
+                    <div class="card-name">Halloween Clash</div>
+                    <div class="card-dates">31 Oct 2025</div>
+                    <div class="card-teams">🏆 Vainqueur : GhostBusters</div>
+                </a>
+            </div>
+
+            <div class="column col-live" id="col-live">
+                <h2 class="col-title">Tournoi en cours</h2>
+                
+                <a href="#" class="t-card" style="border-left: 4px solid #f59e0b;">
+                    <div class="card-name">Championnat d'Hiver 2025</div>
+                    <div class="card-dates">10 Déc - 20 Déc 2025</div>
+                    <div class="card-teams">👥 32 Équipes </div>
+                </a>
+            </div>
+
+            <div class="column col-upcoming" id="col-upcoming">
+                <h2 class="col-title">Tournoi à venir</h2>
+                
+                <a href="#" class="t-card">
+                    <div class="card-name">Coupe de Printemps</div>
+                    <div class="card-dates">Débute le 15 Mars 2026</div>
+                    <div class="card-teams" style="color: #b45309;">⏳ Inscriptions ouvertes</div>
+                </a>
+                
+                <a href="#" class="t-card">
+                    <div class="card-name">Tournoi des Recrues</div>
+                    <div class="card-dates">Débute le 10 Avril 2026</div>
+                    <div class="card-teams">👥 14/16 Équipes inscrites</div>
+                </a>
+
+                <a href="#" class="t-card">
+                    <div class="card-name">Summer Clash</div>
+                    <div class="card-dates">Débute le 20 Juillet 2026</div>
+                    <div class="card-teams">⏳ Inscriptions fermées</div>
+                </a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        function filterColumns(status, btnElement) {
+            // 1. Mettre à jour l'apparence des boutons (pilules)
+            document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            // 2. Sélectionner les colonnes
+            const colPast = document.getElementById('col-past');
+            const colLive = document.getElementById('col-live');
+            const colUpcoming = document.getElementById('col-upcoming');
+
+            // 3. Afficher/Masquer selon le statut
+            if (status === 'all') {
+                colPast.style.display = 'flex';
+                colLive.style.display = 'flex';
+                colUpcoming.style.display = 'flex';
+                
+                // Rétablir les bordures séparatrices pour Desktop
+                if(window.innerWidth > 900) {
+                    colPast.style.borderRight = '2px solid #cbd5e1';
+                    colLive.style.borderRight = '2px solid #cbd5e1';
+                }
+            } else {
+                colPast.style.display = (status === 'past') ? 'flex' : 'none';
+                colLive.style.display = (status === 'live') ? 'flex' : 'none';
+                colUpcoming.style.display = (status === 'upcoming') ? 'flex' : 'none';
+                
+                // Enlever les bordures car il n'y a plus qu'une seule colonne affichée
+                colPast.style.borderRight = 'none';
+                colLive.style.borderRight = 'none';
+            }
+        }
+
+        // Gérer le redimensionnement de l'écran (pour garder les bordures correctes)
+        window.addEventListener('resize', () => {
+            const activeBtn = document.querySelector('.pill-btn.active');
+            if(activeBtn.innerText === 'Tous') {
+                filterColumns('all', activeBtn);
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demandes d'adhésion - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f4f7f6; color: #333; padding: 30px; }
+        .container { max-width: 800px; margin: 0 auto; }
+
+        /* Navigation */
+        .top-nav { margin-bottom: 20px; }
+        .btn-back { text-decoration: none; color: #64748b; font-weight: 500; display: flex; align-items: center; gap: 5px; font-size: 14px; }
+        .btn-back:hover { color: #2563eb; }
+
+        /* En-tête */
+        .page-header { 
+            background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; 
+            margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center; 
+        }
+        .page-title h1 { font-size: 22px; color: #0f172a; margin: 0; }
+        .notification-badge { background: #e0f2fe; color: #0284c7; padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 13px; }
+
+        /* --- Liste des demandes --- */
+        .requests-list { display: flex; flex-direction: column; gap: 15px; }
+
+        .request-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px 20px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.2s;
+            position: relative;
+        }
+        .request-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-color: #cbd5e1; }
+
+        /* Infos Joueur (Gauche) */
+        .player-info { display: flex; align-items: center; gap: 15px; }
+        
+        .avatar { 
+            width: 45px; height: 45px; border-radius: 50%; background: #e2e8f0; 
+            display: flex; align-items: center; justify-content: center; 
+            font-weight: bold; color: #64748b; font-size: 16px;
+        }
+        
+        .player-details { display: flex; flex-direction: column; }
+        .username { font-weight: 700; color: #0f172a; font-size: 16px; }
+        .role-badge { 
+            font-size: 12px; color: #64748b; background: #f1f5f9; 
+            padding: 2px 8px; border-radius: 4px; margin-top: 4px; width: fit-content; 
+        }
+
+        /* Actions (Droite) */
+        .actions-group { display: flex; gap: 10px; align-items: center; }
+        
+        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 13px; transition: 0.2s; display: flex; align-items: center; gap: 6px; }
+        
+        .btn-accept { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .btn-accept:hover { background: #22c55e; color: white; border-color: #22c55e; }
+        
+        .btn-reject { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        .btn-reject:hover { background: #ef4444; color: white; border-color: #ef4444; }
+
+        /* Empty State */
+        .empty-state { display: none; text-align: center; padding: 40px; color: #94a3b8; background: #fff; border-radius: 12px; border: 1px dashed #cbd5e1; }
+
+        /* --- MODALE DE REFUS --- */
+        .modal-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 1000;
+            align-items: center; justify-content: center;
+            animation: fadeIn 0.2s;
+        }
+        .modal-box {
+            background: white; width: 100%; max-width: 450px; padding: 25px;
+            border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s;
+        }
+        .modal-title { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 10px; }
+        .modal-desc { font-size: 13px; color: #64748b; margin-bottom: 15px; }
+        
+        .modal-textarea { 
+            width: 100%; height: 100px; padding: 10px; 
+            border: 1px solid #cbd5e1; border-radius: 6px; 
+            resize: none; font-family: inherit; margin-bottom: 20px; font-size: 14px;
+        }
+        .modal-textarea:focus { border-color: #ef4444; outline: none; }
+        
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-modal-cancel { background: white; border: 1px solid #cbd5e1; color: #64748b; }
+        .btn-modal-confirm { background: #ef4444; color: white; border: none; }
+        .btn-modal-confirm:hover { background: #dc2626; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes slideOut { to { transform: translateX(50px); opacity: 0; height: 0; margin: 0; padding: 0; border: none; } }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="top-nav">
+        <a href="equipes.html" class="btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Retour à l'équipe
+        </a>
+    </div>
+
+    <div class="page-header">
+        <h1>Demandes d'adhésion</h1>
+        <span class="notification-badge" id="request-count">3 en attente</span>
+    </div>
+
+    <div class="requests-list" id="list-container">
+        
+        <div class="request-card" id="req-1">
+            <div class="player-info">
+                <div class="avatar">NB</div>
+                <div class="player-details">
+                    <span class="username">NoobSlayer</span>
+                    <span class="role-badge">Tacticien</span>
+                </div>
+            </div>
+            <div class="actions-group">
+                <button class="btn btn-accept" onclick="acceptRequest('req-1')">Accepter</button>
+                <button class="btn btn-reject" onclick="openRejectModal('req-1', 'NoobSlayer')">Refuser</button>
+            </div>
+        </div>
+
+        <div class="request-card" id="req-2">
+            <div class="player-info">
+                <div class="avatar" style="background: #fef3c7; color: #d97706;">GK</div>
+                <div class="player-details">
+                    <span class="username">GenjiKing</span>
+                    <span class="role-badge">Exécuteur</span>
+                </div>
+            </div>
+            <div class="actions-group">
+                <button class="btn btn-accept" onclick="acceptRequest('req-2')">Accepter</button>
+                <button class="btn btn-reject" onclick="openRejectModal('req-2', 'GenjiKing')">Refuser</button>
+            </div>
+        </div>
+
+        <div class="request-card" id="req-3">
+            <div class="player-info">
+                <div class="avatar" style="background: #f3e8ff; color: #7e22ce;">TV</div>
+                <div class="player-details">
+                    <span class="username">ToxicViper</span>
+                    <span class="role-badge">Perturbateur</span>
+                </div>
+            </div>
+            <div class="actions-group">
+                <button class="btn btn-accept" onclick="acceptRequest('req-3')">Accepter</button>
+                <button class="btn btn-reject" onclick="openRejectModal('req-3', 'ToxicViper')">Refuser</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="empty-state" class="empty-state">
+        <h3>Aucune demande</h3>
+        <p>Vous n'avez pas de nouvelle demande d'adhésion.</p>
+    </div>
+
+</div>
+
+<div id="rejectModal" class="modal-overlay">
+    <div class="modal-box">
+        <h3 class="modal-title">Refuser <span id="modal-username" style="color: #ef4444;"></span> ?</h3>
+        <p class="modal-desc">Vous devez indiquer un motif pour expliquer votre refus au joueur.</p>
+        
+        <textarea id="rejectReason" class="modal-textarea" placeholder="Écrivez votre message ici... (Ex: Désolé, l'équipe est complète.)"></textarea>
+        
+        <div class="modal-actions">
+            <button class="btn btn-modal-cancel" onclick="closeModal()">Annuler</button>
+            <button class="btn btn-modal-confirm" onclick="confirmReject()">Envoyer le refus</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentReqId = null;
+    let requestsCount = 3;
+
+    // 1. Accepter (Direct)
+    function acceptRequest(id) {
+        if(confirm("Ajouter ce joueur à l'équipe ?")) {
+            removeCard(id);
+            alert("Joueur accepté !");
+        }
+    }
+
+    // 2. Refuser (Ouvre la modale)
+    function openRejectModal(id, username) {
+        currentReqId = id;
+        document.getElementById('modal-username').textContent = username;
+        document.getElementById('rejectReason').value = ""; 
+        document.getElementById('rejectModal').style.display = "flex";
+        document.getElementById('rejectReason').focus();
+    }
+
+    function closeModal() {
+        document.getElementById('rejectModal').style.display = "none";
+        currentReqId = null;
+    }
+
+    // 3. Confirmer le refus (Avec message)
+    function confirmReject() {
+        const reason = document.getElementById('rejectReason').value.trim();
+        
+        if (reason.length === 0) {
+            alert("Veuillez écrire un message.");
+            return;
+        }
+
+        // Simulation d'envoi
+        console.log(`Refus envoyé pour ${currentReqId}. Raison : ${reason}`);
+
+        closeModal();
+        removeCard(currentReqId);
+        alert("Refus envoyé avec le message.");
+    }
+
+    // Animation suppression
+    function removeCard(id) {
+        const card = document.getElementById(id);
+        card.style.animation = "slideOut 0.4s forwards";
+        setTimeout(() => {
+            card.remove();
+            updateCounter();
+        }, 400);
+    }
+
+    function updateCounter() {
+        requestsCount--;
+        const badge = document.getElementById('request-count');
+        
+        if (requestsCount > 0) {
+            badge.textContent = `${requestsCount} en attente`;
+        } else {
+            badge.style.display = 'none';
+            document.getElementById('list-container').style.display = 'none';
+            document.getElementById('empty-state').style.display = 'block';
+        }
+    }
+
+    // Fermer modale au clic extérieur
+    window.onclick = function(event) {
+        const modal = document.getElementById('rejectModal');
+        if (event.target == modal) {
+            closeModal();
+        }
+    }
+</script>
+
+</body>
+</html>
