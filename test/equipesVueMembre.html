@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Équipe - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; line-height: 1.5; }
+
+        /* --- 2. NAVBAR --- */
+        .navbar {
+            background-color: #112b4f; height: 70px; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+        }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; }
+
+        /* --- 3. STRUCTURE --- */
+        .main-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        
+        .team-header-banner {
+            background-color: #112b4f;
+            border-radius: 8px; padding: 40px; color: white;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
+        }
+        .team-title h1 { font-size: 32px; font-weight: 700; margin-bottom: 5px; }
+        .team-meta-top { font-size: 14px; opacity: 0.9; }
+
+        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+
+        /* --- 4. CARTES & TABLEAUX --- */
+        .card { background: white; border-radius: 8px; border: 1px solid #e2e8f0; padding: 25px; margin-bottom: 30px; }
+        .card-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+
+        .member-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid #f1f5f9;
+        }
+        .member-info { display: flex; align-items: center; gap: 12px; }
+        .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f8fafc; }
+        .member-tag { font-weight: 600; color: #1e293b; font-size: 15px; }
+        .role-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase; }
+        .role-resp { background: #fef3c7; color: #b45309; }
+        .role-player { background: #f1f5f9; color: #64748b; }
+
+        .status-available { color: #16a34a; font-size: 12px; font-weight: 500; }
+        .status-away { color: #ef4444; font-size: 12px; font-weight: 500; }
+
+        /* --- 5. BOUTONS --- */
+        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 13px; transition: 0.2s; text-decoration: none; display: inline-block; }
+        .btn-outline { border: 1px solid #cbd5e1; background: white; color: #475569; }
+        .btn-outline:hover { background: #f8fafc; border-color: #112b4f; color: #112b4f; }
+
+        /* --- 6. ASIDE --- */
+        .action-list { display: flex; flex-direction: column; gap: 10px; }
+        .action-link {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 15px; border-radius: 8px; background: #f8fafc;
+            text-decoration: none; color: #1e293b; font-weight: 500; transition: 0.2s;
+        }
+        .action-link:hover { background: #f1f5f9; transform: translateX(5px); }
+
+        @media (max-width: 850px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .team-header-banner { flex-direction: column; text-align: center; gap: 20px; padding: 25px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+        <nav class="nav-links">
+            <a href="dashboard_membre.html">Mon Dashboard</a>
+            <a href="liste_tournois.html">Tournois</a>
+            <a href="ma_team.html" style="font-weight: 700; border-bottom: 2px solid white;">Ma Team</a>
+            <div class="nav-user">
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="nav-avatar"></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="team-header-banner">
+            <div class="team-title">
+                <div class="team-meta-top">Membre de l'équipe</div>
+                <h1>Dark Legion</h1>
+                <p>Membres : 14 | Prochain Match : 18/02/2026</p>
+            </div>
+            <a href="profil.html" class="btn btn-outline" style="background: transparent; color: white; border-color: rgba(255,255,255,0.4);">Gérer mes disponibilités</a>
+        </div>
+
+        <div class="dashboard-grid">
+            <section>
+                <div class="card">
+                    <div class="card-title">
+                        <span>👥 Mes Coéquipiers</span>
+                    </div>
+                    
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" class="member-avatar">
+                            <div>
+                                <span class="member-tag">SarahC</span>
+                                <span class="role-badge role-resp">Responsable</span>
+                            </div>
+                        </div>
+                        <span class="status-available">● En ligne</span>
+                    </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Marc" class="member-avatar">
+                            <div>
+                                <span class="member-tag">MarcO</span>
+                                <span class="role-badge role-resp">Responsable</span>
+                            </div>
+                        </div>
+                        <span class="status-available">● Disponible</span>
+                    </div>
+
+                    <div class="member-row" style="background-color: #f8fafc; margin: 0 -25px; padding: 12px 25px;">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="member-avatar">
+                            <div>
+                                <span class="member-tag">ProGamer2024 (Vous)</span>
+                                <span class="role-badge role-player">Membre</span>
+                            </div>
+                        </div>
+                        <span class="status-away">✈️ Indisponible jusqu'au 22/02</span>
+                    </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="member-avatar">
+                            <div>
+                                <span class="member-tag">NoobSlayer</span>
+                                <span class="role-badge role-player">Membre</span>
+                            </div>
+                        </div>
+                        <span class="status-available">● Disponible</span>
+                    </div>
+                </div>
+            </section>
+
+            <aside>
+                <div class="card">
+                    <div class="card-title" style="font-size: 16px;">📅 Activité de l'équipe</div>
+                    <div class="action-list">
+                        <a href="#" class="action-link">
+                            <span>Planning des Matchs</span>
+                            <span>→</span>
+                        </a>
+                        <a href="#" class="action-link">
+                            <span>Historique de la Team</span>
+                            <span>→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card" style="border-left: 4px solid #112b4f;">
+                    <h3 style="font-size: 14px; margin-bottom: 10px;">Info Sélection</h3>
+                    <p style="font-size: 12px; color: #64748b;">
+                        Les compositions pour les matchs à venir sont décidées par vos responsables (SarahC, MarcO). Vous recevrez une notification si vous êtes retenu dans les 4 joueurs. [cite: 47, 115]
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+</body>
+</html>
