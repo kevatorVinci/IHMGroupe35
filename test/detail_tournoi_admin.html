@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Tournoi (Admin) - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
+
+        /* --- Navbar Admin --- */
+        .navbar {
+            background-color: #112b4f; height: 70px; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .admin-badge {
+            background-color: #b45309; color: white; padding: 3px 8px; border-radius: 4px;
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .nav-right-group { display: flex; align-items: center; gap: 30px; }
+        .nav-links { display: flex; align-items: center; gap: 20px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
+        .btn-exit {
+            border: 1px solid rgba(255,255,255,0.3); padding: 6px 12px; border-radius: 4px;
+            color: rgba(255,255,255,0.9) !important; font-size: 12px; display: flex; align-items: center; gap: 6px; text-decoration: none; transition: 0.2s;
+        }
+        .btn-exit:hover { background-color: rgba(255,255,255,0.1); color: white !important; border-color: white; }
+
+        /* --- Contenu Principal --- */
+        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+
+        /* En-tête de la page de détails */
+        .details-header {
+            display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px;
+        }
+        .dh-title h1 { font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 5px; }
+        .dh-meta { color: #64748b; font-size: 14px; display: flex; align-items: center; gap: 15px; }
+        .status-badge {
+            background-color: #fee2e2; color: #991b1b; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; text-transform: uppercase;
+        }
+
+        /* Boutons d'action principaux */
+        .header-actions { display: flex; gap: 10px; }
+        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
+        
+        .btn-edit { background-color: white; border: 1px solid #cbd5e1; color: #475569; }
+        .btn-edit:hover { background-color: #f8fafc; border-color: #94a3b8; color: #334155; }
+        
+        /* LE BOUTON PLANNING DEMANDÉ */
+        .btn-planning { 
+            background-color: #b45309; color: white; 
+            box-shadow: 0 4px 6px rgba(180, 83, 9, 0.2);
+        }
+        .btn-planning:hover { background-color: #92400e; transform: translateY(-1px); }
+
+        /* --- Grille de contenu --- */
+        .details-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+
+        /* Carte Info */
+        .info-card {
+            background: white; border-radius: 12px; padding: 25px;
+            border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.03); margin-bottom: 30px;
+        }
+        .card-title { font-size: 16px; font-weight: 700; color: #0f172a; margin-bottom: 15px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+
+        .info-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+        .info-label { color: #64748b; }
+        .info-value { color: #334155; font-weight: 500; }
+
+        /* Tableau des équipes */
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 12px; background-color: #f8fafc; color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; border-bottom: 1px solid #e2e8f0; }
+        td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 14px; }
+        
+        .team-name { font-weight: 600; color: #1e293b; }
+        .member-count { 
+            background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; 
+        }
+        .member-count.warning { background: #fee2e2; color: #991b1b; } /* Si < 4 joueurs */
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .details-grid { grid-template-columns: 1fr; }
+            .details-header { flex-direction: column; gap: 20px; }
+            .header-actions { width: 100%; }
+            .btn { flex: 1; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-brand">
+            <a href="admin_tournois.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <div class="nav-right-group">
+            <nav class="nav-links">
+                <a href="admin_tournois.html" class="active">Gestion Tournoi</a>
+                <a href="gestion_admins.html">Admin</a>
+            </nav>
+            <div class="nav-user">
+                <a href="accueil.html" class="btn-exit">Vue Joueur</a>
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=AdminBoss" class="nav-avatar"></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <div class="details-header">
+            <div class="dh-title">
+                <a href="admin_tournois.html" style="text-decoration: none; color: #64748b; font-size: 13px; margin-bottom: 5px; display:block;">&larr; Retour à la liste</a>
+                <h1>Coupe de Printemps 2026</h1>
+                <div class="dh-meta">
+                    <span class="status-badge">Inscriptions Closes</span>
+                    <span>• Format : 4v4</span>
+                    <span>• ID: #T-2026-03</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn btn-edit">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Modifier Infos
+                </button>
+                
+                <a href="admin_planning.html" class="btn btn-planning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    Générer le Planning
+                </a>
+            </div>
+        </div>
+
+        <div class="details-grid">
+            
+            <div>
+                <div class="info-card">
+                    <h3 class="card-title">Équipes Inscrites (7/16)</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nom de l'équipe</th>
+                                <th>Responsable</th>
+                                <th>Membres</th>
+                                <th>Date Inscr.</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="team-name">Alpha Squad</td>
+                                <td>ShadowHunter</td>
+                                <td><span class="member-count">4 / 4</span></td>
+                                <td>10/02/2026</td>
+                                <td style="color:#166534; font-size:12px;">Validé</td>
+                            </tr>
+                            <tr>
+                                <td class="team-name">Vinci Warriors</td>
+                                <td>PixelKing</td>
+                                <td><span class="member-count">5 / 4</span></td>
+                                <td>12/02/2026</td>
+                                <td style="color:#166534; font-size:12px;">Validé</td>
+                            </tr>
+                            <tr>
+                                <td class="team-name">Noob Slayers</td>
+                                <td>DarkVador</td>
+                                <td><span class="member-count">4 / 4</span></td>
+                                <td>14/02/2026</td>
+                                <td style="color:#166534; font-size:12px;">Validé</td>
+                            </tr>
+                            <tr style="background-color: #fff1f2;">
+                                <td class="team-name">Les Touristes</td>
+                                <td>CasualGuy</td>
+                                <td><span class="member-count warning">3 / 4</span></td>
+                                <td>15/02/2026</td>
+                                <td style="color:#991b1b; font-size:12px; font-weight:600;">Incomplet</td>
+                            </tr>
+                            <tr>
+                                <td class="team-name">Omega Team</td>
+                                <td>ProGamer99</td>
+                                <td><span class="member-count">4 / 4</span></td>
+                                <td>15/02/2026</td>
+                                <td style="color:#166534; font-size:12px;">Validé</td>
+                            </tr>
+                             <tr>
+                                <td class="team-name">Les Spartiates</td>
+                                <td>Leonidas</td>
+                                <td><span class="member-count">4 / 4</span></td>
+                                <td>16/02/2026</td>
+                                <td style="color:#166534; font-size:12px;">Validé</td>
+                            </tr>
+                             <tr>
+                                <td class="team-name">Cyber Punks</td>
+                                <td>Neo</td>
+                                <td><span class="member-count">6 / 4</span></td>
+                                <td>16/02/2026</td>
+                                <td style="color:#166534; font-size:12px;">Validé</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 15px; font-size: 13px; color: #64748b; font-style: italic;">
+                        * Seules les équipes complètes (min. 4 joueurs) seront incluses dans le planning.
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="info-card">
+                    <h3 class="card-title">Informations</h3>
+                    
+                    <div class="info-row">
+                        <span class="info-label">Début :</span>
+                        <span class="info-value">15 Mars 2026</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Fin :</span>
+                        <span class="info-value">20 Mars 2026</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Date limite :</span>
+                        <span class="info-value" style="color:#b45309">01 Mars 2026</span>
+                    </div>
+                    <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed #e2e8f0;">
+                        <span class="info-label">Description :</span>
+                        <p style="font-size: 13px; color: #334155; margin-top: 5px; line-height: 1.5;">
+                            Tournoi officiel de printemps ouvert à toutes les équipes de niveau intermédiaire. 
+                            Format à élimination directe classique. Récompenses exclusives pour les vainqueurs.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3 class="card-title">Actions Rapides</h3>
+                    <button class="btn" style="width:100%; justify-content:flex-start; margin-bottom: 8px; font-size:13px; background:#f1f5f9; color:#334155;">
+                        📣 Envoyer une annonce
+                    </button>
+                    <button class="btn" style="width:100%; justify-content:flex-start; font-size:13px; background:#fee2e2; color:#991b1b;">
+                        🗑️ Supprimer le tournoi
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saisie Résultat - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
+
+        /* --- Navbar Admin --- */
+        .navbar {
+            background-color: #112b4f; height: 70px; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .admin-badge {
+            background-color: #b45309; color: white; padding: 3px 8px; border-radius: 4px;
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .nav-right-group { display: flex; align-items: center; gap: 30px; }
+        .nav-links { display: flex; align-items: center; gap: 20px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
+        .btn-exit {
+            border: 1px solid rgba(255,255,255,0.3); padding: 6px 12px; border-radius: 4px;
+            color: rgba(255,255,255,0.9) !important; font-size: 12px; display: flex; align-items: center; gap: 6px; text-decoration: none; transition: 0.2s;
+        }
+        .btn-exit:hover { background-color: rgba(255,255,255,0.1); color: white !important; border-color: white; }
+
+        /* --- Contenu Principal --- */
+        .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+
+        .page-header { margin-bottom: 20px; text-align: center; }
+        .page-title { font-size: 24px; font-weight: 700; color: #0f172a; margin-bottom: 5px; }
+        .match-context { color: #64748b; font-size: 14px; }
+
+        /* --- Carte de Score --- */
+        .score-card {
+            background: white; border-radius: 12px; padding: 40px;
+            border: 1px solid #e2e8f0; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .versus-container {
+            display: flex; justify-content: center; align-items: center; gap: 30px; margin-bottom: 40px;
+        }
+
+        /* Team Block */
+        .team-block { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .team-logo { width: 80px; height: 80px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; border: 2px solid #e2e8f0; }
+        .team-name { font-weight: 700; font-size: 18px; color: #1e293b; }
+        .team-status { font-size: 12px; color: #166534; background: #dcfce7; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+
+        /* Input Score */
+        .score-input {
+            width: 80px; height: 80px; text-align: center; font-size: 36px; font-weight: 700;
+            border: 2px solid #cbd5e1; border-radius: 8px; outline: none; transition: 0.2s;
+            color: #0f172a; background: #f8fafc;
+        }
+        .score-input:focus { border-color: #b45309; background: white; box-shadow: 0 0 0 4px rgba(180, 83, 9, 0.1); }
+
+        /* Separator "VS" */
+        .vs-badge {
+            font-size: 20px; font-weight: 900; color: #cbd5e1; font-style: italic;
+        }
+
+        /* Actions */
+        .actions { margin-top: 30px; display: flex; justify-content: center; gap: 15px; }
+        .btn { padding: 12px 30px; border-radius: 6px; font-weight: 600; font-size: 15px; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-cancel { background: white; border: 1px solid #cbd5e1; color: #64748b; }
+        .btn-cancel:hover { background: #f1f5f9; color: #334155; }
+        .btn-submit { background: #b45309; color: white; box-shadow: 0 4px 6px rgba(180, 83, 9, 0.2); }
+        .btn-submit:hover { background: #92400e; transform: translateY(-1px); }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .versus-container { flex-direction: column; gap: 20px; }
+            .vs-badge { margin: 10px 0; transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-brand">
+            <a href="admin_tournois.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <div class="nav-right-group">
+            <nav class="nav-links">
+                <a href="admin_tournois.html" class="active">Gestion Tournoi</a>
+                <a href="gestion_admins.html">Admin</a>
+            </nav>
+            <div class="nav-user">
+                <a href="accueil.html" class="btn-exit">Vue Joueur</a>
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=AdminBoss" class="nav-avatar"></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <div class="page-header">
+            <a href="admin_planning.html" style="text-decoration: none; color: #64748b; font-size: 14px; display:block; margin-bottom:10px;">&larr; Retour au planning</a>
+            <h1 class="page-title">Encoder le résultat</h1>
+            <div class="match-context">Coupe de Printemps 2026 • Quart de Finale • #M-104</div>
+        </div>
+
+        <div class="score-card">
+            
+            <div class="versus-container">
+                <div class="team-block">
+                    <div class="team-logo">🦁</div>
+                    <div class="team-name">Alpha Squad</div>
+                    <span class="team-status">Complet</span>
+                    <input type="number" id="scoreA" class="score-input" min="0" placeholder="0">
+                </div>
+
+                <div class="vs-badge">VS</div>
+
+                <div class="team-block">
+                    <div class="team-logo">🐉</div>
+                    <div class="team-name">Omega Team</div>
+                    <span class="team-status">Complet</span>
+                    <input type="number" id="scoreB" class="score-input" min="0" placeholder="0">
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-cancel" onclick="window.location.href='admin_planning.html'">Annuler</button>
+                <button class="btn btn-submit" onclick="submitResult()">Valider le résultat</button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        function submitResult() {
+            const scoreA = document.getElementById('scoreA').value;
+            const scoreB = document.getElementById('scoreB').value;
+
+            // 1. Validation : Champs vides
+            if (scoreA === "" || scoreB === "") {
+                alert("Veuillez entrer les scores des deux équipes.");
+                return;
+            }
+
+            [cite_start]// 2. Validation : Match Nul Interdit [cite: 22]
+            // "Le tournoi suit un format à élimination directe, sans possibilité de match nul."
+            if (scoreA == scoreB) {
+                alert("Impossible d'enregistrer un match nul.\nLe format du tournoi exige un vainqueur.");
+                return;
+            }
+
+            // 3. Confirmation
+            const winner = (parseInt(scoreA) > parseInt(scoreB)) ? "Alpha Squad" : "Omega Team";
+            
+            if(confirm(`Confirmer le score : Alpha Squad ${scoreA} - ${scoreB} Omega Team ?\n\nVainqueur : ${winner}\n\nUne notification sera envoyée aux deux équipes pour validation.`)) {
+                [cite_start]// Simulation de la notification [cite: 105]
+                // "Une fois le résultat encodé, les deux teams concernées en sont notifiées et doivent le confirmer"
+                alert("Résultat enregistré ! En attente de la confirmation des équipes.");
+                window.location.href = "admin_planning.html";
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier Planning - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
+
+        /* --- Navbar Admin --- */
+        .navbar {
+            background-color: #112b4f; height: 70px; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .admin-badge {
+            background-color: #b45309; color: white; padding: 3px 8px; border-radius: 4px;
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .nav-right-group { display: flex; align-items: center; gap: 30px; }
+        .nav-links { display: flex; align-items: center; gap: 20px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
+        .btn-exit {
+            border: 1px solid rgba(255,255,255,0.3); padding: 6px 12px; border-radius: 4px;
+            color: rgba(255,255,255,0.9) !important; font-size: 12px; display: flex; align-items: center; gap: 6px; text-decoration: none; transition: 0.2s;
+        }
+        .btn-exit:hover { background-color: rgba(255,255,255,0.1); color: white !important; border-color: white; }
+
+        /* --- Contenu Principal --- */
+        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; margin-bottom: 100px; }
+        
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .page-title { font-size: 24px; font-weight: 700; color: #0f172a; }
+
+        /* --- Arbre des Matchs --- */
+        .bracket-container { overflow-x: auto; padding-bottom: 20px; }
+        .bracket-wrapper { display: flex; gap: 40px; min-width: 900px; }
+        .round-column { flex: 1; display: flex; flex-direction: column; justify-content: space-around; gap: 20px; }
+        .round-title { text-align: center; font-weight: 700; color: #64748b; text-transform: uppercase; font-size: 12px; margin-bottom: 15px; letter-spacing: 1px; }
+
+        /* Carte de Match (Éditable) */
+        .match-card {
+            background: white; border: 1px solid #cbd5e1; border-radius: 8px; padding: 0;
+            position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.03); transition: 0.2s;
+            cursor: pointer; overflow: hidden;
+        }
+        .match-card:hover { border-color: #b45309; box-shadow: 0 4px 12px rgba(180, 83, 9, 0.15); }
+        
+        /* Indicateur "Éditable" */
+        .edit-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(17, 43, 79, 0.05); display: flex; justify-content: center; align-items: center;
+            opacity: 0; transition: 0.2s;
+        }
+        .match-card:hover .edit-overlay { opacity: 1; }
+        .edit-icon { background: #b45309; color: white; padding: 8px; border-radius: 50%; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        .match-content { padding: 15px; }
+        .match-team { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #1e293b; }
+        .match-meta { 
+            font-size: 12px; color: #64748b; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        /* --- MODAL (Fenêtre de modification) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 2000;
+        }
+        .modal-active { display: flex; }
+
+        .modal-card {
+            background: white; width: 100%; max-width: 500px; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2); padding: 30px; animation: slideUp 0.3s ease;
+        }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .modal-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; color: #0f172a; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; }
+        
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 13px; font-weight: 600; color: #475569; margin-bottom: 6px; }
+        .form-input, .form-select {
+            width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none;
+        }
+        .form-row { display: flex; gap: 15px; }
+
+        .modal-actions {
+            margin-top: 25px; display: flex; justify-content: flex-end; gap: 10px;
+        }
+        .btn { padding: 10px 20px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer; font-size: 14px; }
+        .btn-cancel { background: #f1f5f9; color: #475569; }
+        .btn-save { background: #b45309; color: white; }
+
+        /* --- Barre de validation --- */
+        .publish-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; background: white; padding: 15px;
+            border-top: 1px solid #e2e8f0; display: flex; justify-content: center; gap: 15px; z-index: 100;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-brand">
+            <a href="admin_tournois.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+            <span class="admin-badge">ADMIN</span>
+        </div>
+        <div class="nav-right-group">
+            <nav class="nav-links">
+                <a href="gestionTournoiAdmin.html" class="active">Gestion Tournoi</a>
+                <a href="gestionAdmin.html">Admin</a>
+            </nav>
+            <div class="nav-user">
+                <a href="accueil.html" class="btn-exit">Vue Joueur</a>
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=AdminBoss" class="nav-avatar"></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <div class="page-header">
+            <div>
+                <a href="admin_planning.html" style="text-decoration: none; color: #64748b; font-size: 14px;">&larr; Retour</a>
+                <h1 class="page-title">Modifier le Planning manuellement</h1>
+                <p style="color: #64748b; font-size: 14px;">Cliquez sur un match pour modifier les détails, l'horaire ou échanger les équipes.</p>
+            </div>
+        </div>
+
+        <div class="bracket-container">
+            <div class="bracket-wrapper">
+                
+                <div class="round-column">
+                    <div class="round-title">Quarts de Finale</div>
+                    
+                    <div class="match-card" onclick="openModal('m1')">
+                        <div class="match-content">
+                            <div class="match-team" id="m1-team1">Alpha Squad</div>
+                            <div class="match-team" id="m1-team2">Omega Team</div>
+                            <div class="match-meta">
+                                <span id="m1-time">15/03 - 14:00</span>
+                                <span id="m1-admin">Resp: AdminBoss</span>
+                            </div>
+                        </div>
+                        <div class="edit-overlay"><div class="edit-icon">✎</div></div>
+                    </div>
+
+                    <div class="match-card" onclick="openModal('m2')">
+                        <div class="match-content">
+                            <div class="match-team" id="m2-team1">Les Spartiates</div>
+                            <div class="match-team" id="m2-team2">Vinci Warriors</div>
+                            <div class="match-meta">
+                                <span id="m2-time">15/03 - 15:00</span>
+                                <span id="m2-admin">Resp: ViperQueen</span>
+                            </div>
+                        </div>
+                        <div class="edit-overlay"><div class="edit-icon">✎</div></div>
+                    </div>
+                </div>
+
+                <div class="round-column">
+                    <div class="round-title">Demi-Finales</div>
+                    <div class="match-card" onclick="openModal('m3')">
+                        <div class="match-content">
+                            <div class="match-team" style="color:#94a3b8">Vainqueur QF1</div>
+                            <div class="match-team" style="color:#94a3b8">Vainqueur QF2</div>
+                            <div class="match-meta">
+                                <span id="m3-time">18/03 - 18:00</span>
+                                <span id="m3-admin">Resp: AdminBoss</span>
+                            </div>
+                        </div>
+                        <div class="edit-overlay"><div class="edit-icon">✎</div></div>
+                    </div>
+                </div>
+
+                <div class="round-column">
+                    <div class="round-title">Grande Finale</div>
+                    <div class="match-card" style="border: 2px solid #b45309;" onclick="openModal('m4')">
+                        <div class="match-content">
+                            <div class="match-team" style="color:#94a3b8">Vainqueur DF1</div>
+                            <div class="match-team" style="color:#94a3b8">Vainqueur DF2</div>
+                            <div class="match-meta">
+                                <span id="m4-time">20/03 - 20:00</span>
+                                <span id="m4-admin">Resp: MasterChief</span>
+                            </div>
+                        </div>
+                        <div class="edit-overlay"><div class="edit-icon">✎</div></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <div class="publish-bar">
+        <button class="btn" style="border: 1px solid #cbd5e1; background: white;" onclick="window.location.href='admin_planning.html'">Annuler</button>
+        <button class="btn btn-save" onclick="saveAll()">Enregistrer et Publier</button>
+    </div>
+
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-card">
+            <div class="modal-title">Modifier le match</div>
+            
+            <input type="hidden" id="currentMatchId">
+
+            <div class="form-group">
+                <label class="form-label">Équipes</label>
+                <div class="form-row">
+                    <input type="text" id="inputTeam1" class="form-input" placeholder="Équipe A">
+                    <button class="btn" style="padding: 5px 10px; background: #e2e8f0;" onclick="swapTeams()" title="Inverser">⇄</button>
+                    <input type="text" id="inputTeam2" class="form-input" placeholder="Équipe B">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group" style="flex:1">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="inputDate" class="form-input">
+                </div>
+                <div class="form-group" style="flex:1">
+                    <label class="form-label">Heure</label>
+                    <input type="time" id="inputTime" class="form-input">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Administrateur Responsable</label>
+                <select id="inputAdmin" class="form-select">
+                    <option value="AdminBoss">AdminBoss</option>
+                    <option value="ViperQueen">ViperQueen</option>
+                    <option value="MasterChief">MasterChief</option>
+                    <option value="Strategist01">Strategist01</option>
+                </select>
+                <p style="font-size: 11px; color: #64748b; margin-top: 5px;">* L'admin responsable suivra le match et validera le score.</p>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-cancel" onclick="closeModal()">Fermer</button>
+                <button class="btn btn-save" onclick="saveChanges()">Appliquer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Logique Javascript ---
+
+        const modal = document.getElementById('editModal');
+        
+        // Ouvrir le modal et pré-remplir les données
+        function openModal(matchId) {
+            document.getElementById('currentMatchId').value = matchId;
+            
+            // Récupérer les valeurs actuelles du HTML (Simulation de base de données)
+            const team1 = document.getElementById(matchId + '-team1').innerText;
+            const team2 = document.getElementById(matchId + '-team2').innerText;
+            
+            // Récupérer date/heure (On triche un peu pour la démo en parsant le texte)
+            const metaText = document.getElementById(matchId + '-time').innerText; 
+            // format "15/03 - 14:00" -> juste pour l'exemple
+            
+            const adminText = document.getElementById(matchId + '-admin').innerText.replace('Resp: ', '');
+
+            // Remplir les champs
+            document.getElementById('inputTeam1').value = team1;
+            document.getElementById('inputTeam2').value = team2;
+            document.getElementById('inputAdmin').value = adminText;
+            
+            // Dates par défaut pour la démo
+            document.getElementById('inputDate').value = "2026-03-15";
+            document.getElementById('inputTime').value = "14:00";
+
+            modal.classList.add('modal-active');
+        }
+
+        // Fermer le modal
+        function closeModal() {
+            modal.classList.remove('modal-active');
+        }
+
+        // Inverser les équipes dans le formulaire
+        function swapTeams() {
+            const t1 = document.getElementById('inputTeam1').value;
+            const t2 = document.getElementById('inputTeam2').value;
+            document.getElementById('inputTeam1').value = t2;
+            document.getElementById('inputTeam2').value = t1;
+        }
+
+        // Sauvegarder les modifications du modal vers le HTML
+        function saveChanges() {
+            const matchId = document.getElementById('currentMatchId').value;
+            
+            // Mettre à jour l'affichage
+            document.getElementById(matchId + '-team1').innerText = document.getElementById('inputTeam1').value;
+            document.getElementById(matchId + '-team2').innerText = document.getElementById('inputTeam2').value;
+            
+            // Formater la date pour l'affichage (JJ/MM - HH:MM)
+            const dateVal = new Date(document.getElementById('inputDate').value);
+            const day = String(dateVal.getDate()).padStart(2, '0');
+            const month = String(dateVal.getMonth() + 1).padStart(2, '0');
+            const time = document.getElementById('inputTime').value;
+            
+            document.getElementById(matchId + '-time').innerText = `${day}/${month} - ${time}`;
+            document.getElementById(matchId + '-admin').innerText = "Resp: " + document.getElementById('inputAdmin').value;
+
+            // Feedback visuel (Changer la couleur de bordure pour montrer que c'est modifié)
+            document.getElementById(matchId + '-team1').closest('.match-card').style.borderLeft = "4px solid #b45309";
+
+            closeModal();
+        }
+
+        // Sauvegarde finale
+        function saveAll() {
+            if(confirm("Confirmer les modifications et publier le planning officiel ?")) {
+                alert("Planning mis à jour et publié avec succès !");
+                window.location.href = "admin_tournois.html";
+            }
+        }
+
+        // Fermer le modal si on clique en dehors
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion Tournois - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f0f2f5; 
+            color: #334155; 
+        }
+
+        /* --- Barre de navigation (Style Admin) --- */
+        .navbar {
+            background-color: #112b4f;
+            height: 70px;
+            padding: 0 40px;
+            display: flex;
+            justify-content: space-between; /* Logo à gauche, le reste à droite */
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* Groupe Gauche : Logo + Badge */
+        .nav-brand { display: flex; align-items: center; gap: 10px; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .admin-badge {
+            background-color: #b45309; color: white; padding: 3px 8px; border-radius: 4px;
+            font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* Groupe Droite : Liens + User (Conteneur global) */
+        .nav-right-group {
+            display: flex;
+            align-items: center;
+            gap: 30px; /* Espace entre les liens et le profil */
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 20px; }
+        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: color 0.2s; }
+        .nav-links a:hover { color: white; }
+        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+
+        /* Zone Utilisateur & Sortie */
+        .nav-user { 
+            display: flex; align-items: center; gap: 20px; 
+            padding-left: 20px; 
+            border-left: 1px solid rgba(255,255,255,0.2); 
+        }
+
+        /* Style Avatar Standard (Carré arrondi blanc) */
+        .nav-avatar { 
+            width: 35px; height: 35px; 
+            border-radius: 4px; 
+            background-color: white; 
+            padding: 2px; 
+            display: block;
+        }
+
+        /* Bouton Quitter */
+        .btn-exit {
+            border: 1px solid rgba(255,255,255,0.3); padding: 6px 12px; border-radius: 4px;
+            color: rgba(255,255,255,0.9) !important; font-size: 12px; display: flex; align-items: center; gap: 6px;
+            text-decoration: none; transition: 0.2s;
+        }
+        .btn-exit:hover { background-color: rgba(255,255,255,0.1); color: white !important; border-color: white; }
+
+        /* --- Contenu principal --- */
+        .main-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* En-tête de page avec bouton Créer */
+        .page-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        /* Le Bouton CRÉER */
+        .btn-create {
+            background-color: #b45309; 
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-create:hover { background-color: #92400e; transform: translateY(-1px); }
+
+        /* --- Panneau de recherche (Bleu foncé) --- */
+        .search-panel {
+            background-color: #112b4f;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-header {
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+        .form-label { color: white; font-size: 13px; font-weight: 500; margin-bottom: 8px; }
+
+        .form-control {
+            width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1;
+            border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s;
+        }
+        .form-control:focus { border-color: #f59e0b; box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3); }
+
+        /* --- Filtres (Pilules) --- */
+        .filter-pills { display: flex; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
+
+        .pill-btn {
+            padding: 8px 20px; background-color: #e2e8f0; color: #475569;
+            border: none; border-radius: 20px; font-size: 14px; font-weight: 600;
+            cursor: pointer; transition: 0.2s;
+        }
+        .pill-btn:hover { background-color: #cbd5e1; }
+        .pill-btn.active { background-color: #93c5fd; color: #1e3a8a; }
+
+        /* --- Disposition en 3 colonnes (Résultats) --- */
+        .results-layout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .column { display: flex; flex-direction: column; gap: 15px; }
+
+        /* Lignes verticales de séparation */
+        .col-past { border-right: 2px solid #cbd5e1; padding-right: 30px; }
+        .col-live { border-right: 2px solid #cbd5e1; padding-right: 30px; }
+        
+        .col-title {
+            text-align: center; font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 10px;
+        }
+
+        /* Design des cartes Tournoi */
+        .t-card {
+            background: white; border-radius: 8px; padding: 20px;
+            border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            transition: 0.2s; text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; min-height: 120px; position: relative;
+        }
+        .t-card:hover {
+            transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-color: #94a3b8;
+        }
+        
+        /* Bouton edit flottant pour l'admin */
+        .admin-edit-icon {
+            position: absolute; top: 10px; right: 10px; color: #94a3b8; opacity: 0; transition: 0.2s;
+        }
+        .t-card:hover .admin-edit-icon { opacity: 1; }
+
+        .card-name { font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 8px; }
+        .card-dates { font-size: 13px; color: #64748b; margin-bottom: 8px; }
+        .card-teams { font-size: 12px; color: #475569; font-weight: 500; margin-top: auto; }
+
+        /* Responsive Mobile */
+        @media (max-width: 900px) {
+            .search-grid { grid-template-columns: repeat(2, 1fr); }
+            .results-layout { grid-template-columns: 1fr; gap: 40px; }
+            .col-past, .col-live { border-right: none; padding-right: 0; border-bottom: 2px solid #cbd5e1; padding-bottom: 20px; }
+        }
+        @media (max-width: 500px) {
+            .search-grid { grid-template-columns: 1fr; }
+            .navbar { padding: 15px 20px; flex-direction: column; height: auto; gap: 15px; align-items: stretch; }
+            .nav-right-group { flex-direction: column; gap: 15px; align-items: center; width: 100%; }
+            .nav-links { flex-direction: column; gap: 10px; }
+            .nav-user { margin: 0; padding: 0; border: none; justify-content: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.2); }
+            .page-header-row { flex-direction: column; gap: 15px; align-items: flex-start; }
+            .btn-create { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="nav-brand">
+            <a href="admin_tournois.html">
+                <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+            </a>
+            <span class="admin-badge">ADMIN</span>
+        </div>
+
+        <div class="nav-right-group">
+            <nav class="nav-links">
+                <a href="admin_tournois.html" class="active">Gestion Tournoi</a>
+                <a href="gestion_admins.html">Admin</a>
+            </nav>
+
+            <div class="nav-user">
+                <a href="accueil.html" class="btn-exit" title="Retourner au site public">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Vue Joueur
+                </a>
+                <a href="profil.html">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=AdminBoss" class="nav-avatar" alt="Mon Profil">
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        
+        <div class="page-header-row">
+            <h1 class="page-title">Gestion des Tournois</h1>
+            
+            <button class="btn-create" onclick="createTournament()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Créer un tournoi
+            </button>
+        </div>
+
+        <div class="search-panel">
+            <div class="search-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                Critères de recherche
+            </div>
+            
+            <div class="search-grid">
+                <div class="form-group">
+                    <label class="form-label">Nom de tournoi</label>
+                    <input type="text" class="form-control" placeholder="Rechercher par nom...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tag de joueur</label>
+                    <input type="text" class="form-control" placeholder="Rechercher par tag...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date de début</label>
+                    <input type="date" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date de fin</label>
+                    <input type="date" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-pills">
+            <button class="pill-btn active" onclick="filterColumns('all', this)">Tous</button>
+            <button class="pill-btn" onclick="filterColumns('past', this)">Passés</button>
+            <button class="pill-btn" onclick="filterColumns('live', this)">En cours</button>
+            <button class="pill-btn" onclick="filterColumns('upcoming', this)">A venir</button>
+        </div>
+
+        <div class="results-layout" id="results-container">
+            
+            <div class="column col-past" id="col-past">
+                <h2 class="col-title">Tournoi passés</h2>
+                <a href="#" class="t-card">
+                    <div class="card-name">Coupe d'Automne 2025</div>
+                    <div class="card-dates">01 Oct - 15 Oct 2025</div>
+                    <div class="card-teams">🏆 Vainqueur : SkyWalkers</div>
+                    <div class="admin-edit-icon">✏️</div>
+                </a>
+                <a href="#" class="t-card">
+                    <div class="card-name">Halloween Clash</div>
+                    <div class="card-dates">31 Oct 2025</div>
+                    <div class="card-teams">🏆 Vainqueur : GhostBusters</div>
+                    <div class="admin-edit-icon">✏️</div>
+                </a>
+            </div>
+
+            <div class="column col-live" id="col-live">
+                <h2 class="col-title">Tournoi en cours</h2>
+                <a href="#" class="t-card" style="border-left: 4px solid #f59e0b;">
+                    <div class="card-name">Championnat d'Hiver 2025</div>
+                    <div class="card-dates">10 Déc - 20 Déc 2025</div>
+                    <div class="card-teams">👥 32 Équipes </div>
+                    <div class="admin-edit-icon">✏️</div>
+                </a>
+            </div>
+
+            <div class="column col-upcoming" id="col-upcoming">
+                <h2 class="col-title">Tournoi à venir</h2>
+                <div id="new-tournaments-wrapper" style="display:flex; flex-direction:column; gap:15px;">
+                    <a href="#" class="t-card">
+                        <div class="card-name">Coupe de Printemps 2026</div>
+                        <div class="card-dates">Débute le 15 Mars 2026</div>
+                        <div class="card-teams" style="color: #b45309;">⏳ Inscriptions ouvertes</div>
+                        <div class="admin-edit-icon">✏️</div>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        // --- 1. FONCTION CREER UN TOURNOI (Simulée) ---
+        function createTournament() {
+            const name = prompt("Nom du nouveau tournoi :");
+            if(name) {
+                // Créer l'élément HTML
+                const newCard = document.createElement('a');
+                newCard.href = "#";
+                newCard.className = "t-card";
+                newCard.style.borderLeft = "4px solid #b45309"; // Marqueur visuel "Nouveau"
+                newCard.innerHTML = `
+                    <div class="card-name">${name}</div>
+                    <div class="card-dates">Dates à définir</div>
+                    <div class="card-teams">📝 En préparation</div>
+                    <div class="admin-edit-icon">✏️</div>
+                `;
+
+                // L'ajouter dans la colonne "À venir"
+                const container = document.getElementById('new-tournaments-wrapper');
+                container.prepend(newCard); // Ajoute en haut de la liste
+
+                // Feedback
+                alert(`Le tournoi "${name}" a été créé en mode brouillon.`);
+            }
+        }
+
+        // --- 2. FONCTION FILTRES ---
+        function filterColumns(status, btnElement) {
+            document.querySelectorAll('.pill-btn').forEach(btn => btn.classList.remove('active'));
+            btnElement.classList.add('active');
+
+            const colPast = document.getElementById('col-past');
+            const colLive = document.getElementById('col-live');
+            const colUpcoming = document.getElementById('col-upcoming');
+
+            if (status === 'all') {
+                colPast.style.display = 'flex';
+                colLive.style.display = 'flex';
+                colUpcoming.style.display = 'flex';
+                
+                if(window.innerWidth > 900) {
+                    colPast.style.borderRight = '2px solid #cbd5e1';
+                    colLive.style.borderRight = '2px solid #cbd5e1';
+                }
+            } else {
+                colPast.style.display = (status === 'past') ? 'flex' : 'none';
+                colLive.style.display = (status === 'live') ? 'flex' : 'none';
+                colUpcoming.style.display = (status === 'upcoming') ? 'flex' : 'none';
+                
+                colPast.style.borderRight = 'none';
+                colLive.style.borderRight = 'none';
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            const activeBtn = document.querySelector('.pill-btn.active');
+            if(activeBtn && activeBtn.innerText === 'Tous') {
+                filterColumns('all', activeBtn);
+            }
+        });
+    </script>
+
+</body>
+</html>
