@@ -15,7 +15,7 @@
             color: #334155; 
         }
 
-        /* --- Barre de navigation (Style Admin - Identique aux autres pages) --- */
+        /* --- Barre de navigation (Style Admin) --- */
         .navbar {
             background-color: #112b4f;
             height: 70px;
@@ -51,7 +51,7 @@
         /* --- Contenu Principal --- */
         .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
 
-        /* Fil d'ariane / Header simple */
+        /* Fil d'ariane */
         .page-header { margin-bottom: 25px; }
         .back-link { 
             color: #64748b; text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 10px; font-weight: 500;
@@ -161,6 +161,17 @@
 
             <div class="form-grid">
                 <div class="form-group">
+                    <label class="form-label">Nombre maximum d'équipes <span class="required">*</span></label>
+                    <input type="number" id="tMaxTeams" class="form-input" placeholder="Ex: 16" min="2" required>
+                    <div class="form-hint">Les inscriptions seront bloquées une fois ce nombre atteint.</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Date limite d'inscription <span class="required">*</span></label>
+                    <input type="date" id="tDeadline" class="form-input" required>
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">Date de début <span class="required">*</span></label>
                     <input type="date" id="tDateStart" class="form-input" required>
                 </div>
@@ -168,12 +179,6 @@
                 <div class="form-group">
                     <label class="form-label">Date de fin <span class="required">*</span></label>
                     <input type="date" id="tDateEnd" class="form-input" required>
-                </div>
-
-                <div class="form-group full-width">
-                    <label class="form-label">Date limite d'inscription <span class="required">*</span></label>
-                    <input type="date" id="tDeadline" class="form-input" required>
-                    <div class="form-hint">Les inscriptions seront closes automatiquement après cette date.</div>
                 </div>
             </div>
 
@@ -197,29 +202,35 @@
             const start = document.getElementById('tDateStart').value;
             const end = document.getElementById('tDateEnd').value;
             const deadline = document.getElementById('tDeadline').value;
+            const maxTeams = document.getElementById('tMaxTeams').value;
 
-            // --- VALIDATIONS LOGIQUES (Robustesse demandée par le client) ---
+            // --- VALIDATIONS LOGIQUES ---
             
             const startDate = new Date(start);
             const endDate = new Date(end);
             const deadlineDate = new Date(deadline);
             const today = new Date();
-            today.setHours(0,0,0,0); // Ignorer l'heure pour la comparaison
+            today.setHours(0,0,0,0);
 
-            // 1. La fin doit être après le début
+            // 1. Validation du nombre d'équipes [cite: 199]
+            if (maxTeams < 2) {
+                alert("Erreur : Le nombre maximum d'équipes doit être d'au moins 2.");
+                return;
+            }
+
+            // 2. La fin doit être après le début
             if (endDate < startDate) {
                 alert("Erreur : La date de fin ne peut pas être antérieure à la date de début.");
                 return;
             }
 
-            // 2. La date limite d'inscription doit être avant le début du tournoi
-            // (Pour laisser le temps de générer le planning [cite: 76])
+            // 3. La date limite d'inscription doit être avant le début du tournoi
             if (deadlineDate >= startDate) {
                 alert("Erreur : La date limite d'inscription doit être avant le début du tournoi pour permettre la génération du planning.");
                 return;
             }
 
-            // 3. Pas de création dans le passé (Optionnel mais logique)
+            // 4. Pas de création dans le passé (Optionnel)
             if (startDate < today) {
                 if(!confirm("Attention : Vous créez un tournoi dont la date de début est passée. Continuer ?")) {
                     return;
@@ -227,7 +238,7 @@
             }
 
             // Simulation de succès
-            alert(`Le tournoi "${name}" a été créé avec succès !\nStatut actuel : En préparation.`);
+            alert(`Le tournoi "${name}" a été créé avec succès !\nLimite de participants : ${maxTeams} équipes.\nStatut actuel : En préparation.`);
             
             // Redirection vers la liste (Simulée)
             window.location.href = "admin_tournois.html";
