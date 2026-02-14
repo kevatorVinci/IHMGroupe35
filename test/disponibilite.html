@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer mes disponibilités - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f0f2f5; 
+            color: #334155; 
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            background-color: #112b4f; height: 70px; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+        }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
+
+        /* --- Layout --- */
+        .main-container { max-width: 900px; margin: 40px auto; padding: 0 20px; } /* Largeur réduite pour centrer */
+
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .page-title { font-size: 28px; font-weight: 700; color: #0f172a; }
+        .btn-back { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .btn-back:hover { color: #112b4f; }
+
+        /* Grille simplifiée */
+        .content-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+
+        /* --- Carte --- */
+        .card { background-color: white; border-radius: 8px; padding: 25px; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .card-title { font-size: 18px; font-weight: 600; color: #0f172a; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #e2e8f0; display: flex; align-items: center; gap: 10px; }
+
+        /* --- Formulaire --- */
+        .form-group { margin-bottom: 15px; }
+        .form-label { display: block; font-size: 13px; font-weight: 500; color: #475569; margin-bottom: 6px; }
+        .form-control {
+            width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; transition: border-color 0.2s;
+            font-family: inherit;
+        }
+        .form-control:focus { border-color: #112b4f; }
+        
+        .btn-submit {
+            width: 100%; background-color: #112b4f; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; margin-top: 10px;
+        }
+        .btn-submit:hover { background-color: #1e40af; }
+
+        /* --- Liste --- */
+        .unavailability-list { display: flex; flex-direction: column; gap: 15px; }
+        .unavailability-item {
+            display: flex; justify-content: space-between; align-items: center;
+            background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px 20px;
+            transition: 0.2s; border-left: 4px solid #ef4444;
+        }
+        .unavailability-item:hover { transform: translateX(5px); border-color: #cbd5e1; }
+
+        .item-dates { font-weight: 700; color: #0f172a; font-size: 15px; display: flex; align-items: center; gap: 10px; }
+
+        .btn-delete {
+            background: #fee2e2; color: #dc2626; border: none; width: 32px; height: 32px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .btn-delete:hover { background-color: #dc2626; color: white; }
+
+        @media (max-width: 768px) {
+            .content-grid { grid-template-columns: 1fr; }
+            .navbar { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+        <nav class="nav-links">
+            <a href="accueil.html">Accueil</a>
+            <a href="tableauDeborEquipe.html">Tableau de bord</a>
+            <a href="liste_tournois.html">Tournoi</a>
+            <a href="equipes_publique.html">Equipe</a>
+            <div class="nav-user">
+                <a href="connexion.html" style="color:white; text-decoration:none; font-size:13px;">Se déconnecter</a>
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        
+        <div class="page-header">
+            <h1 class="page-title">Mes indisponibilités</h1>
+            <a href="dashboard_membre_equipe.html" class="btn-back">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Retour
+            </a>
+        </div>
+
+        <div class="content-grid">
+            
+            <div class="card">
+                <h2 class="card-title">Ajouter une date</h2>
+                <form id="addForm" onsubmit="ajouterIndispo(event)">
+                    <div class="form-group">
+                        <label class="form-label">Du :</label>
+                        <input type="date" id="dateStart" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Au :</label>
+                        <input type="date" id="dateEnd" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn-submit">Valider</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2 class="card-title">Calendrier personnel</h2>
+                
+                <div class="unavailability-list" id="listContainer">
+                    <div class="unavailability-item">
+                        <div class="item-dates">
+                            📅 Du 10/03/2026 au 12/03/2026
+                        </div>
+                        <button class="btn-delete" title="Supprimer" onclick="this.parentElement.remove()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="unavailability-item">
+                        <div class="item-dates">
+                            📅 Le 15/04/2026
+                        </div>
+                        <button class="btn-delete" title="Supprimer" onclick="this.parentElement.remove()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        function ajouterIndispo(event) {
+            event.preventDefault(); 
+
+            // Récupérer les valeurs (dates uniquement)
+            const start = document.getElementById('dateStart').value;
+            const end = document.getElementById('dateEnd').value;
+
+            if(!start || !end) return;
+
+            // Formater en JJ/MM/AAAA sans heures
+            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+            const startDate = new Date(start).toLocaleDateString('fr-FR', options);
+            const endDate = new Date(end).toLocaleDateString('fr-FR', options);
+
+            // Gestion de l'affichage (Si même jour = "Le...", sinon "Du... au...")
+            let dateText = "";
+            if (start === end) {
+                dateText = `Le ${startDate}`;
+            } else {
+                dateText = `Du ${startDate} au ${endDate}`;
+            }
+
+            const newItemHTML = `
+                <div class="unavailability-item" style="animation: fadeIn 0.5s">
+                    <div class="item-dates">
+                        📅 ${dateText}
+                    </div>
+                    <button class="btn-delete" title="Supprimer" onclick="this.parentElement.remove()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                    </button>
+                </div>
+            `;
+
+            const container = document.getElementById('listContainer');
+            container.insertAdjacentHTML('afterbegin', newItemHTML);
+
+            document.getElementById('addForm').reset();
+        }
+    </script>
+
+</body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Détails du match - Vinci Arena</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 
     <style>
         /* --- Styles globaux --- */
@@ -26,7 +26,7 @@
         .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
         .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
         .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
-        .nav-notification { position: relative; color: white; display: flex; align-items: center; text-decoration: none; margin-right: 10px; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; }
         .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
 
@@ -36,48 +36,48 @@
         .btn-back { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; font-weight: 500; font-size: 14px; margin-bottom: 20px; transition: 0.2s; }
         .btn-back:hover { color: #112b4f; }
 
-        /* --- En-tête du Match (Versus) --- */
+        /* --- En-tête du Match (Header) --- */
         .match-header-card {
             background-color: white; border-radius: 12px; padding: 40px; border: 1px solid #e2e8f0;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px; text-align: center;
-            position: relative; overflow: hidden;
         }
         
-        .match-context {
-            font-size: 14px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px;
-        }
+        .match-context { font-size: 14px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; }
 
-        .versus-container {
-            display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 30px;
-        }
+        .versus-container { display: flex; justify-content: center; align-items: center; gap: 40px; margin-bottom: 30px; }
 
-        .team-block { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 150px; }
+        .team-block { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 150px; transition: 0.3s; }
         .team-logo-lg {
             width: 80px; height: 80px; background: #112b4f; color: white; border-radius: 12px;
             display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 900;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: 0.3s;
         }
         .team-name-lg { font-size: 18px; font-weight: 800; color: #0f172a; }
         
-        .vs-badge {
+        /* Styles pour le vainqueur/perdant (Mode Terminé) */
+        .team-winner .team-logo-lg { transform: scale(1.1); box-shadow: 0 0 0 4px #fbbf24; }
+        .team-winner .team-name-lg { color: #b45309; }
+        .team-loser { opacity: 0.6; }
+
+        /* Badge VS ou Score */
+        .center-display {
             background-color: #f1f5f9; color: #475569; font-weight: 800; font-size: 16px;
-            padding: 10px 15px; border-radius: 8px;
+            padding: 10px 20px; border-radius: 8px; min-width: 80px;
+        }
+        .score-display {
+            background-color: #112b4f; color: white; font-size: 24px; padding: 10px 25px;
         }
 
-        .match-info-bar {
-            display: flex; justify-content: center; gap: 30px; border-top: 1px solid #e2e8f0; padding-top: 20px;
-        }
+        .match-info-bar { display: flex; justify-content: center; gap: 20px; border-top: 1px solid #e2e8f0; padding-top: 20px; flex-wrap: wrap; }
         .info-pill {
-            display: flex; align-items: center; gap: 8px; font-size: 14px; color: #334155; font-weight: 500;
+            display: flex; align-items: center; gap: 8px; font-size: 13px; color: #334155; font-weight: 500;
             background: #f8fafc; padding: 8px 16px; border-radius: 20px; border: 1px solid #e2e8f0;
         }
 
-        /* --- Section Composition --- */
+        /* --- Composition --- */
         .section-title { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         
-        .roster-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
-        }
+        .roster-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
 
         .player-card {
             background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; text-align: center;
@@ -85,7 +85,6 @@
         }
         .player-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         
-        /* Indicateur de rôle (Pastille) */
         .role-badge {
             position: absolute; top: 10px; right: 10px; font-size: 10px; font-weight: 700;
             padding: 3px 8px; border-radius: 10px; background: #e0f2fe; color: #0284c7; text-transform: uppercase;
@@ -98,20 +97,37 @@
         .player-tag { font-weight: 700; color: #0f172a; margin-bottom: 5px; }
         .player-status { font-size: 12px; color: #166534; font-weight: 600; }
 
-        /* --- Bloc Map / Règles --- */
-        .rules-block {
-            background: white; border-radius: 8px; padding: 25px; border: 1px solid #e2e8f0; margin-top: 30px;
+        /* Badge MVP (Pour le mode Terminé) */
+        .mvp-badge {
+            display: none; /* Caché par défaut */
+            margin-top: 5px; font-size: 11px; background: #fef3c7; color: #d97706; padding: 2px 8px; border-radius: 4px; font-weight: 700; border: 1px solid #fcd34d;
         }
-        .rules-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        .rule-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #475569; }
+
+        /* --- SIMULATEUR D'ÉTAT (En bas à gauche) --- */
+        .simulator-box {
+            position: fixed; 
+            bottom: 20px; 
+            left: 20px; 
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            z-index: 9999;
+            width: 220px;
+        }
+        .sim-label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; display: block; text-transform: uppercase; }
+        .sim-select {
+            width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #cbd5e1;
+            font-size: 13px; outline: none; cursor: pointer;
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .navbar { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
-            .versus-container { flex-direction: column; gap: 20px; }
             .roster-grid { grid-template-columns: 1fr 1fr; }
-            .rules-list { grid-template-columns: 1fr; }
-            .match-info-bar { flex-direction: column; align-items: center; gap: 10px; }
+            .navbar { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
+            .versus-container { gap: 20px; }
+            .team-logo-lg { width: 60px; height: 60px; font-size: 18px; }
         }
     </style>
 </head>
@@ -137,104 +153,136 @@
 
     <main class="main-container">
         
-        <a href="dashboard_membre_equipe.html" class="btn-back">
+        <a href="tableauDeborEquipe.html" class="btn-back">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Retour au tableau de bord
+            Retour
         </a>
 
         <div class="match-header-card">
-            <div class="match-context">Championnat d'Hiver 2026 - Quart de finale</div>
+            <div class="match-context" id="matchTitle">Championnat d'Hiver 2026 - Quart de finale</div>
             
             <div class="versus-container">
-                <div class="team-block">
+                <div class="team-block" id="teamA">
                     <div class="team-logo-lg">LW</div>
                     <span class="team-name-lg">Les Warriors</span>
                 </div>
 
-                <div class="vs-badge">VS</div>
+                <div id="centerDisplay" class="center-display vs-badge">VS</div>
 
-                <div class="team-block">
+                <div class="team-block" id="teamB">
                     <div class="team-logo-lg" style="background-color: #be123c;">TP</div>
                     <span class="team-name-lg">Team Phoenix</span>
                 </div>
             </div>
 
             <div class="match-info-bar">
-                <div class="info-pill">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                    15 Février 2026
+                <div class="info-pill" id="matchDate">
+                    📅 15 Février 2026
                 </div>
-                <div class="info-pill">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                    20:00 (Heure locale)
+                <div class="info-pill" id="matchTime">
+                    ⏰ 20:00
                 </div>
-                <div class="info-pill" style="color: #b45309; background: #fffbeb; border-color: #fcd34d;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    Statut : Composition validée
+                <div class="info-pill" id="matchStatus" style="color: #b45309; background: #fffbeb; border-color: #fcd34d;">
+                    ℹ️ Statut : Composition validée
                 </div>
             </div>
         </div>
 
         <h2 class="section-title">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            Composition de l'équipe (4 titulaires)
+            Composition de l'équipe
         </h2>
 
         <div class="roster-grid">
-            
             <div class="player-card" style="border-color: #2563eb; background: #eff6ff;">
                 <span class="role-badge">Tacticien</span>
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="player-avatar">
                 <div class="player-tag">Pedrinho08 (Moi)</div>
-                <div class="player-status">✅ Confirmé</div>
-            </div>
-
+                <div class="player-status">✅ Sélectionné</div>
+                <div class="mvp-badge">★ MVP du match</div> </div>
             <div class="player-card">
                 <span class="role-badge">Exécuteur</span>
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="player-avatar">
                 <div class="player-tag">SniperElite</div>
-                <div class="player-status">✅ Confirmé</div>
+                <div class="player-status">✅ Sélectionné</div>
             </div>
-
             <div class="player-card">
                 <span class="role-badge">Gardien</span>
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="player-avatar">
                 <div class="player-tag">TankGirl99</div>
-                <div class="player-status">✅ Confirmé</div>
+                <div class="player-status">✅ Sélectionné</div>
             </div>
-
             <div class="player-card">
                 <span class="role-badge">Guérisseur</span>
                 <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara" class="player-avatar">
                 <div class="player-tag">MedicX</div>
-                <div class="player-status">✅ Confirmé</div>
+                <div class="player-status">✅ Sélectionné</div>
             </div>
-
-        </div>
-
-        <div class="rules-block">
-            <h3 style="margin-top:0; font-size:16px; margin-bottom:15px; color:#0f172a;">📍 Informations de jeu</h3>
-            <ul class="rules-list">
-                <li class="rule-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
-                    <b>Carte :</b> Arène des Anciens (Nocturne)
-                </li>
-                <li class="rule-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
-                    <b>Mode :</b> Capture de drapeau (CTF)
-                </li>
-                <li class="rule-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                    <b>Friendly Fire :</b> Désactivé
-                </li>
-                <li class="rule-item">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                    <b>Serveur :</b> Protégé par mot de passe (envoyé 10min avant)
-                </li>
-            </ul>
         </div>
 
     </main>
+
+    <div class="simulator-box">
+        <label class="sim-label">🛠️ État du match</label>
+        <select class="sim-select" onchange="changerEtatMatch(this.value)">
+            <option value="upcoming">À venir (IHM 32)</option>
+            <option value="finished">Terminé (IHM 35)</option>
+        </select>
+    </div>
+
+    <script>
+        function changerEtatMatch(etat) {
+            const centerDisplay = document.getElementById('centerDisplay');
+            const matchStatus = document.getElementById('matchStatus');
+            const teamA = document.getElementById('teamA');
+            const matchDate = document.getElementById('matchDate');
+            const matchTime = document.getElementById('matchTime');
+            const mvpBadge = document.querySelector('.mvp-badge'); // Badge MVP du premier joueur
+
+            if (etat === 'finished') {
+                // --- MODE TERMINÉ ---
+                // 1. Score
+                centerDisplay.innerText = "3 - 1";
+                centerDisplay.className = "center-display score-display";
+                
+                // 2. Statut
+                matchStatus.innerHTML = "✅ Statut : Terminé";
+                matchStatus.style.color = "#166534";
+                matchStatus.style.borderColor = "#bbf7d0";
+                matchStatus.style.backgroundColor = "#dcfce7";
+
+                // 3. Vainqueur (Les Warriors)
+                teamA.classList.add('team-winner');
+
+                // 4. Date passée
+                matchDate.innerHTML = "📅 13 Fév 2026";
+                matchTime.innerHTML = "🏁 Fin : 21:45";
+
+               
+            } else {
+                // --- MODE À VENIR ---
+                // 1. VS
+                centerDisplay.innerText = "VS";
+                centerDisplay.className = "center-display vs-badge";
+
+                // 2. Statut
+                matchStatus.innerHTML = "ℹ️ Statut : Composition validée";
+                matchStatus.style.color = "#b45309";
+                matchStatus.style.borderColor = "#fcd34d";
+                matchStatus.style.backgroundColor = "#fffbeb";
+
+                // 3. Reset Vainqueur
+                teamA.classList.remove('team-winner');
+
+                // 4. Date future
+                matchDate.innerHTML = "📅 15 Fév 2026";
+                matchTime.innerHTML = "⏰ 20:00";
+
+                // 5. Cacher MVP
+                mvpBadge.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
 </html>
