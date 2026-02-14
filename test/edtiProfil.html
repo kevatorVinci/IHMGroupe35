@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinci Arena - Éditer mon profil</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. VARIABLES & RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; line-height: 1.5; }
+
+        /* --- 2. NAVBAR (Standard) --- */
+        .navbar {
+            background-color: #112b4f; height: 70px; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
+        }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
+
+        /* --- 3. CONTENEUR PRINCIPAL --- */
+        .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .page-title { font-size: 28px; font-weight: 700; color: #0f172a; margin-bottom: 25px; }
+
+        /* --- 4. COMPOSANTS DE BASE --- */
+        .card {
+            background-color: #ffffff; border-radius: 8px; padding: 25px; margin-bottom: 20px;
+            border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+        .card-header { font-size: 18px; font-weight: 600; color: #112b4f; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #e2e8f0; }
+        
+        /* Boutons */
+        .btn-primary { background-color: #112b4f; color: white; padding: 10px 20px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-primary:hover { background-color: #1e40af; }
+        
+        .btn-outline { background-color: transparent; color: #112b4f; padding: 10px 20px; border: 1px solid #112b4f; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-outline:hover { background-color: #f0f2f5; }
+        
+        .btn-accent { background-color: #b45309; color: white; padding: 8px 16px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 13px; }
+        .btn-accent:hover { background-color: #92400e; }
+
+        /* --- 5. STYLES SPECIFIQUES : EDITION PROFIL --- */
+        .avatar-section { display: flex; align-items: center; gap: 25px; margin-bottom: 25px; }
+        .avatar-large { width: 90px; height: 90px; border-radius: 8px; border: 2px solid #e2e8f0; padding: 3px; background-color: #f0f2f5; }
+        .avatar-infos p { font-size: 13px; color: #64748b; margin-top: 5px; }
+
+        .form-row { display: flex; gap: 20px; }
+        .form-group { margin-bottom: 20px; flex: 1; }
+        .form-label { display: block; font-weight: 500; font-size: 14px; margin-bottom: 8px; color: #334155; }
+        
+        .form-input { 
+            width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; 
+            font-family: inherit; font-size: 14px; color: #0f172a; transition: all 0.2s ease; 
+        }
+        .form-input:focus { outline: none; border-color: #112b4f; box-shadow: 0 0 0 3px rgba(17, 43, 79, 0.1); }
+        textarea.form-input { resize: vertical; min-height: 100px; }
+
+        .form-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px; }
+        .danger-zone { margin-top: 40px; text-align: center; padding-top: 20px; border-top: 1px dashed #cbd5e1; }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .navbar { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
+            .nav-user { border-left: none; padding-left: 0; margin-left: 0; width: 100%; justify-content: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
+            
+            .form-row { flex-direction: column; gap: 0; }
+            .avatar-section { flex-direction: column; text-align: center; }
+            .form-actions { flex-direction: column-reverse; }
+            .form-actions button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+        <nav class="nav-links">
+            <a href="accueil.html">Accueil</a>
+            <a href="dashboard_membre.html">Tableau de bord</a>
+            <a href="liste_tournois.html">Tournoi</a>
+            <a href="equipes_publique.html">Equipe</a>
+            <div class="nav-user">
+                <a href="#" class="nav-notification">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">3</span>
+                </a>
+                <a href="connexion.html" style="font-size:13px;">Se déconnecter</a>
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <h1 class="page-title">Éditer mon profil</h1>
+
+        <form id="form-edition">
+            <div class="card">
+                <h2 class="card-header">Informations Publiques</h2>
+                
+                <div class="avatar-section">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar actuel" class="avatar-large">
+                    <div class="avatar-infos">
+                        <button type="button" class="btn-outline">Changer l'avatar</button>
+                        <p>Format accepté : JPG, PNG ou GIF. Taille max : 2Mo.</p>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="pseudo">Pseudo (In-game)</label>
+                        <input type="text" id="pseudo" class="form-input" value="FelixGamer99" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="email">Adresse Email</label>
+                        <input type="email" id="email" class="form-input" value="felix@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="bio">Biographie</label>
+                    <textarea id="bio" class="form-input" placeholder="Parlez de votre parcours e-sport, vos jeux favoris..."></textarea>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2 class="card-header">Sécurité du compte</h2>
+                
+                <div class="form-group">
+                    <label class="form-label" for="mdp-actuel">Mot de passe actuel</label>
+                    <input type="password" id="mdp-actuel" class="form-input" placeholder="Requis pour changer de mot de passe">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="mdp-nouveau">Nouveau mot de passe</label>
+                        <input type="password" id="mdp-nouveau" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="mdp-confirm">Confirmer le mot de passe</label>
+                        <input type="password" id="mdp-confirm" class="form-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn-outline">Annuler</button>
+                <button type="submit" class="btn-primary" id="btn-save">Enregistrer les modifications</button>
+            </div>
+
+            <div class="danger-zone">
+                <p style="font-size: 14px; color: #64748b; margin-bottom: 10px;">Vous souhaitez quitter Vinci Arena ? Cette action est irréversible.</p>
+                <button type="button" class="btn-accent">Supprimer mon compte</button>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('form-edition').addEventListener('submit', function(e) {
+            e.preventDefault(); // Empêche le rechargement de la page
+            const btn = document.getElementById('btn-save');
+            const texteOriginal = btn.innerText;
+            
+            // État de chargement
+            btn.innerText = 'Enregistrement...';
+            btn.style.opacity = '0.7';
+            
+            // Simulation d'une sauvegarde réussie après 1 seconde
+            setTimeout(() => {
+                btn.innerText = 'Modifications enregistrées !';
+                btn.style.backgroundColor = '#10b981'; // Vert succès
+                btn.style.opacity = '1';
+                
+                // Retour à la normale après 2 secondes
+                setTimeout(() => {
+                    btn.innerText = texteOriginal;
+                    btn.style.backgroundColor = '#112b4f'; // Bleu charte
+                }, 2000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
