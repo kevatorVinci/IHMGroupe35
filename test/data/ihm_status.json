@@ -1,5 +1,5 @@
 {
-    "lastUpdate": "2026-02-14T17:07:54.477Z",
+    "lastUpdate": "2026-02-14T17:26:26.895Z",
     "statuts": {
         "IHM 1": "fait",
         "IHM 2": "fait",
@@ -35,8 +35,8 @@
         "IHM 31": "todo",
         "IHM 32": "todo",
         "IHM 33": "todo",
-        "IHM 34": "fait",
-        "IHM 35": "fait",
+        "IHM 34": "todo",
+        "IHM 35": "todo",
         "IHM 36": "todo",
         "IHM 37": "todo"
     }
