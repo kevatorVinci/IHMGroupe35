@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinci Arena – Sélection des Joueurs</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #f0f2f5;
+        }
+
+        /* NAVBAR */
+        header {
+            background: #112b4f;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        /* MAIN */
+        .main-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* TOP TEXT */
+        .top-center {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .top-center h1 {
+            margin: 0;
+            color: #112b4f;
+            font-size: 1.8rem;
+        }
+
+        .top-center h2 {
+            margin: 10px 0 5px;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .top-center p {
+            font-size: 1rem;
+            color: #444;
+        }
+
+        /* SECTION HEADER */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #112b4f;
+        }
+
+        .counter {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #112b4f;
+        }
+
+        /* GRID */
+        .players-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media (min-width: 700px) {
+            .players-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1000px) {
+            .players-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        /* PLAYER CARD */
+        .player-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .player-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .player-role {
+            font-size: 0.9rem;
+            color: #b45309;
+            font-weight: 700;
+        }
+
+        .player-spec {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* ROUND CHECKBOX */
+        .round-check {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 2px solid #112b4f;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .round-check.selected {
+            background: #112b4f;
+        }
+
+        /* WARNING */
+        .warning {
+            margin-top: 25px;
+            text-align: center;
+            background: #b91c1c;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-weight: 600;
+            display: none;
+        }
+
+        /* CONFLIT BUTTON */
+        .conflict-btn {
+            margin-top: 20px;
+            padding: 8px 14px;
+            background: #b45309;
+            color: white;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>Vinci Arena</header>
+
+<main class="main-container">
+
+    <!-- TOP CENTER TEXT -->
+    <div class="top-center">
+        <h1>Match #12 – DEMI FINALE</h1>
+        <h2>Qui joue contre Crimson Eagles ?</h2>
+        <p>Sélectionnez les 4 titulaires pour ce match</p>
+    </div>
+
+    <!-- SECTION HEADER -->
+    <div class="section-header">
+        <div class="section-title">Composition de l’équipe</div>
+        <div id="counter" class="counter">0/4 Joueurs</div>
+    </div>
+
+    <!-- GRID -->
+    <div id="playersGrid" class="players-grid"></div>
+
+    <!-- WARNING -->
+    <div id="warning" class="warning">
+        Vous ne pouvez plus ajouter de joueurs dans cette sélection
+    </div>
+
+    <!-- CONFLIT BUTTON -->
+    <a href="#" class="conflict-btn">Conflit Horaire</a>
+
+</main>
+
+<script>
+    /* SPECIALITIES */
+    const specialities = [
+        "architecte", "exécuteur", "tacticien", "gardien",
+        "catalyseur", "perturbateur", "guérisseur"
+    ];
+
+    function randomSpec() {
+        return specialities[Math.floor(Math.random() * specialities.length)];
+    }
+
+    /* MOCK PLAYERS */
+    const players = [
+        { name: "Uche", role: "responsable" },
+        { name: "Kevin", role: "co-responsable" },
+        { name: "Sarah", role: "joueur" },
+        { name: "Liam", role: "joueur" },
+        { name: "Nora", role: "joueur" },
+        { name: "Mika", role: "joueur" }
+    ];
+
+    const grid = document.getElementById("playersGrid");
+    const counter = document.getElementById("counter");
+    const warning = document.getElementById("warning");
+
+    let selectedCount = 0;
+
+    /* RENDER PLAYERS */
+    players.forEach((p, index) => {
+        const card = document.createElement("div");
+        card.className = "player-card";
+
+        const info = document.createElement("div");
+        info.className = "player-info";
+        info.innerHTML = `
+            <div class="player-name">${p.name}</div>
+            <div class="player-role">${p.role.toUpperCase()}</div>
+            <div class="player-spec">Spécialité : ${randomSpec()}</div>
+        `;
+
+        const check = document.createElement("div");
+        check.className = "round-check";
+        check.dataset.index = index;
+
+        check.addEventListener("click", () => {
+            if (!check.classList.contains("selected")) {
+                if (selectedCount >= 4) {
+                    warning.style.display = "block";
+                    return;
+                }
+                check.classList.add("selected");
+                selectedCount++;
+            } else {
+                check.classList.remove("selected");
+                selectedCount--;
+                warning.style.display = "none";
+            }
+
+            counter.textContent = `${selectedCount}/4 Joueurs`;
+        });
+
+        card.appendChild(info);
+        card.appendChild(check);
+        grid.appendChild(card);
+    });
+</script>
+
+</body>
+</html>
