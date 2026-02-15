@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinci Arena – Composition du Match</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #f0f2f5;
+        }
+
+        /* NAVBAR */
+        header {
+            background: #112b4f;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            justify-content: space-between;
+        }
+
+        .nav-left {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        /* MAIN */
+        .main-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+            position: relative;
+        }
+
+        h1 {
+            color: #112b4f;
+            margin-bottom: 10px;
+        }
+
+        /* STATUS BANNER */
+        .status-banner {
+            background: #b45309;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-weight: 500;
+            display: none;
+        }
+
+        /* TEAM LAYOUT */
+        .teams-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        @media (min-width: 900px) {
+            .teams-wrapper {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+
+        .team-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 20px;
+            flex: 1;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        }
+
+        .team-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #112b4f;
+            text-align: center;
+        }
+
+        /* PLAYER CARD */
+        .player {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .player-role {
+            font-size: 0.9rem;
+            color: #b45309;
+            font-weight: 700;
+        }
+
+        .player-name {
+            margin-top: 5px;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .player-speciality {
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* RESPONSABLE STYLE */
+        .responsable .player-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .responsable .player-role {
+            font-size: 1rem;
+        }
+
+        /* ADMIN BUTTON */
+        .encode-btn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #112b4f;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: background 0.2s;
+        }
+
+        .encode-btn:hover {
+            background: #1e40af;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="nav-left">Vinci Arena</div>
+</header>
+
+<main class="main-container">
+
+    <h1>Composition du Match</h1>
+
+    <!-- STATUS BANNER (hidden by default) -->
+    <div id="statusBanner" class="status-banner">
+        En attente de validation des équipes
+    </div>
+
+    <div class="teams-wrapper">
+        <div class="team-card" id="teamA"></div>
+        <div class="team-card" id="teamB"></div>
+    </div>
+
+</main>
+
+<!-- ADMIN BUTTON (only visible in admin mode) -->
+<a id="encodeBtn" class="encode-btn" href="?encode=1">Encoder le résultat</a>
+
+<script>
+    /* ------------------------------
+       SPECIALITIES
+    ------------------------------ */
+    const specialities = [
+        "architecte", "exécuteur", "tacticien", "gardien",
+        "catalyseur", "perturbateur", "guérisseur"
+    ];
+
+    function randomSpec() {
+        return specialities[Math.floor(Math.random() * specialities.length)];
+    }
+
+    /* ------------------------------
+       MOCK TEAMS + PLAYERS
+    ------------------------------ */
+    const teamA = {
+        name: "Shadow Wolves",
+        players: [
+            { name: "Uche", role: "responsable" },
+            { name: "Kevin", role: "co-responsable" },
+            { name: "Sarah", role: "joueur" },
+            { name: "Liam", role: "joueur" }
+        ]
+    };
+
+    const teamB = {
+        name: "Crimson Eagles",
+        players: [
+            { name: "Alex", role: "responsable" },
+            { name: "Nora", role: "co-responsable" },
+            { name: "Mika", role: "joueur" },
+            { name: "Jonas", role: "joueur" }
+        ]
+    };
+
+    /* ------------------------------
+       RENDER FUNCTION
+    ------------------------------ */
+    function renderTeam(team, containerId) {
+        const container = document.getElementById(containerId);
+
+        container.innerHTML = `<div class="team-name">${team.name}</div>`;
+
+        team.players.forEach(player => {
+            const div = document.createElement("div");
+            div.className = "player " + (player.role === "responsable" ? "responsable" : "");
+
+            div.innerHTML = `
+                <div class="player-role">${player.role.toUpperCase()}</div>
+                <div class="player-name">${player.name}</div>
+                <div class="player-speciality">Spécialité : ${randomSpec()}</div>
+            `;
+
+            container.appendChild(div);
+        });
+    }
+
+    renderTeam(teamA, "teamA");
+    renderTeam(teamB, "teamB");
+
+    /* ------------------------------
+       MODE LOGIC (admin vs encode)
+    ------------------------------ */
+    const params = new URLSearchParams(window.location.search);
+    const isEncodingMode = params.has("encode");
+
+    const encodeBtn = document.getElementById("encodeBtn");
+    const statusBanner = document.getElementById("statusBanner");
+
+    if (isEncodingMode) {
+        encodeBtn.style.display = "none";      // Hide button
+        statusBanner.style.display = "block";  // Show brown banner
+    }
+</script>
+
+</body>
+</html>
