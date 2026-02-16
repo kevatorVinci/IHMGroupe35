@@ -45,11 +45,6 @@
             outline: none; border-color: #112b4f; box-shadow: 0 0 0 3px rgba(17, 43, 79, 0.1);
         }
 
-        .info-box {
-            background-color: #fff7ed; border: 1px solid #ffedd5; border-left: 4px solid #b45309;
-            padding: 15px; border-radius: 4px; margin-bottom: 25px; font-size: 13px; color: #9a3412;
-        }
-
         .btn-primary {
             width: 100%; background-color: #112b4f; color: white; padding: 14px;
             border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 16px;
@@ -66,7 +61,7 @@
 <body>
 
     <header class="navbar">
-        <a href="accueil.html"><img src="https://via.placeholder.com/150x50?text=Vinci+Arena" alt="Logo" class="logo-img-nav"></a>
+        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
             <a href="dashboard_membre.html">Mon Profil</a>
@@ -83,10 +78,6 @@
         <p class="subtitle">Réunissez vos alliés et forgez votre légende sur Vinci Arena.</p>
 
         <div class="card">
-            <div class="info-box">
-                <strong>Note importante :</strong> En créant cette équipe, vous en devenez automatiquement le <strong>responsable</strong>. Vous pourrez ensuite nommer un second responsable si besoin. [cite: 40, 48]
-            </div>
-
             <form id="teamForm">
                 <div class="form-group">
                     <label for="teamName">Nom de l'équipe</label>
@@ -106,8 +97,11 @@
     <script>
         document.getElementById('teamForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert("Félicitations ! Votre team a été créée. Vous êtes maintenant responsable ! 🛡️");
-            // Ici, on redirigerait normalement vers la page de gestion de la team
+            // Simulation de création
+            const teamName = document.getElementById('teamName').value;
+            alert(`Félicitations ! L'équipe "${teamName}" a été créée. Vous êtes maintenant responsable ! 🛡️`);
+            // Redirection fictive vers le dashboard avec équipe
+            window.location.href = 'tableauDeborEquipe.html';
         });
     </script>
 

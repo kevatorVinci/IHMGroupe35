@@ -1,5 +1,5 @@
 {
-    "lastUpdate": "2026-02-14T22:23:22.132Z",
+    "lastUpdate": "2026-02-16T21:47:47.130Z",
     "statuts": {
         "IHM 1": "fait",
         "IHM 2": "fait",
@@ -12,13 +12,13 @@
         "IHM 9": "fait",
         "IHM 10": "fait",
         "IHM 35": "fait",
-        "IHM 11": "todo",
-        "IHM 12": "todo",
-        "IHM 13": "todo",
-        "IHM 14": "todo",
-        "IHM 15": "todo",
-        "IHM 16": "todo",
-        "IHM 17": "todo",
+        "IHM 11": "fait",
+        "IHM 12": "fait",
+        "IHM 13": "fait",
+        "IHM 14": "fait",
+        "IHM 15": "fait",
+        "IHM 16": "fait",
+        "IHM 17": "fait",
         "IHM 18": "fait",
         "IHM 20a": "fait",
         "IHM 20b": "fait",
@@ -37,7 +37,7 @@
         "IHM 32": "todo",
         "IHM 33": "todo",
         "IHM 34": "todo",
-        "IHM 36": "todo",
+        "IHM 36": "fait",
         "IHM 37": "todo"
     }
 }

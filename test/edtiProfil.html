@@ -49,9 +49,20 @@
         .btn-accent:hover { background-color: #92400e; }
 
         /* --- 5. STYLES SPECIFIQUES : EDITION PROFIL --- */
-        .avatar-section { display: flex; align-items: center; gap: 25px; margin-bottom: 25px; }
-        .avatar-large { width: 90px; height: 90px; border-radius: 8px; border: 2px solid #e2e8f0; padding: 3px; background-color: #f0f2f5; }
-        .avatar-infos p { font-size: 13px; color: #64748b; margin-top: 5px; }
+        
+        /* Sélection d'Avatar (Style repris de l'inscription) */
+        .avatar-container {
+            display: flex; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;
+        }
+        .avatar-option input[type="radio"] { display: none; }
+        .avatar-img {
+            width: 60px; height: 60px; border-radius: 8px; border: 2px solid transparent; cursor: pointer;
+            transition: 0.2s; background-color: #f8fafc; padding: 5px;
+        }
+        .avatar-img:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .avatar-option input[type="radio"]:checked + .avatar-img {
+            border-color: #2563eb; background-color: #eff6ff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+        }
 
         .form-row { display: flex; gap: 20px; }
         .form-group { margin-bottom: 20px; flex: 1; }
@@ -60,9 +71,9 @@
         .form-input { 
             width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 6px; 
             font-family: inherit; font-size: 14px; color: #0f172a; transition: all 0.2s ease; 
+            background-color: white;
         }
         .form-input:focus { outline: none; border-color: #112b4f; box-shadow: 0 0 0 3px rgba(17, 43, 79, 0.1); }
-        textarea.form-input { resize: vertical; min-height: 100px; }
 
         .form-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 30px; }
         .danger-zone { margin-top: 40px; text-align: center; padding-top: 20px; border-top: 1px dashed #cbd5e1; }
@@ -73,7 +84,6 @@
             .nav-user { border-left: none; padding-left: 0; margin-left: 0; width: 100%; justify-content: center; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px; }
             
             .form-row { flex-direction: column; gap: 0; }
-            .avatar-section { flex-direction: column; text-align: center; }
             .form-actions { flex-direction: column-reverse; }
             .form-actions button { width: 100%; }
         }
@@ -85,13 +95,14 @@
         <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
-            <a href="dashboard_membre.html">Tableau de bord</a>
+            <a href="dashboard_membre_equipe.html">Tableau de bord</a>
+            <a href="equipeVueMembre.html">Ma Team</a>
             <a href="liste_tournois.html">Tournoi</a>
             <a href="equipes_publique.html">Equipe</a>
             <div class="nav-user">
                 <a href="#" class="nav-notification">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                    <span class="notification-badge">3</span>
+                    <span class="notification-badge">2</span>
                 </a>
                 <a href="connexion.html" style="font-size:13px;">Se déconnecter</a>
                 <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
@@ -106,28 +117,58 @@
             <div class="card">
                 <h2 class="card-header">Informations Publiques</h2>
                 
-                <div class="avatar-section">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar actuel" class="avatar-large">
-                    <div class="avatar-infos">
-                        <button type="button" class="btn-outline">Changer l'avatar</button>
-                        <p>Format accepté : JPG, PNG ou GIF. Taille max : 2Mo.</p>
+                <div class="form-group">
+                    <label class="form-label">Choisir un nouvel avatar</label>
+                    <div class="avatar-container">
+                        <label class="avatar-option">
+                            <input type="radio" name="avatar" value="avatar1" checked>
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar 1" class="avatar-img">
+                        </label>
+                        <label class="avatar-option">
+                            <input type="radio" name="avatar" value="avatar2">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" alt="Avatar 2" class="avatar-img">
+                        </label>
+                        <label class="avatar-option">
+                            <input type="radio" name="avatar" value="avatar3">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" alt="Avatar 3" class="avatar-img">
+                        </label>
+                        <label class="avatar-option">
+                            <input type="radio" name="avatar" value="avatar4">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara" alt="Avatar 4" class="avatar-img">
+                        </label>
+                        <label class="avatar-option">
+                            <input type="radio" name="avatar" value="avatar5">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Brian" alt="Avatar 5" class="avatar-img">
+                        </label>
+                        <label class="avatar-option">
+                            <input type="radio" name="avatar" value="avatar6">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex" alt="Avatar 6" class="avatar-img">
+                        </label>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label class="form-label" for="pseudo">Pseudo (In-game)</label>
-                        <input type="text" id="pseudo" class="form-input" value="FelixGamer99" required>
+                        <label class="form-label" for="tag">Tag (Pseudo en jeu)</label>
+                        <input type="text" id="tag" class="form-input" value="Pedrinho08" required>
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="email">Adresse Email</label>
-                        <input type="email" id="email" class="form-input" value="felix@example.com" required>
+                        <input type="email" id="email" class="form-input" value="joueur25@gmail.com" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="bio">Biographie</label>
-                    <textarea id="bio" class="form-input" placeholder="Parlez de votre parcours e-sport, vos jeux favoris..."></textarea>
+                    <label class="form-label" for="specialty">Spécialité</label>
+                    <select id="specialty" name="specialty" class="form-input" required>
+                        <option value="architecte">📐 Architecte</option>
+                        <option value="executeur">🔨 Exécuteur</option>
+                        <option value="tacticien" selected>♟️ Tacticien</option>
+                        <option value="gardien">🛡️ Gardien</option>
+                        <option value="catalyseur">⚡ Catalyseur</option>
+                        <option value="perturbateur">🌪️ Perturbateur</option>
+                        <option value="guerisseur">❤️ Guérisseur</option>
+                    </select>
                 </div>
             </div>
 
@@ -152,7 +193,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="button" class="btn-outline">Annuler</button>
+                <button type="button" class="btn-outline" onclick="window.location.href='dashboard_membre_equipe.html'">Annuler</button>
                 <button type="submit" class="btn-primary" id="btn-save">Enregistrer les modifications</button>
             </div>
 
