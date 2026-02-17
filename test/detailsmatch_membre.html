@@ -179,14 +179,12 @@
                     Admin : MasterChief
                 </div>
                 <div class="info-pill" id="matchStatus" style="color: #b45309; background: #fffbeb; border-color: #fcd34d;">
-                    ℹ️ Statut : Composition validée
+                    ℹ️ Etat : Composition validée
                 </div>
             </div>
         </div>
 
-        <div id="user-not-selected-msg">
-            ⚠️ Vous n'étiez pas sur la feuille de match pour cette rencontre. Voici la composition alignée par votre équipe.
-        </div>
+      
 
         <h2 class="section-title">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -253,7 +251,7 @@
         <select class="sim-select" onchange="changerEtatMatch(this.value)">
             <option value="upcoming">À venir</option>
             <option value="finished_me">Terminé (J'ai joué)</option>
-            <option value="finished_spectator">Terminé (Vue Spectateur)</option>
+            <option value="finished_spectator">Terminé (Vue Spectateur "voir brouillon")</option>
         </select>
     </div>
 
@@ -276,7 +274,7 @@
                 // --- MODE À VENIR ---
                 centerDisplay.innerText = "VS";
                 centerDisplay.className = "center-display vs-badge";
-                matchStatus.innerHTML = "ℹ️ Statut : Composition validée";
+                matchStatus.innerHTML = "ℹ️ Etat : Composition validée";
                 matchStatus.style.color = "#b45309"; matchStatus.style.borderColor = "#fcd34d"; matchStatus.style.backgroundColor = "#fffbeb";
                 teamA.classList.remove('team-winner');
                 matchDate.innerHTML = "📅 15 Fév 2026";
@@ -292,7 +290,7 @@
                 // --- MODES TERMINÉS (Commun) ---
                 centerDisplay.innerText = "3 - 1";
                 centerDisplay.className = "center-display score-display";
-                matchStatus.innerHTML = "✅ Statut : Terminé";
+                matchStatus.innerHTML = "✅ Etat : Terminé";
                 matchStatus.style.color = "#166534"; matchStatus.style.borderColor = "#bbf7d0"; matchStatus.style.backgroundColor = "#dcfce7";
                 teamA.classList.add('team-winner');
                 matchDate.innerHTML = "📅 13 Fév 2026";
