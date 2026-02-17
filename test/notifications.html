@@ -120,21 +120,33 @@
 <body>
 
     <header class="navbar">
-        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
-        <nav class="nav-links">
-            <a href="accueil.html">Accueil</a>
-            <a href="dashboard_membre_equipe.html">Tableau de bord</a>
-            <a href="liste_tournois.html">Tournoi</a>
-            <a href="equipes_publique.html">Equipe</a>
-            <div class="nav-user">
-                <a href="#" class="nav-notification" style="color:#f59e0b;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
-                </a>
-                <a href="connexion.html" style="color:white; text-decoration:none; font-size:13px;">Se déconnecter</a>
-                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
-            </div>
-        </nav>
-    </header>
+    <a href="accueil.html">
+        <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+    </a>
+
+    <nav class="nav-links">
+        <a href="accueil.html">Accueil</a>
+        <a href="dashboard_membre_equipe.html">Espace personnel</a>
+        <a href="equipeVueMembre.html">Ma Team</a>
+        <a href="liste_tournois.html">Tournoi</a>
+        <a href="equipes_publique.html">Equipe</a>
+        
+        <div class="nav-user">
+            <a href="notifications.html" class="nav-notification" style="color:#f59e0b; position: relative; display: flex;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                    <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/>
+                </svg>
+                <span class="notification-badge">2</span>
+            </a>
+
+            <a href="connexion.html" style="color:white; text-decoration:none; font-size:13px;">Se déconnecter</a>
+            
+            <a href="profil.html">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar">
+            </a>
+        </div>
+    </nav>
+</header>
 
     <main class="main-container">
         

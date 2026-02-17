@@ -34,6 +34,7 @@
         .nav-links { display: flex; align-items: center; gap: 25px; }
         .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: color 0.2s; }
         .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
         
         /* Avatar et zone utilisateur dans la navbar */
         .nav-user {
@@ -194,27 +195,22 @@
 </head>
 <body>
 
+    
     <header class="navbar">
-        <a href="accueil.html">
-            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
-        </a>
-        
+        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
-            <a href="dashboard_membre.html">Tableau de bord</a>
+            <a href="dashboard_membre_equipe.html" >Espace personnel</a>
+            <a href="equipeVueMembre.html">Ma Team</a>
             <a href="liste_tournois.html">Tournoi</a>
             <a href="equipes_publique.html">Equipe</a>
-            
             <div class="nav-user">
-                <a href="notifications.html" class="nav-notification">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                    <span class="notification-badge">3</span>
+                <a href="#" class="nav-notification">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">2</span>
                 </a>
-
-                <a href="connexion.html">Se déconnecter</a>
-                <a href="profil.html">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar Navbar" class="nav-avatar">
-                </a>
+                <a href="connexion.html" style="font-size:13px;">Se déconnecter</a>
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
             </div>
         </nav>
     </header>

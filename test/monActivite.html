@@ -25,6 +25,7 @@
         .nav-links { display: flex; align-items: center; gap: 25px; }
         .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
         .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
         .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
         .nav-notification { position: relative; color: white; display: flex; align-items: center; text-decoration: none; margin-right: 10px; }
         .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
@@ -116,15 +117,16 @@
         <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
-            <a href="dashboard_membre_equipe.html">Tableau de bord</a>
-            <a href="liste_tournois.html">Tournoi</a>
-            <a href="equipes_publique.html">Equipe</a>
+            <a href="dashboard_membre_equipe.html" class="active">Espace personnel</a>
+            <a href="equipeVueMembre.html">Ma Team</a>
+            <a href="liste_tournois.html">Tournois</a>
+            <a href="equipes_publique.html">Teams</a>
             <div class="nav-user">
                 <a href="#" class="nav-notification">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                    <span class="notification-badge">1</span>
+                    <span class="notification-badge">2</span>
                 </a>
-                <a href="connexion.html" style="color:white; text-decoration:none; font-size:13px;">Se déconnecter</a>
+                <a href="connexion.html" style="font-size:13px;">Se déconnecter</a>
                 <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
             </div>
         </nav>
@@ -144,21 +146,21 @@
             <div class="stat-card">
                 <div class="stat-icon bg-blue">🎮</div>
                 <div class="stat-info">
-                    <h3>3</h3>
+                    <h3>4</h3>
                     <p>Matchs joués</p>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon bg-green">🏆</div>
                 <div class="stat-info">
-                    <h3>2</h3>
+                    <h3>3</h3>
                     <p>Victoires</p>
                 </div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon bg-orange">📈</div>
                 <div class="stat-info">
-                    <h3>66%</h3>
+                    <h3>75%</h3>
                     <p>Taux de victoire</p>
                 </div>
             </div>
@@ -213,6 +215,20 @@
                         </div>
                     </div>
 
+                    <a href="resultats_matchs.html" style="text-decoration: none; color: inherit;">
+                        <div class="activity-card border-win match-item">
+                            <div class="match-info">
+                                <span class="match-context">Coupe d'Automne 2025 - Demi-finale</span>
+                                <span class="match-opponent">VS Team Phoenix</span>
+                                <span class="match-score">3 - 1</span>
+                            </div>
+                            <div style="text-align: right;">
+                                <div class="match-result text-win">Victoire</div>
+                                <span class="match-date">13 Nov 2025</span>
+                            </div>
+                        </div>
+                    </a>
+
                 </div>
             </section>
 
@@ -237,8 +253,8 @@
                         </tr>
                         <tr class="tournoi-item">
                             <td>Coupe d'Automne 2025</td>
-                            <td>Oct 2025</td>
-                            <td><span class="rank-badge rank-gold">🏆 Vainqueur</span></td>
+                            <td>Nov 2025</td>
+                            <td><span class="rank-badge rank-gray">Éliminé (Finale)</span></td>
                         </tr>
                         <tr class="tournoi-item">
                             <td>Summer Clash 2025</td>
