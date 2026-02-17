@@ -3,217 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinci Arena – Mes Matchs à Venir</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Matchs de la Team - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background: #f0f2f5;
-        }
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
 
-        /* NAVBAR */
-        header {
-            background: #112b4f;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-            color: white;
-            justify-content: space-between;
-        }
+        /* --- Navbar (Ton code inséré) --- */
+        .navbar { background-color: #112b4f; height: 70px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; text-decoration: none; margin-right: 10px; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
 
-        .nav-left {
-            font-size: 1.4rem;
-            font-weight: 700;
-        }
+        /* --- Layout --- */
+        .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .page-header { margin-bottom: 30px; }
+        .page-title { font-size: 28px; font-weight: 800; color: #0f172a; }
 
-        .nav-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-weight: 400;
-        }
-
-        /* MAIN CONTAINER */
-        .main-container {
-            padding: 20px;
-            max-width: 1100px;
-            margin: auto;
-        }
-
-        h1 {
-            margin-bottom: 5px;
-            color: #112b4f;
-        }
-
-        .subtitle {
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        /* MATCH CARDS */
-        .matches-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        @media (min-width: 700px) {
-            .matches-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1000px) {
-            .matches-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
+        /* --- Cartes de match --- */
         .match-card {
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px;
+            border: 1px solid #e2e8f0; display: flex; align-items: center; 
+            justify-content: space-between; transition: 0.2s;
         }
+        .match-info { flex-grow: 1; }
+        .match-tag { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 5px; }
+        .match-vs { font-size: 18px; font-weight: 900; color: #0f172a; margin-bottom: 10px; }
+        .match-vs span { color: #94a3b8; font-weight: 400; margin: 0 8px; }
+        .match-date { font-size: 14px; color: #475569; display: flex; gap: 15px; }
 
-        .match-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
+        /* --- Status --- */
+        .status-badge { padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 6px; }
+        .done { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .todo { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
-        .match-info {
-            font-size: 0.9rem;
-            color: #444;
-            margin-bottom: 5px;
-        }
+        /* --- Boutons --- */
+        .btn { padding: 10px 18px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; transition: 0.2s; }
+        .btn-details { background: #f1f5f9; color: #112b4f; }
+        .btn-action { background: #112b4f; color: white; margin-left: 10px; }
 
-        .btn-primary {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 14px;
-            background: #112b4f;
-            color: white;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: background 0.2s;
-        }
-
-        .btn-primary:hover {
-            background: #1e40af;
-        }
-
-        .empty-message {
-            text-align: center;
-            margin-top: 40px;
-            color: #666;
-            font-size: 1.1rem;
-        }
+        /* --- Switcher de rôle (Demo) --- */
+        .demo-switcher { position: fixed; bottom: 20px; left: 20px; background: #1e293b; padding: 15px; border-radius: 8px; color: white; font-size: 12px; }
     </style>
 </head>
-
 <body>
 
-    <!-- NAVBAR -->
-    <header>
-        <div class="nav-left">Vinci Arena</div>
+    <header class="navbar">
+        <a href="accueil.html">
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+        </a>
+        
         <nav class="nav-links">
-            <a href="#">Accueil</a>
-            <a href="#">Tournois</a>
-            <a href="#">Mon équipe</a>
-            <a href="#" style="font-weight:700;">Mes matchs</a>
+            <a href="accueil.html">Accueil</a>
+            <a href="dashboard_membre.html">Espace personnel</a>
+            <a href="equipesVueMembre.html" class="active">Ma Team</a>
+            <a href="liste_tournois.html">Tournois</a>
+            <a href="equipes_publique.html">Teams</a>
+            
+            <div class="nav-user">
+                <a href="notifications.html" class="nav-notification">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">2</span>
+                </a>
+
+                <a href="connexion.html">Se déconnecter</a>
+                <a href="profil.html">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" alt="Avatar Navbar" class="nav-avatar">
+                </a>
+            </div>
         </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="main-container">
-        <h1>Mes Matchs à Venir</h1>
-        <p class="subtitle">Voici tous les matchs programmés pour votre équipe.</p>
+        <div class="page-header">
+            <h1 class="page-title">Prochains Matchs</h1>
+        </div>
 
-        <div id="matches" class="matches-grid"></div>
-        <p id="empty" class="empty-message" style="display:none;">Aucun match n’est prévu pour le moment.</p>
+        <div id="match-list">
+            <div class="match-card">
+                <div class="match-info">
+                    <div class="match-tag">Championnat Hiver • J-2</div>
+                    <div class="match-vs">Les Warriors <span>VS</span> Team Phoenix</div>
+                    <div class="match-date">📅 15 Fév 2026 • ⏰ 20:00</div>
+                </div>
+                <div class="status-badge done">✅ Sélection faite</div>
+                <div style="display: flex;">
+                    <a href="details_match.html" class="btn btn-details">Détails</a>
+                    <a href="selection_joueurs.html" class="btn btn-action is-resp" style="display:none;">Modifier</a>
+                </div>
+            </div>
+
+            <div class="match-card">
+                <div class="match-info">
+                    <div class="match-tag">Match Amical • J-9</div>
+                    <div class="match-vs">Les Warriors <span>VS</span> Dark Legion</div>
+                    <div class="match-date">📅 22 Fév 2026 • ⏰ 18:30</div>
+                </div>
+                <div class="status-badge todo">⚠️ En attente</div>
+                <div style="display: flex;">
+                    <a href="details_match.html" class="btn btn-details">Détails</a>
+                    <a href="selection_joueurs.html" class="btn btn-action is-resp" style="display:none;">Sélectionner</a>
+                </div>
+            </div>
+        </div>
     </main>
 
+    <div class="demo-switcher">
+        <p style="margin-bottom: 8px; font-weight: 700; color: #f59e0b;">DEBUG : Changer de rôle</p>
+        <select onchange="switchRole(this.value)" style="width: 100%; padding: 4px;">
+            <option value="membre">Simple Membre</option>
+            <option value="responsable">Responsable Team</option>
+        </select>
+    </div>
+
     <script>
-        /* ------------------------------
-           MOCK DATA (STATIC)
-        ------------------------------ */
-
-        const connectedUser = {
-            id: 12,
-            username: "Uche",
-            teamId: 3
-        };
-
-        const upcomingMatches = [
-            {
-                id: 1,
-                teamA: 3,
-                teamB: 7,
-                opponentName: "Shadow Wolves",
-                tournament: "League of Legends – Winter Cup",
-                date: "2026-03-12 18:00",
-                format: "BO3"
-            },
-            {
-                id: 2,
-                teamA: 5,
-                teamB: 3,
-                opponentName: "Crimson Eagles",
-                tournament: "Valorant – Spring Clash",
-                date: "2026-03-20 20:30",
-                format: "BO1"
-            },
-            {
-                id: 3,
-                teamA: 1,
-                teamB: 4,
-                opponentName: "Not your team",
-                tournament: "Rocket League – Arena Cup",
-                date: "2026-04-02 16:00",
-                format: "BO5"
-            }
-        ];
-
-        /* ------------------------------
-           FILTER MATCHES FOR USER TEAM
-        ------------------------------ */
-
-        const userMatches = upcomingMatches.filter(m =>
-            m.teamA === connectedUser.teamId || m.teamB === connectedUser.teamId
-        );
-
-        const container = document.getElementById("matches");
-        const emptyMsg = document.getElementById("empty");
-
-        if (userMatches.length === 0) {
-            emptyMsg.style.display = "block";
-        } else {
-            userMatches.forEach(match => {
-                const card = document.createElement("div");
-                card.className = "match-card";
-
-                card.innerHTML = `
-                    <div class="match-title">VS ${match.opponentName}</div>
-                    <div class="match-info"><strong>Tournoi :</strong> ${match.tournament}</div>
-                    <div class="match-info"><strong>Date :</strong> ${match.date}</div>
-                    <div class="match-info"><strong>Format :</strong> ${match.format}</div>
-                    <a href="#" class="btn-primary">Voir détails</a>
-                `;
-
-                container.appendChild(card);
-            });
+        function switchRole(role) {
+            const btns = document.querySelectorAll('.is-resp');
+            btns.forEach(b => b.style.display = (role === 'responsable' ? 'block' : 'none'));
         }
     </script>
 

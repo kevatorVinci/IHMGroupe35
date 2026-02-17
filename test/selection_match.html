@@ -3,219 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinci Arena – Sélection des Joueurs</title>
-
-    <!-- Google Font -->
+    <title>Sélection – Vinci Arena</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-
     <style>
         /* --- Styles globaux --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: 'Roboto', sans-serif; 
-            background-color: #f0f2f5; 
-            color: #334155; 
-        }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
 
         /* --- Navbar --- */
-        .navbar {
-            background-color: #112b4f; height: 70px; padding: 0 40px;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
-        }
-        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .navbar { background-color: #112b4f; height: 70px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; }
         .nav-links { display: flex; align-items: center; gap: 25px; }
-        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
-        .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
-        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
-        .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; }
-        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
 
         /* --- Layout --- */
-        .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-
-        /* --- TOP CENTER TEXT --- */
+        .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; padding-bottom: 100px; }
         .top-center { text-align: center; margin-bottom: 35px; }
-        .top-center h1 { color: #112b4f; font-size: 1.9rem; font-weight: 700; }
-        .top-center h2 { margin: 12px 0 6px; font-size: 1.5rem; font-weight: 700; color: #111; }
-        .top-center p { font-size: 1rem; color: #444; }
+        .top-center h1 { color: #112b4f; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
+        
+        /* --- Grille des Joueurs --- */
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .section-title { font-size: 18px; font-weight: 700; }
+        .counter { font-size: 1.1rem; font-weight: 700; color: #112b4f; background: #fff; padding: 5px 15px; border-radius: 20px; border: 1px solid #cbd5e1; }
 
-        /* --- SECTION HEADER --- */
-        .section-header {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-bottom: 18px;
-        }
-        .section-title { font-size: 20px; font-weight: 700; color: #0f172a; }
-        .counter { font-size: 1.1rem; font-weight: 700; color: #112b4f; }
+        .players-grid { display: grid; gap: 15px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 
-        /* --- GRID --- */
-        .players-grid {
-            display: grid; gap: 18px;
-            grid-template-columns: repeat(1, 1fr);
-        }
-        @media (min-width: 700px) {
-            .players-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 1000px) {
-            .players-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-
-        /* --- PLAYER CARD --- */
         .player-card {
             background: white; border: 1px solid #e2e8f0; border-radius: 8px;
-            padding: 16px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+            padding: 15px 20px; display: flex; justify-content: space-between; align-items: center;
+            transition: 0.2s; cursor: pointer;
         }
-        .player-info { display: flex; flex-direction: column; }
-        .player-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 3px; color: #0f172a; }
-        .player-role { font-size: 0.9rem; color: #b45309; font-weight: 700; margin-bottom: 3px; }
-        .player-spec { font-size: 0.85rem; color: #555; }
+        .player-card:hover { border-color: #112b4f; background: #f8fafc; }
+        .player-card.selected { border-color: #112b4f; background: #eff6ff; box-shadow: 0 4px 10px rgba(17, 43, 79, 0.1); }
 
-        /* --- ROUND CHECKBOX --- */
+        .player-name { font-size: 1.1rem; font-weight: 700; color: #0f172a; }
+        .player-spec { font-size: 0.85rem; font-weight: 700; color: #b45309; text-transform: uppercase; margin-top: 2px; display: flex; align-items: center; gap: 5px; }
+
+        /* --- Custom Checkbox --- */
         .round-check {
-            width: 22px; height: 22px; border-radius: 50%;
-            border: 2px solid #112b4f; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
+            width: 24px; height: 24px; border-radius: 50%; border: 2px solid #cbd5e1;
+            display: flex; align-items: center; justify-content: center; transition: 0.2s;
         }
-        .round-check.selected { background: #112b4f; }
+        .selected .round-check { border-color: #112b4f; background: #112b4f; }
+        .round-check svg { color: white; display: none; }
+        .selected .round-check svg { display: block; }
 
-        /* --- WARNING --- */
-        .warning {
-            margin-top: 25px; text-align: center;
-            color: #b91c1c; font-weight: 700; font-size: 1rem;
-            display: none;
-        }
+        /* --- Footer Actions --- */
+        .action-bar { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 20px 40px; display: flex; justify-content: space-between; border-top: 1px solid #e2e8f0; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); }
+        
+        .btn { padding: 12px 25px; border-radius: 6px; font-weight: 700; border: none; cursor: pointer; transition: 0.2s; }
+        .btn-forfeit { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; }
+        .btn-forfeit:hover { background: #dc2626; color: white; }
+        
+        .btn-confirm { background: #d1d5db; color: #6b7280; cursor: not-allowed; }
+        .btn-confirm.enabled { background: #16a34a; color: white; cursor: pointer; }
+                .nav-links a.active { color: #f59e0b; font-weight: 700; }
+                 .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
 
-        /* --- CONFIRM BUTTON --- */
-        .confirm-btn {
-            position: fixed; bottom: 25px; right: 25px;
-            padding: 12px 20px; border-radius: 8px;
-            font-size: 1rem; font-weight: 700; border: none;
-            cursor: not-allowed; transition: 0.2s;
-            background: #d1d5db; color: #6b7280;
-        }
-        .confirm-btn.enabled {
-            background: #16a34a; color: white; cursor: pointer;
-        }
+
+        .warning-msg { color: #dc2626; font-weight: 700; font-size: 0.9rem; text-align: center; margin-top: 15px; display: none; }
     </style>
 </head>
-
 <body>
 
-    <!-- NAVBAR -->
+    
     <header class="navbar">
-        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+        <a href="accueil.html">
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+        </a>
+        
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
-            <a href="tableauDeborEquipe.html">Tableau de bord</a>
+            <a href="dashboard_membre_equipe.html" >Espace personnel</a>
+            <a href="equipesVueMembre.html" class="active">Ma Team</a>
             <a href="liste_tournois.html">Tournois</a>
             <a href="equipes_publique.html">Teams</a>
+            
             <div class="nav-user">
-                <a href="#" class="nav-notification">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-                    </svg>
-                    <span class="notification-badge">1</span>
+                <a href="notifications.html" class="nav-notification">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">2</span>
                 </a>
-                <a href="connexion.html" style="color:white; text-decoration:none; font-size:13px;">Se déconnecter</a>
-                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
+
+                <a href="connexion.html">Se déconnecter</a>
+                <a href="profil.html">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar Navbar" class="nav-avatar">
+                </a>
             </div>
         </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="main-container">
-
         <div class="top-center">
-            <h1>MATCH #M42 – QUART DE FINALE</h1>
-            <h2>Qui joue contre Dark Legion ?</h2>
-            <p>Sélectionnez les 4 titulaires pour ce match.</p>
+            <h1>MATCH #M42 – SÉLECTION</h1>
+            <p>Choisissez les 4 spécialistes pour affronter <b>Dark Legion</b>.</p>
         </div>
 
         <div class="section-header">
-            <div class="section-title">Composition de l'équipe</div>
-            <div id="counter" class="counter">0 / 4 Joueurs</div>
+            <h2 class="section-title">Joueurs disponibles</h2>
+            <div id="counter" class="counter">0 / 4</div>
         </div>
 
         <div id="playersGrid" class="players-grid"></div>
-
-        <div id="warning" class="warning">
-            Vous ne pouvez plus ajouter de joueurs dans cette sélection
-        </div>
-
-        <button id="confirmBtn" class="confirm-btn" disabled>✔ Confirmer</button>
-
+        <div id="warning" class="warning-msg">⚠️ Limite de 4 joueurs atteinte</div>
     </main>
 
+    <footer class="action-bar">
+        <button class="btn btn-forfeit" onclick="handleForfeit()">🏳 Déclarer forfait</button>
+        <button id="confirmBtn" class="btn btn-confirm" disabled onclick="handleConfirm()">Confirmer la composition</button>
+    </footer>
+
 <script>
-    const players = [
-        { name: "Lucas P.", role: "Capitaine", spec: "TECHNICIEN" },
-        { name: "John Doe", role: "Membre", spec: "EXECUTANT" },
-        { name: "Tom Klein", role: "Membre", spec: "CLASSIQUE" },
-        { name: "Alex Smith", role: "Membre", spec: "PERFECTIONNISTE" },
-        { name: "Mario Rossi", role: "Membre", spec: "ARCHITECTE" },
-        { name: "Emma L.", role: "Remplaçant", spec: "CURIEUSE" }
+    const playersData = [
+        { name: "Pedrinho08", spec: "Tacticien", icon: "♟️" },
+        { name: "Sarah C.", spec: "Architecte", icon: "📐" },
+        { name: "John Doe", spec: "Exécuteur", icon: "🔨" },
+        { name: "Marc O.", spec: "Gardien", icon: "🛡️" },
+        { name: "Alex Smith", spec: "Catalyseur", icon: "⚡" },
+        { name: "Tom Klein", spec: "Perturbateur", icon: "🌪️" },
+        { name: "Emma L.", spec: "Guérisseur", icon: "❤️" }
     ];
 
+    let selectedCount = 0;
     const grid = document.getElementById("playersGrid");
-    const counter = document.getElementById("counter");
-    const warning = document.getElementById("warning");
     const confirmBtn = document.getElementById("confirmBtn");
 
-    let selectedCount = 0;
-
-    players.forEach((p, index) => {
+    playersData.forEach(p => {
         const card = document.createElement("div");
         card.className = "player-card";
-
-        const info = document.createElement("div");
-        info.className = "player-info";
-        info.innerHTML = `
-            <div class="player-name">${p.name}</div>
-            <div class="player-role">${p.role}</div>
-            <div class="player-spec">${p.spec}</div>
+        card.innerHTML = `
+            <div>
+                <div class="player-name">${p.name}</div>
+                <div class="player-spec">${p.icon} ${p.spec}</div>
+            </div>
+            <div class="round-check">
+                <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 5L5 9L13 1" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
         `;
 
-        const check = document.createElement("div");
-        check.className = "round-check";
-
-        check.addEventListener("click", () => {
-            if (!check.classList.contains("selected")) {
-                if (selectedCount >= 4) {
-                    warning.style.display = "block";
-                    return;
-                }
-                check.classList.add("selected");
+        card.addEventListener("click", () => {
+            const isSelected = card.classList.contains("selected");
+            
+            if (!isSelected && selectedCount < 4) {
+                card.classList.add("selected");
                 selectedCount++;
-            } else {
-                check.classList.remove("selected");
+            } else if (isSelected) {
+                card.classList.remove("selected");
                 selectedCount--;
-                warning.style.display = "none";
             }
 
-            counter.textContent = `${selectedCount} / 4 Joueurs`;
-
-            if (selectedCount === 4) {
-                confirmBtn.disabled = false;
-                confirmBtn.classList.add("enabled");
-            } else {
-                confirmBtn.disabled = true;
-                confirmBtn.classList.remove("enabled");
-            }
+            document.getElementById("counter").innerText = `${selectedCount} / 4`;
+            document.getElementById("warning").style.display = (selectedCount === 4) ? "none" : "none";
+            
+            confirmBtn.disabled = (selectedCount !== 4);
+            confirmBtn.classList.toggle("enabled", selectedCount === 4);
         });
 
-        card.appendChild(info);
-        card.appendChild(check);
         grid.appendChild(card);
     });
 
-    confirmBtn.addEventListener("click", () => {
-        if (!confirmBtn.disabled) {
-            window.location.href = "detailsmatch_membre.html"; 
-        }
-    });
+    function handleForfeit() {
+        if(confirm("Confirmer le forfait ?")) window.location.href = "dashboard_membre_equipe.html";
+    }
+
+    function handleConfirm() {
+        alert("Composition validée !");
+        window.location.href = "detailsmatch_membre.html";
+    }
 </script>
 
 </body>

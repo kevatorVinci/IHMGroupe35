@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique Les Warriors - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Styles globaux --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
+
+        /* --- Navbar (Format demandé) --- */
+        .navbar { background-color: #112b4f; height: 70px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; }
+        .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; text-decoration: none; margin-right: 10px; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
+
+        /* --- Layout --- */
+        .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .page-title { font-size: 28px; font-weight: 900; color: #112b4f; }
+
+        /* --- Bannière de la Team --- */
+        .team-banner { background: #112b4f; color: white; padding: 30px; border-radius: 12px; display: flex; align-items: center; gap: 25px; margin-bottom: 30px; }
+        .team-logo-circle { width: 80px; height: 80px; background: white; color: #112b4f; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 900; }
+        .team-stats-mini { display: flex; gap: 20px; margin-top: 10px; }
+        .stat-item { font-size: 13px; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px; }
+
+        /* --- Liste des Matchs --- */
+        .history-card {
+            background: white; border-radius: 10px; border: 1px solid #e2e8f0; padding: 20px; margin-bottom: 15px;
+            display: grid; grid-template-columns: 120px 1fr 150px 100px; align-items: center; gap: 20px; transition: 0.2s;
+        }
+        .history-card:hover { transform: scale(1.01); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        
+        .match-date { font-size: 13px; color: #64748b; font-weight: 600; }
+        .match-main { display: flex; flex-direction: column; }
+        .match-tourney { font-size: 11px; font-weight: 800; color: #f59e0b; text-transform: uppercase; margin-bottom: 4px; }
+        .match-teams { font-size: 16px; font-weight: 700; color: #0f172a; }
+        .match-teams span { color: #94a3b8; font-weight: 400; margin: 0 5px; }
+
+        .match-score-box { text-align: center; }
+        .score-pill { display: inline-block; padding: 6px 15px; border-radius: 6px; font-weight: 900; font-family: monospace; font-size: 18px; }
+        
+        /* Couleurs de résultat */
+        .win { background: #dcfce7; color: #166534; border-left: 5px solid #10b981; }
+        .loss { background: #fee2e2; color: #991b1b; border-left: 5px solid #ef4444; }
+
+        .btn-sheet { padding: 8px 12px; border-radius: 6px; background: #f1f5f9; color: #112b4f; text-decoration: none; font-size: 12px; font-weight: 700; text-align: center; }
+        .btn-sheet:hover { background: #e2e8f0; }
+
+        @media (max-width: 768px) {
+            .history-card { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .match-score-box, .btn-sheet { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav"></a>
+        <nav class="nav-links">
+            <a href="accueil.html">Accueil</a>
+            <a href="dashboard_membre.html">Espace personnel</a>
+            <a href="equipesVueMembre.html" class="active">Ma Team</a>
+            <a href="liste_tournois.html">Tournois</a>
+            <a href="equipes_publique.html">Teams</a>
+            <div class="nav-user">
+                <a href="notifications.html" class="nav-notification">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">2</span>
+                </a>
+                <a href="connexion.html" style="color:white; text-decoration:none; font-size:13px;">Se déconnecter</a>
+                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="nav-avatar"></a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        
+        <div class="team-banner">
+            <div class="team-logo-circle">LW</div>
+            <div>
+                <h1>Les Warriors</h1>
+                <div class="team-stats-mini">
+                    <span class="stat-item">🏆 1 Titre</span>
+                    <span class="stat-item">📈 75% Winrate</span>
+                    <span class="stat-item">👥 14 Joueurs</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-header">
+            <h2 class="page-title">Historique des Matchs</h2>
+        </div>
+
+        <div id="history-list">
+
+            <div class="history-card win">
+                <div class="match-date">10 Fév 2026</div>
+                <div class="match-main">
+                    <span class="match-tourney">Championnat Hiver 2026</span>
+                    <div class="match-teams">Les Warriors <span>VS</span> Noobs United</div>
+                </div>
+                <div class="match-score-box">
+                    <div class="score-pill">2 - 0</div>
+                </div>
+                <a href="detailsmatch_membre.html" class="btn-sheet">Feuille de match</a>
+            </div>
+
+            <div class="history-card loss">
+                <div class="match-date">15 Nov 2025</div>
+                <div class="match-main">
+                    <span class="match-tourney">Coupe d'Automne 2025 • Finale</span>
+                    <div class="match-teams">Les Warriors <span>VS</span> Team Alpha</div>
+                </div>
+                <div class="match-score-box">
+                    <div class="score-pill">1 - 3</div>
+                </div>
+                <a href="detailsmatch_membre.html" class="btn-sheet">Feuille de match</a>
+            </div>
+
+            <div class="history-card win">
+                <div class="match-date">13 Nov 2025</div>
+                <div class="match-main">
+                    <span class="match-tourney">Coupe d'Automne 2025 • Demi</span>
+                    <div class="match-teams">Les Warriors <span>VS</span> Team Phoenix</div>
+                </div>
+                <div class="match-score-box">
+                    <div class="score-pill">3 - 1</div>
+                </div>
+                <a href="detailsmatch_membre.html" class="btn-sheet">Feuille de match</a>
+            </div>
+
+        </div>
+    </main>
+
+</body>
+</html>

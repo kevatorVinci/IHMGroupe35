@@ -20,7 +20,12 @@
         .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
         .nav-links { display: flex; align-items: center; gap: 25px; }
         .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
-        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; }
+        .nav-links a:hover { text-underline-offset: 4px; text-decoration: underline; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; text-decoration: none; margin-right: 10px; }
+        .nav-notification:hover { color: #f59e0b; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; }
 
         /* --- 3. STRUCTURE --- */
@@ -79,13 +84,27 @@
 <body>
 
     <header class="navbar">
-        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+        <a href="accueil.html">
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+        </a>
+        
         <nav class="nav-links">
-            <a href="dashboard_membre.html">Dashboard</a>
+            <a href="accueil.html">Accueil</a>
+            <a href="dashboard_membre.html">Espace personnel</a>
+            <a href="equipesVueAdmin.html" class="active">Ma Team</a>
             <a href="liste_tournois.html">Tournois</a>
-            <a href="ma_team.html" style="font-weight: 700; border-bottom: 2px solid white;">Ma Team</a>
+            <a href="equipes_publique.html">Teams</a>
+            
             <div class="nav-user">
-                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" class="nav-avatar"></a>
+                <a href="notifications.html" class="nav-notification">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">2</span>
+                </a>
+
+                <a href="connexion.html">Se déconnecter</a>
+                <a href="profil.html">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Avatar Navbar" class="nav-avatar">
+                </a>
             </div>
         </nav>
     </header>
@@ -93,7 +112,7 @@
     <main class="main-container">
         <div class="team-header-banner">
             <div class="team-title">
-                <div class="team-meta-top">Équipe Semi-Pro</div>
+                <div class="team-meta-top">Équipe Vinci Arena</div>
                 <h1>Dark Legion</h1>
                 <p>Membres actifs : 14 | Tournois gagnés : 2</p>
             </div>
@@ -152,27 +171,22 @@
                 <div class="card">
                     <div class="card-title" style="font-size: 16px;">⚡ Actions de gestion</div>
                     <div class="action-list">
-                        <a href="demandes_adhesion.html" class="action-link">
+                        <a href="gestion_adhesions.html" class="action-link">
                             <span>Demandes d'adhésion</span>
                             <span style="background: #ef4444; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px;">2</span>
                         </a>
-                        <a href="#" class="action-link">
+                        <a href="match_a_venir.html" class="action-link">
                             <span>Planification Match</span>
                             <span>→</span>
                         </a>
-                        <a href="#" class="action-link">
+                        <a href="historiqueMatch.html" class="action-link">
                             <span>Historique Matchs</span>
                             <span>→</span>
                         </a>
                     </div>
                 </div>
 
-                <div class="card" style="border-left: 4px solid #b45309;">
-                    <h3 style="font-size: 14px; margin-bottom: 10px;">Règlement Responsables</h3>
-                    <p style="font-size: 12px; color: #64748b;">
-                        Une équipe doit toujours compter au minimum un responsable[cite: 157]. Si vous êtes le dernier, vous devez désigner un successeur avant de partir[cite: 156, 162].
-                    </p>
-                </div>
+               
             </aside>
         </div>
     </main>
