@@ -109,7 +109,7 @@
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
             <a href="dashboard_membre.html">Tableau de bord</a>
-            <a href="liste_tournois.html" class="active">Tournoi</a>
+            <a href="liste_tournois.html" class="active">Tournois</a>
             <a href="equipes_publique.html">Teams</a>
             <div class="nav-user">
                 <a href="notifications.html" class="nav-notification">
@@ -145,6 +145,8 @@
                 </div>
             </div>
 
+            <p id="heroDescription" style="margin-top: 15px; color: #64748b; font-size: 14px; line-height: 1.6;">Le plus grand événement de la saison. Les équipes s'affrontent dans un arbre à élimination directe.</p>
+
             <div id="heroWinner" class="winner-banner">
                 <span style="font-size: 24px;">🏆</span> Vainqueur du tournoi : SkyWalkers !
             </div>
@@ -153,7 +155,6 @@
         <div class="tabs-container">
             <button class="tab-btn active" onclick="switchTab('tab-planning', this)">📅 Planning & Résultats</button>
             <button class="tab-btn" onclick="switchTab('tab-teams', this)">🛡️ Équipes</button>
-            <button class="tab-btn" onclick="switchTab('tab-infos', this)">ℹ️ Informations</button>
         </div>
 
         <div id="tab-planning" class="tab-content active">
@@ -215,19 +216,7 @@
             </div>
         </div>
 
-        <div id="tab-infos" class="tab-content">
-            <div class="info-card">
-                <h3>📝 Description du tournoi</h3>
-                <p>Le plus grand événement de la saison. Les équipes s'affrontent dans un arbre à élimination directe.</p>
-            </div>
-            <div class="info-card">
-                <h3>⚖️ Règles spécifiques</h3>
-                <ul style="margin-left: 20px; color: #475569;">
-                    <li>Format strict 4 vs 4.</li>
-                    <li>Retard de 15 minutes = Forfait.</li>
-                </ul>
-            </div>
-        </div>
+
 
     </main>
 
@@ -263,6 +252,7 @@
             const dates = document.getElementById('heroDates');
             const winner = document.getElementById('heroWinner');
             const teamsCount = document.getElementById('heroTeamsCount');
+            const description = document.getElementById('heroDescription');
 
             // Vues du planning
             document.querySelectorAll('.state-view').forEach(view => view.classList.remove('active'));
@@ -275,6 +265,7 @@
                 title.innerText = 'Coupe de Printemps 2026';
                 dates.innerText = 'Débute le 15 Mars 2026';
                 teamsCount.innerText = 'Inscriptions ouvertes (4/16)';
+                description.innerText = 'Tournoi de printemps ouvert à toutes les équipes. Format élimination directe.';
                 winner.classList.remove('active');
                 document.getElementById('view-upcoming').classList.add('active');
 
@@ -286,6 +277,7 @@
                 title.innerText = "Championnat d'Hiver 2025";
                 dates.innerText = '10 Déc - 20 Déc 2026';
                 teamsCount.innerText = '4 Équipes en lice';
+                description.innerText = 'Le plus grand événement de la saison. Les équipes s\'affrontent dans un arbre à élimination directe.';
                 winner.classList.remove('active');
                 document.getElementById('view-live').classList.add('active');
 
@@ -297,6 +289,7 @@
                 title.innerText = 'Coupe d\'Automne 2025';
                 dates.innerText = 'Octobre 2025';
                 teamsCount.innerText = '4 Équipes participantes';
+                description.innerText = 'Tournoi terminé. Les meilleures équipes se sont affrontées dans un format élimination directe.';
                 winner.classList.add('active'); // Afficher le vainqueur
                 document.getElementById('view-past').classList.add('active');
             }

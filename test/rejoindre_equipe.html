@@ -20,7 +20,12 @@
         .logo-img-nav { height: 45px; width: auto; border-radius: 4px; }
         .nav-links { display: flex; align-items: center; gap: 25px; }
         .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
-        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; }
+        .nav-links a:hover { text-underline-offset: 4px; text-decoration: underline; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; text-decoration: none; margin-right: 10px; }
+        .nav-notification:hover { color: #f59e0b; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
 
         /* --- Contenu principal --- */
@@ -77,28 +82,37 @@
 <body>
 
     <header class="navbar">
-        <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+        <a href="accueil.html">
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
+        </a>
+        
         <nav class="nav-links">
-            <a href="dashboard_membre.html">Dashboard</a>
-            <a href="liste_tournois.html">Tournoi</a>
-            <a href="equipes_publique.html" class="active">Equipe</a>
+            <a href="accueil.html">Accueil</a>
+            <a href="dashboard_membre.html" class="active">Espace personnel</a>
+            <a href="liste_tournois.html">Tournois</a>
+            <a href="equipes_publique.html">Teams</a>
+            
             <div class="nav-user">
-                <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
+                <a href="notifications.html" class="nav-notification">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">2</span>
+                </a>
+
+                <a href="connexion.html">Se déconnecter</a>
+                <a href="profil.html">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="Avatar Navbar" class="nav-avatar">
+                </a>
             </div>
         </nav>
     </header>
 
     <main class="main-container">
         <div class="page-header">
-            <h1 class="page-title">Annuaire Vinci Arena</h1>
-            <p class="page-subtitle">Recherchez une équipe à rejoindre ou découvrez les autres joueurs.</p>
+            <h1 class="page-title">Vinci Arena</h1>
+            <p class="page-subtitle">Recherchez une équipe à rejoindre.</p>
         </div>
 
         <div class="toolbar">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('teams', this)">🛡️ Équipes</button>
-                <button class="tab-btn" onclick="switchTab('players', this)">🎮 Joueurs</button>
-            </div>
             <div class="search-container">
                 <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom, tag..." onkeyup="filterItems()">
             </div>
@@ -113,7 +127,6 @@
                 <div class="team-meta">
                     <span>👑 Responsable : LucasP [cite: 148]</span>
                     <span>👥 8 Membres</span>
-                    <span>📅 Créée le 15/02/2024</span>
                 </div>
                 <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
             </div>
@@ -124,9 +137,8 @@
                     <div class="team-name">Dark Legion</div>
                 </div>
                 <div class="team-meta">
-                    <span>👑 Responsable : SarahC [cite: 148]</span>
+                    <span>👑 Responsable : SarahC </span>
                     <span>👥 14 Membres</span>
-                    <span>📅 Créée le 01/01/2025</span>
                 </div>
                 <div class="btn-action status-pending">Demande en attente </div>
             </div>
@@ -137,54 +149,32 @@
                     <div class="team-name">Phoenix Rising</div>
                 </div>
                 <div class="team-meta">
-                    <span>👑 Responsable : MarcO [cite: 148]</span>
+                    <span>👑 Responsable : MarcO</span>
                     <span>👥 5 Membres</span>
-                    <span>📅 Créée le 10/11/2025</span>
                 </div>
                 <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
             </div>
-        </div>
 
-        <div id="players-grid" class="grid-view">
-            <div class="card player-item">
-                <div class="player-header">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="player-avatar">
-                    <div>
-                        <div class="player-tag">NoobSlayer [cite: 204]</div>
-                        <span class="specialty-badge">Tacticien [cite: 205]</span>
-                    </div>
+            <div class="card team-item">
+                <div class="team-header">
+                    <div class="team-logo" style="background: #112b4f;">LW</div>
+                    <div class="team-name">Les Warriors</div>
                 </div>
-            </div>
-            <div class="card player-item">
-                <div class="player-header">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="player-avatar">
-                    <div>
-                        <div class="player-tag">SarahC [cite: 204]</div>
-                        <span class="specialty-badge">Architecte [cite: 205]</span>
-                    </div>
+                <div class="team-meta">
+                    <span>👑 Responsable : Pedrinho08</span>
+                    <span>👥 4 Membres</span>
                 </div>
+                <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
             </div>
         </div>
     </main>
 
     <script>
-        function switchTab(tabId, btnElement) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.grid-view').forEach(grid => grid.classList.remove('active'));
-            btnElement.classList.add('active');
-            document.getElementById(tabId + '-grid').classList.add('active');
-            filterItems();
-        }
-
         function filterItems() {
             const query = document.getElementById('searchInput').value.toLowerCase();
             document.querySelectorAll('.team-item').forEach(item => {
                 const name = item.querySelector('.team-name').innerText.toLowerCase();
                 item.style.display = name.includes(query) ? 'flex' : 'none';
-            });
-            document.querySelectorAll('.player-item').forEach(item => {
-                const tag = item.querySelector('.player-tag').innerText.toLowerCase();
-                item.style.display = tag.includes(query) ? 'flex' : 'none';
             });
         }
     </script>
