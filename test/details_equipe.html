@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Équipe - Vinci Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        
+        /* Bouton Inscription (Orange/Marron de la maquette) */
+        .btn-register {
+            background-color: #b45309; 
+            color: white !important;
+            padding: 10px 24px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-decoration: none !important;
+            transition: background-color 0.2s;
+        }
+        .btn-register:hover { 
+            background-color: #92400e; 
+        }
+
+         /* Logo image */
+        .logo-img {
+            height: 60px; /* Ajuste la taille du logo ici */
+            width: auto;
+            border-radius: 4px; /* Optionnel : adoucit les bords de l'image carrée */
+            display: block;
+        }
+
+        /* --- 1. VARIABLES & RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; line-height: 1.5; }
+
+        /* --- 2. NAVBAR --- */
+        .navbar { background-color: #112b4f; height: 70px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+        .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
+        .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; }
+
+        /* --- 3. STRUCTURE --- */
+        .main-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        .team-header-banner { background-color: #112b4f; border-radius: 8px; padding: 40px; color: white; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .team-title h1 { font-size: 32px; font-weight: 700; margin-bottom: 5px; }
+        .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+
+        .btn-quit { padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px; transition: 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.3); background: transparent; color: white; }
+        .btn-quit:hover { background-color: #ef4444; border-color: #ef4444; }
+
+        /* --- 4. CARTES --- */
+        .card { background: white; border-radius: 8px; border: 1px solid #e2e8f0; padding: 25px; margin-bottom: 30px; }
+        .card-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
+
+        .member-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
+        .member-info { display: flex; align-items: center; gap: 12px; }
+        .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f8fafc; }
+        .member-tag { font-weight: 600; color: #1e293b; font-size: 15px; }
+        .role-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase; margin-left: 10px; }
+        .role-resp { background: #fef3c7; color: #b45309; }
+        .role-player { background: #f1f5f9; color: #64748b; }
+
+        /* --- 5. MATCHS --- */
+        .match-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; }
+        .match-info-main { display: flex; flex-direction: column; }
+        .match-vs { font-weight: 700; color: #0f172a; }
+        .match-type { font-size: 11px; font-weight: 800; color: #2563eb; text-transform: uppercase; }
+        .match-date { text-align: right; font-size: 13px; font-weight: 600; color: #64748b; }
+
+        @media (max-width: 850px) { .dashboard-grid { grid-template-columns: 1fr; } .team-header-banner { flex-direction: column; gap: 20px; } }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            <img src="/test/image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img">
+        </a>
+        
+        <nav class="nav-links">
+            <a href="IHM.html" >Accueil</a>
+            <a href="liste_tournois.html">Tournois</a>
+            <a href="equipes_publique.html" class="active">Teams</a>
+            <a href="connexion.html">Connexion</a>
+            <a href="inscription.html" class="btn-register">Inscription</a>
+        </nav>
+    </header>
+
+    <main class="main-container">
+        <div class="team-header-banner">
+            <div class="team-title">
+                <h1>Dark Legion</h1>
+                <p>Membres : 14 | Force Collective</p>
+            </div>
+           
+        </div>
+
+        <div class="dashboard-grid">
+            <section>
+                <div class="card">
+                    <div class="card-title">👥 Effectif de la Team</div>
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" class="member-avatar">
+                            <span class="member-tag">SarahC</span><span class="role-badge role-resp">Responsable</span>
+                        </div>
+                    </div>
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Marc" class="member-avatar">
+                            <span class="member-tag">MarcO</span><span class="role-badge role-resp">Responsable</span>
+                        </div>
+                    </div>
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="member-avatar">
+                            <span class="member-tag">ProGamer2024 (Vous)</span><span class="role-badge role-player">Membre</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📅 3 Prochains Matchs</div>
+                    <div class="match-item">
+                        <div class="match-info-main">
+                            <span class="match-type">Championnat d'Hiver</span>
+                            <span class="match-vs">VS Team Phoenix</span>
+                        </div>
+                        <div class="match-date">15 Février 2026<br>20:00</div>
+                    </div>
+                    <div class="match-item">
+                        <div class="match-info-main">
+                            <span class="match-type">Amical</span>
+                            <span class="match-vs">VS SkyWalkers</span>
+                        </div>
+                        <div class="match-date">22 Février 2026<br>18:30</div>
+                    </div>
+                    <div class="match-item" style="border-bottom: none;">
+                        <div class="match-info-main">
+                            <span class="match-type">Tournoi Qualifier</span>
+                            <span class="match-vs">VS Noobs United</span>
+                        </div>
+                        <div class="match-date">01 Mars 2026<br>21:00</div>
+                    </div>
+                </div>
+            </section>
+
+            <aside>
+                <div class="card">
+                    <div class="card-title">🔗 Raccourcis</div>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a href="match_a_venir.html" style="text-decoration:none; color:#112b4f; font-weight:600;">📜 Matchs à venir</a>
+                        <a href="historiqueMatch.html" style="text-decoration:none; color:#112b4f; font-weight:600;">📜 Historique des matchs</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+</body>
+</html>
