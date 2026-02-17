@@ -9,36 +9,27 @@
     <style>
         /* --- Styles globaux --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: 'Roboto', sans-serif; 
-            background-color: #f0f2f5; 
-            color: #334155; 
-        }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
 
-        /* --- Barre de navigation (Style Admin) --- */
+        /* --- Navbar Admin --- */
         .navbar {
-            background-color: #112b4f;
-            height: 70px;
-            padding: 0 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            position: sticky; top: 0; z-index: 1000;
+            background-color: #112b4f; height: 70px; padding: 0 40px;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;
         }
-
         .nav-brand { display: flex; align-items: center; gap: 10px; }
         .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
         .admin-badge {
             background-color: #b45309; color: white; padding: 3px 8px; border-radius: 4px;
             font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
         }
-
         .nav-right-group { display: flex; align-items: center; gap: 30px; }
         .nav-links { display: flex; align-items: center; gap: 20px; }
         .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
         .nav-links a:hover { color: white; }
-        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        
+        /* --- MODIFICATION ICI : Orange uniquement, PAS de soulignement --- */
+        .nav-links a.active { color: #f59e0b; font-weight: 700; text-decoration: none; } 
 
         .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
@@ -50,63 +41,27 @@
 
         /* --- Contenu Principal --- */
         .main-container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
-
-        /* Fil d'ariane */
         .page-header { margin-bottom: 25px; }
-        .back-link { 
-            color: #64748b; text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 10px; font-weight: 500;
-        }
+        .back-link { color: #64748b; text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 5px; margin-bottom: 10px; font-weight: 500; }
         .back-link:hover { color: #112b4f; }
         .page-title { font-size: 28px; font-weight: 700; color: #0f172a; }
 
-        /* --- Carte Formulaire --- */
-        .form-card {
-            background-color: white; border-radius: 12px; padding: 30px;
-            border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-        }
-
-        .form-section-title {
-            font-size: 18px; font-weight: 600; color: #1e293b; margin-bottom: 20px;
-            padding-bottom: 10px; border-bottom: 1px solid #f1f5f9;
-        }
-
-        /* Grille du formulaire */
+        .form-card { background-color: white; border-radius: 12px; padding: 30px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+        .form-section-title { font-size: 18px; font-weight: 600; color: #1e293b; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .full-width { grid-column: span 2; }
-
         .form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 5px; }
         .form-label { font-size: 14px; font-weight: 600; color: #475569; }
         .required { color: #ef4444; margin-left: 3px; }
-
-        .form-input, .form-textarea {
-            width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px;
-            font-size: 14px; color: #334155; outline: none; transition: 0.2s; font-family: 'Roboto', sans-serif;
-        }
+        .form-input, .form-textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; color: #334155; outline: none; transition: 0.2s; font-family: 'Roboto', sans-serif; }
         .form-input:focus, .form-textarea:focus { border-color: #112b4f; box-shadow: 0 0 0 3px rgba(17, 43, 79, 0.1); }
-        
         .form-textarea { resize: vertical; min-height: 100px; }
         .form-hint { font-size: 12px; color: #94a3b8; margin-top: 4px; }
 
-        /* Actions */
-        .form-actions {
-            margin-top: 30px; display: flex; justify-content: flex-end; gap: 15px; align-items: center;
-        }
-
+        .form-actions { margin-top: 30px; display: flex; justify-content: flex-end; gap: 15px; align-items: center; }
         .btn { padding: 12px 24px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; transition: 0.2s; border: none; }
-        .btn-cancel { background-color: white; border: 1px solid #cbd5e1; color: #64748b; }
-        .btn-cancel:hover { background-color: #f8fafc; color: #334155; }
-        
+        .btn-cancel { background-color: white; border: 1px solid #cbd5e1; color: #64748b; text-decoration: none; }
         .btn-submit { background-color: #b45309; color: white; display: flex; align-items: center; gap: 8px; }
-        .btn-submit:hover { background-color: #92400e; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(180, 83, 9, 0.2); }
-
-        /* Mobile */
-        @media (max-width: 600px) {
-            .form-grid { grid-template-columns: 1fr; }
-            .full-width { grid-column: span 1; }
-            .navbar { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
-            .nav-right-group { flex-direction: column; width: 100%; gap: 15px; }
-            .nav-user { margin: 0; padding: 0; border: none; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; }
-        }
     </style>
 </head>
 <body>
@@ -183,7 +138,7 @@
             </div>
 
             <div class="form-actions">
-                <a href="gestionTournoiAdmin.html" class="btn btn-cancel">Annuler</a>
+                <a href="admin_tournois.html" class="btn btn-cancel">Annuler</a>
                 <button type="submit" class="btn btn-submit">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     Créer le tournoi
@@ -204,43 +159,36 @@
             const deadline = document.getElementById('tDeadline').value;
             const maxTeams = document.getElementById('tMaxTeams').value;
 
-            // --- VALIDATIONS LOGIQUES ---
-            
             const startDate = new Date(start);
             const endDate = new Date(end);
             const deadlineDate = new Date(deadline);
             const today = new Date();
             today.setHours(0,0,0,0);
 
-            // 1. Validation du nombre d'équipes [cite: 199]
+            // Validations
             if (maxTeams < 2) {
                 alert("Erreur : Le nombre maximum d'équipes doit être d'au moins 2.");
                 return;
             }
 
-            // 2. La fin doit être après le début
             if (endDate < startDate) {
                 alert("Erreur : La date de fin ne peut pas être antérieure à la date de début.");
                 return;
             }
 
-            // 3. La date limite d'inscription doit être avant le début du tournoi
             if (deadlineDate >= startDate) {
                 alert("Erreur : La date limite d'inscription doit être avant le début du tournoi pour permettre la génération du planning.");
                 return;
             }
 
-            // 4. Pas de création dans le passé (Optionnel)
             if (startDate < today) {
                 if(!confirm("Attention : Vous créez un tournoi dont la date de début est passée. Continuer ?")) {
                     return;
                 }
             }
 
-            // Simulation de succès
+            // Succès
             alert(`Le tournoi "${name}" a été créé avec succès !\nLimite de participants : ${maxTeams} équipes.\nStatut actuel : En préparation.`);
-            
-            // Redirection vers la liste (Simulée)
             window.location.href = "admin_tournois.html";
         }
     </script>

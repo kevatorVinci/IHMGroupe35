@@ -21,7 +21,7 @@
             height: 70px;
             padding: 0 40px;
             display: flex;
-            justify-content: space-between; /* Logo à gauche, le reste à droite */
+            justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             position: sticky;
@@ -29,7 +29,6 @@
             z-index: 1000;
         }
 
-        /* Groupe Gauche : Logo + Badge */
         .nav-brand { display: flex; align-items: center; gap: 10px; }
         .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
         .admin-badge {
@@ -37,35 +36,17 @@
             font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
         }
 
-        /* Groupe Droite : Liens + User (Conteneur global) */
-        .nav-right-group {
-            display: flex;
-            align-items: center;
-            gap: 30px; /* Espace entre les liens et le profil */
-        }
-
+        .nav-right-group { display: flex; align-items: center; gap: 30px; }
         .nav-links { display: flex; align-items: center; gap: 20px; }
         .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: color 0.2s; }
         .nav-links a:hover { color: white; }
-        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        
+        /* MODIFICATION : Lien actif en ORANGE */
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
 
-        /* Zone Utilisateur & Sortie */
-        .nav-user { 
-            display: flex; align-items: center; gap: 20px; 
-            padding-left: 20px; 
-            border-left: 1px solid rgba(255,255,255,0.2); 
-        }
-
-        /* Style Avatar Standard (Carré arrondi blanc) */
-        .nav-avatar { 
-            width: 35px; height: 35px; 
-            border-radius: 4px; 
-            background-color: white; 
-            padding: 2px; 
-            display: block;
-        }
-
-        /* Bouton Quitter */
+        .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
+        .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
+        
         .btn-exit {
             border: 1px solid rgba(255,255,255,0.3); padding: 6px 12px; border-radius: 4px;
             color: rgba(255,255,255,0.9) !important; font-size: 12px; display: flex; align-items: center; gap: 6px;
@@ -74,129 +55,60 @@
         .btn-exit:hover { background-color: rgba(255,255,255,0.1); color: white !important; border-color: white; }
 
         /* --- Contenu principal --- */
-        .main-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
+        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
 
-        /* En-tête de page avec bouton Créer */
-        .page-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+        .page-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .page-title { font-size: 24px; font-weight: 700; color: #0f172a; margin: 0; }
 
-        .page-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #0f172a;
-            margin: 0;
-        }
-
-        /* Le Bouton CRÉER */
         .btn-create {
-            background-color: #b45309; 
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.2s;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #b45309; color: white; padding: 10px 20px; border: none; border-radius: 6px;
+            font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 8px;
+            transition: 0.2s; text-decoration: none; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .btn-create:hover { background-color: #92400e; transform: translateY(-1px); }
 
-        /* --- Panneau de recherche (Bleu foncé) --- */
+        /* --- Panneau de recherche --- */
         .search-panel {
-            background-color: #112b4f;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
+            background-color: #112b4f; border-radius: 12px; padding: 25px; margin-bottom: 25px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        .search-header {
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .search-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
+        .search-header { color: white; font-size: 16px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .search-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
         .form-group { display: flex; flex-direction: column; }
         .form-label { color: white; font-size: 13px; font-weight: 500; margin-bottom: 8px; }
-
-        .form-control {
-            width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1;
-            border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s;
-        }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; transition: 0.2s; }
         .form-control:focus { border-color: #f59e0b; box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.3); }
 
-        /* --- Filtres (Pilules) --- */
+        /* --- Filtres --- */
         .filter-pills { display: flex; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
-
         .pill-btn {
-            padding: 8px 20px; background-color: #e2e8f0; color: #475569;
-            border: none; border-radius: 20px; font-size: 14px; font-weight: 600;
-            cursor: pointer; transition: 0.2s;
+            padding: 8px 20px; background-color: #e2e8f0; color: #475569; border: none; border-radius: 20px;
+            font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.2s;
         }
         .pill-btn:hover { background-color: #cbd5e1; }
         .pill-btn.active { background-color: #93c5fd; color: #1e3a8a; }
 
-        /* --- Disposition en 3 colonnes (Résultats) --- */
-        .results-layout {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 30px;
-        }
-
+        /* --- Disposition Colonnes --- */
+        .results-layout { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
         .column { display: flex; flex-direction: column; gap: 15px; }
-
-        /* Lignes verticales de séparation */
         .col-past { border-right: 2px solid #cbd5e1; padding-right: 30px; }
         .col-live { border-right: 2px solid #cbd5e1; padding-right: 30px; }
-        
-        .col-title {
-            text-align: center; font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 10px;
-        }
+        .col-title { text-align: center; font-size: 16px; font-weight: 600; color: #334155; margin-bottom: 10px; }
 
-        /* Design des cartes Tournoi */
+        /* Carte Tournoi */
         .t-card {
-            background: white; border-radius: 8px; padding: 20px;
-            border: 1px solid #e2e8f0; box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-            transition: 0.2s; text-decoration: none; color: inherit;
+            background: white; border-radius: 8px; padding: 20px; border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02); transition: 0.2s; text-decoration: none; color: inherit;
             display: flex; flex-direction: column; min-height: 120px; position: relative;
         }
-        .t-card:hover {
-            transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-color: #94a3b8;
-        }
-        
-        /* Bouton edit flottant pour l'admin */
-        .admin-edit-icon {
-            position: absolute; top: 10px; right: 10px; color: #94a3b8; opacity: 0; transition: 0.2s;
-        }
+        .t-card:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); border-color: #94a3b8; }
+        .admin-edit-icon { position: absolute; top: 10px; right: 10px; color: #94a3b8; opacity: 0; transition: 0.2s; }
         .t-card:hover .admin-edit-icon { opacity: 1; }
 
         .card-name { font-weight: 700; font-size: 16px; color: #0f172a; margin-bottom: 8px; }
         .card-dates { font-size: 13px; color: #64748b; margin-bottom: 8px; }
         .card-teams { font-size: 12px; color: #475569; font-weight: 500; margin-top: auto; }
 
-        /* Responsive Mobile */
         @media (max-width: 900px) {
             .search-grid { grid-template-columns: repeat(2, 1fr); }
             .results-layout { grid-template-columns: 1fr; gap: 40px; }
@@ -217,9 +129,7 @@
 
     <header class="navbar">
         <div class="nav-brand">
-            <a href="admin_tournois.html">
-                <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
-            </a>
+            <a href="admin_tournois.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
             <span class="admin-badge">ADMIN</span>
         </div>
 
@@ -245,8 +155,7 @@
         
         <div class="page-header-row">
             <h1 class="page-title">Gestion des Tournois</h1>
-            
-            <a href="creer_tournoi.html" class="btn-create" style="text-decoration: none;">
+            <a href="creer_tournoi.html" class="btn-create">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 Créer un tournoi
             </a>
@@ -316,7 +225,7 @@
             <div class="column col-upcoming" id="col-upcoming">
                 <h2 class="col-title">Tournoi à venir</h2>
                 <div id="new-tournaments-wrapper" style="display:flex; flex-direction:column; gap:15px;">
-                    <a href="detail_tournoi_admin.html" class="t-card">
+                    <a href="admin_tournament_details.html" class="t-card">
                         <div class="card-name">Coupe de Printemps 2026</div>
                         <div class="card-dates">Débute le 15 Mars 2026</div>
                         <div class="card-teams" style="color: #b45309;">⏳ Inscriptions ouvertes</div>
@@ -334,23 +243,17 @@
         function createTournament() {
             const name = prompt("Nom du nouveau tournoi :");
             if(name) {
-                // Créer l'élément HTML
                 const newCard = document.createElement('a');
                 newCard.href = "#";
                 newCard.className = "t-card";
-                newCard.style.borderLeft = "4px solid #b45309"; // Marqueur visuel "Nouveau"
+                newCard.style.borderLeft = "4px solid #b45309"; 
                 newCard.innerHTML = `
                     <div class="card-name">${name}</div>
                     <div class="card-dates">Dates à définir</div>
                     <div class="card-teams">📝 En préparation</div>
                     <div class="admin-edit-icon">✏️</div>
                 `;
-
-                // L'ajouter dans la colonne "À venir"
-                const container = document.getElementById('new-tournaments-wrapper');
-                container.prepend(newCard); // Ajoute en haut de la liste
-
-                // Feedback
+                document.getElementById('new-tournaments-wrapper').prepend(newCard);
                 alert(`Le tournoi "${name}" a été créé en mode brouillon.`);
             }
         }

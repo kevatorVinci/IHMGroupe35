@@ -11,7 +11,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
 
-        /* --- Navbar (Ton code inséré) --- */
+        /* --- Navbar --- */
         .navbar { background-color: #112b4f; height: 70px; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
         .nav-links { display: flex; align-items: center; gap: 25px; }
@@ -46,9 +46,18 @@
         .todo { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
         /* --- Boutons --- */
-        .btn { padding: 10px 18px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; transition: 0.2s; }
-        .btn-details { background: #f1f5f9; color: #112b4f; }
-        .btn-action { background: #112b4f; color: white; margin-left: 10px; }
+        .btn-group { display: flex; align-items: center; }
+        .btn { padding: 10px 18px; border-radius: 6px; font-size: 13px; font-weight: 700; cursor: pointer; text-decoration: none; border: none; transition: 0.2s; margin-left: 10px;}
+        
+        .btn-details { background: #f1f5f9; color: #112b4f; margin-left: 0; }
+        .btn-details:hover { background: #e2e8f0; }
+
+        .btn-action { background: #112b4f; color: white; }
+        .btn-action:hover { background: #1e40af; }
+
+        /* Nouveau bouton Forfait (Rouge) */
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-danger:hover { background: #dc2626; }
 
         /* --- Switcher de rôle (Demo) --- */
         .demo-switcher { position: fixed; bottom: 20px; left: 20px; background: #1e293b; padding: 15px; border-radius: 8px; color: white; font-size: 12px; }
@@ -57,9 +66,9 @@
 <body>
 
     <header class="navbar">
-        <a href="accueil.html">
-            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
-        </a>
+        <div class="nav-brand">
+            <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
+        </div>
         
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
@@ -88,6 +97,7 @@
         </div>
 
         <div id="match-list">
+            
             <div class="match-card">
                 <div class="match-info">
                     <div class="match-tag">Championnat Hiver • J-2</div>
@@ -95,9 +105,9 @@
                     <div class="match-date">📅 15 Fév 2026 • ⏰ 20:00</div>
                 </div>
                 <div class="status-badge done">✅ Sélection faite</div>
-                <div style="display: flex;">
+                <div class="btn-group">
                     <a href="details_match.html" class="btn btn-details">Détails</a>
-                    <a href="selection_joueurs.html" class="btn btn-action is-resp" style="display:none;">Modifier</a>
+                    <button class="btn btn-danger is-resp" style="display:none;" onclick="declarerForfait()">Déclarer Forfait</button>
                 </div>
             </div>
 
@@ -108,11 +118,13 @@
                     <div class="match-date">📅 22 Fév 2026 • ⏰ 18:30</div>
                 </div>
                 <div class="status-badge todo">⚠️ En attente</div>
-                <div style="display: flex;">
+                <div class="btn-group">
                     <a href="details_match.html" class="btn btn-details">Détails</a>
                     <a href="selection_joueurs.html" class="btn btn-action is-resp" style="display:none;">Sélectionner</a>
+                    <button class="btn btn-danger is-resp" style="display:none;" onclick="declarerForfait()">Déclarer Forfait</button>
                 </div>
             </div>
+
         </div>
     </main>
 
@@ -122,12 +134,20 @@
             <option value="membre">Simple Membre</option>
             <option value="responsable">Responsable Team</option>
         </select>
+        <p style="margin-top:5px; font-style:italic; color:#94a3b8;">Passez en "Responsable" pour voir les actions.</p>
     </div>
 
     <script>
         function switchRole(role) {
+            // Affiche ou cache les éléments avec la classe "is-resp"
             const btns = document.querySelectorAll('.is-resp');
             btns.forEach(b => b.style.display = (role === 'responsable' ? 'block' : 'none'));
+        }
+
+        function declarerForfait() {
+            if(confirm("ATTENTION : Déclarer forfait éliminera votre équipe du tournoi ou vous fera perdre ce match automatiquement.\n\nÊtes-vous sûr de vouloir continuer ?")) {
+                alert("Forfait déclaré. Les administrateurs ont été notifiés.");
+            }
         }
     </script>
 

@@ -27,7 +27,10 @@
         .nav-links { display: flex; align-items: center; gap: 20px; }
         .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
         .nav-links a:hover { color: white; }
-        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        
+        /* STYLE ACTIF ORANGE */
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+
         .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
         .btn-exit {
@@ -56,7 +59,6 @@
         .btn-edit { background-color: white; border: 1px solid #cbd5e1; color: #475569; }
         .btn-edit:hover { background-color: #f8fafc; border-color: #94a3b8; color: #334155; }
         
-        /* LE BOUTON PLANNING DEMANDÉ */
         .btn-planning { 
             background-color: #b45309; color: white; 
             box-shadow: 0 4px 6px rgba(180, 83, 9, 0.2);
@@ -83,10 +85,6 @@
         td { padding: 12px; border-bottom: 1px solid #f1f5f9; color: #334155; font-size: 14px; }
         
         .team-name { font-weight: 600; color: #1e293b; }
-        .member-count { 
-            background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; 
-        }
-        .member-count.warning { background: #fee2e2; color: #991b1b; } /* Si < 4 joueurs */
 
         /* Responsive */
         @media (max-width: 900px) {
@@ -130,10 +128,6 @@
             </div>
 
             <div class="header-actions">
-                <button class="btn btn-edit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                    Modifier Infos
-                </button>
                 
                 <a href="admin_planning.html" class="btn btn-planning">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
@@ -152,66 +146,39 @@
                             <tr>
                                 <th>Nom de l'équipe</th>
                                 <th>Responsable</th>
-                                <th>Membres</th>
-                                <th>Date Inscr.</th>
-                                <th>Statut</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td class="team-name">Alpha Squad</td>
                                 <td>ShadowHunter</td>
-                                <td><span class="member-count">4 / 4</span></td>
-                                <td>10/02/2026</td>
-                                <td style="color:#166534; font-size:12px;">Validé</td>
-                            </tr>
-                            <tr>
-                                <td class="team-name">Vinci Warriors</td>
-                                <td>PixelKing</td>
-                                <td><span class="member-count">5 / 4</span></td>
-                                <td>12/02/2026</td>
-                                <td style="color:#166534; font-size:12px;">Validé</td>
-                            </tr>
-                            <tr>
-                                <td class="team-name">Noob Slayers</td>
-                                <td>DarkVador</td>
-                                <td><span class="member-count">4 / 4</span></td>
-                                <td>14/02/2026</td>
-                                <td style="color:#166534; font-size:12px;">Validé</td>
-                            </tr>
-                            <tr style="background-color: #fff1f2;">
-                                <td class="team-name">Les Touristes</td>
-                                <td>CasualGuy</td>
-                                <td><span class="member-count warning">3 / 4</span></td>
-                                <td>15/02/2026</td>
-                                <td style="color:#991b1b; font-size:12px; font-weight:600;">Incomplet</td>
                             </tr>
                             <tr>
                                 <td class="team-name">Omega Team</td>
                                 <td>ProGamer99</td>
-                                <td><span class="member-count">4 / 4</span></td>
-                                <td>15/02/2026</td>
-                                <td style="color:#166534; font-size:12px;">Validé</td>
                             </tr>
-                             <tr>
+                            <tr>
                                 <td class="team-name">Les Spartiates</td>
                                 <td>Leonidas</td>
-                                <td><span class="member-count">4 / 4</span></td>
-                                <td>16/02/2026</td>
-                                <td style="color:#166534; font-size:12px;">Validé</td>
                             </tr>
-                             <tr>
+                            <tr>
+                                <td class="team-name">Vinci Warriors</td>
+                                <td>PixelKing</td>
+                            </tr>
+                            <tr>
                                 <td class="team-name">Cyber Punks</td>
                                 <td>Neo</td>
-                                <td><span class="member-count">6 / 4</span></td>
-                                <td>16/02/2026</td>
-                                <td style="color:#166534; font-size:12px;">Validé</td>
+                            </tr>
+                            <tr>
+                                <td class="team-name">Noob Slayers</td>
+                                <td>DarkVador</td>
+                            </tr>
+                            <tr>
+                                <td class="team-name">Solo Carry Team</td>
+                                <td>OneManArmy</td>
                             </tr>
                         </tbody>
                     </table>
-                    <div style="margin-top: 15px; font-size: 13px; color: #64748b; font-style: italic;">
-                        * Seules les équipes complètes (min. 4 joueurs) seront incluses dans le planning.
-                    </div>
                 </div>
             </div>
 
@@ -238,16 +205,6 @@
                             Format à élimination directe classique. Récompenses exclusives pour les vainqueurs.
                         </p>
                     </div>
-                </div>
-
-                <div class="info-card">
-                    <h3 class="card-title">Actions Rapides</h3>
-                    <button class="btn" style="width:100%; justify-content:flex-start; margin-bottom: 8px; font-size:13px; background:#f1f5f9; color:#334155;">
-                        📣 Envoyer une annonce
-                    </button>
-                    <button class="btn" style="width:100%; justify-content:flex-start; font-size:13px; background:#fee2e2; color:#991b1b;">
-                        🗑️ Supprimer le tournoi
-                    </button>
                 </div>
             </div>
 

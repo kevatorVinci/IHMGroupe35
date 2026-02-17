@@ -9,7 +9,7 @@
     <style>
         /* --- Styles globaux --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
+        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; padding-bottom: 80px; }
 
         /* --- Navbar Admin --- */
         .navbar {
@@ -27,7 +27,10 @@
         .nav-links { display: flex; align-items: center; gap: 20px; }
         .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
         .nav-links a:hover { color: white; }
-        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        
+        /* STYLE ACTIF ORANGE */
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+
         .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
         .btn-exit {
@@ -37,7 +40,7 @@
         .btn-exit:hover { background-color: rgba(255,255,255,0.1); color: white !important; border-color: white; }
 
         /* --- Contenu Principal --- */
-        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; margin-bottom: 100px; }
+        .main-container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         
         .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .page-title { font-size: 24px; font-weight: 700; color: #0f172a; }
@@ -67,6 +70,8 @@
 
         .match-content { padding: 15px; }
         .match-team { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: #1e293b; }
+        .match-team.bye { color: #94a3b8; font-style: italic; }
+        
         .match-meta { 
             font-size: 12px; color: #64748b; margin-top: 10px; padding-top: 10px; border-top: 1px dashed #e2e8f0;
             display: flex; justify-content: space-between; align-items: center;
@@ -118,8 +123,8 @@
         </div>
         <div class="nav-right-group">
             <nav class="nav-links">
-                <a href="gestionTournoiAdmin.html" class="active">Gestion Tournoi</a>
-                <a href="gestionAdmin.html">Admin</a>
+                <a href="admin_tournois.html" class="active">Gestion Tournoi</a>
+                <a href="gestion_admins.html">Admin</a>
             </nav>
             <div class="nav-user">
                 <a href="accueil.html" class="btn-exit">Vue Joueur</a>
@@ -134,7 +139,7 @@
             <div>
                 <a href="admin_planning.html" style="text-decoration: none; color: #64748b; font-size: 14px;">&larr; Retour</a>
                 <h1 class="page-title">Modifier le Planning manuellement</h1>
-                <p style="color: #64748b; font-size: 14px;">Cliquez sur un match pour modifier les détails, l'horaire ou échanger les équipes.</p>
+                <p style="color: #64748b; font-size: 14px;">Cliquez sur un match pour modifier les détails.</p>
             </div>
         </div>
 
@@ -167,17 +172,52 @@
                         </div>
                         <div class="edit-overlay"><div class="edit-icon">✎</div></div>
                     </div>
+
+                    <div class="match-card" onclick="openModal('m3')">
+                        <div class="match-content">
+                            <div class="match-team" id="m3-team1">Cyber Punks</div>
+                            <div class="match-team" id="m3-team2">Noob Slayers</div>
+                            <div class="match-meta">
+                                <span id="m3-time">15/03 - 16:00</span>
+                                <span id="m3-admin">Resp: MasterChief</span>
+                            </div>
+                        </div>
+                        <div class="edit-overlay"><div class="edit-icon">✎</div></div>
+                    </div>
+
+                    <div class="match-card" style="opacity: 0.7; cursor: default; background: #f8fafc;">
+                        <div class="match-content">
+                            <div class="match-team">Solo Carry Team</div>
+                            <div class="match-team bye">--- NULL ---</div>
+                            <div class="match-meta">
+                                <span style="color:#166534">Qualifié d'office</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="round-column">
                     <div class="round-title">Demi-Finales</div>
-                    <div class="match-card" onclick="openModal('m3')">
+                    
+                    <div class="match-card" onclick="openModal('m5')">
                         <div class="match-content">
-                            <div class="match-team" style="color:#94a3b8">Vainqueur QF1</div>
-                            <div class="match-team" style="color:#94a3b8">Vainqueur QF2</div>
+                            <div class="match-team" id="m5-team1" style="color:#94a3b8">Vainqueur QF1</div>
+                            <div class="match-team" id="m5-team2" style="color:#94a3b8">Vainqueur QF2</div>
                             <div class="match-meta">
-                                <span id="m3-time">18/03 - 18:00</span>
-                                <span id="m3-admin">Resp: AdminBoss</span>
+                                <span id="m5-time">18/03 - 18:00</span>
+                                <span id="m5-admin">Resp: AdminBoss</span>
+                            </div>
+                        </div>
+                        <div class="edit-overlay"><div class="edit-icon">✎</div></div>
+                    </div>
+
+                    <div class="match-card" onclick="openModal('m6')">
+                        <div class="match-content">
+                            <div class="match-team" id="m6-team1" style="color:#94a3b8">Vainqueur QF3</div>
+                            <div class="match-team" id="m6-team2">Solo Carry Team</div>
+                            <div class="match-meta">
+                                <span id="m6-time">18/03 - 19:00</span>
+                                <span id="m6-admin">Resp: Strategist01</span>
                             </div>
                         </div>
                         <div class="edit-overlay"><div class="edit-icon">✎</div></div>
@@ -186,13 +226,13 @@
 
                 <div class="round-column">
                     <div class="round-title">Grande Finale</div>
-                    <div class="match-card" style="border: 2px solid #b45309;" onclick="openModal('m4')">
+                    <div class="match-card" style="border: 2px solid #b45309;" onclick="openModal('m7')">
                         <div class="match-content">
-                            <div class="match-team" style="color:#94a3b8">Vainqueur DF1</div>
-                            <div class="match-team" style="color:#94a3b8">Vainqueur DF2</div>
+                            <div class="match-team" id="m7-team1" style="color:#94a3b8">Vainqueur DF1</div>
+                            <div class="match-team" id="m7-team2" style="color:#94a3b8">Vainqueur DF2</div>
                             <div class="match-meta">
-                                <span id="m4-time">20/03 - 20:00</span>
-                                <span id="m4-admin">Resp: MasterChief</span>
+                                <span id="m7-time">20/03 - 20:00</span>
+                                <span id="m7-admin">Resp: MasterChief</span>
                             </div>
                         </div>
                         <div class="edit-overlay"><div class="edit-icon">✎</div></div>
@@ -243,7 +283,6 @@
                     <option value="MasterChief">MasterChief</option>
                     <option value="Strategist01">Strategist01</option>
                 </select>
-                <p style="font-size: 11px; color: #64748b; margin-top: 5px;">* L'admin responsable suivra le match et validera le score.</p>
             </div>
 
             <div class="modal-actions">
@@ -254,42 +293,29 @@
     </div>
 
     <script>
-        // --- Logique Javascript ---
-
         const modal = document.getElementById('editModal');
         
-        // Ouvrir le modal et pré-remplir les données
         function openModal(matchId) {
             document.getElementById('currentMatchId').value = matchId;
             
-            // Récupérer les valeurs actuelles du HTML (Simulation de base de données)
             const team1 = document.getElementById(matchId + '-team1').innerText;
             const team2 = document.getElementById(matchId + '-team2').innerText;
-            
-            // Récupérer date/heure (On triche un peu pour la démo en parsant le texte)
-            const metaText = document.getElementById(matchId + '-time').innerText; 
-            // format "15/03 - 14:00" -> juste pour l'exemple
-            
             const adminText = document.getElementById(matchId + '-admin').innerText.replace('Resp: ', '');
 
-            // Remplir les champs
             document.getElementById('inputTeam1').value = team1;
             document.getElementById('inputTeam2').value = team2;
             document.getElementById('inputAdmin').value = adminText;
             
-            // Dates par défaut pour la démo
             document.getElementById('inputDate').value = "2026-03-15";
             document.getElementById('inputTime').value = "14:00";
 
             modal.classList.add('modal-active');
         }
 
-        // Fermer le modal
         function closeModal() {
             modal.classList.remove('modal-active');
         }
 
-        // Inverser les équipes dans le formulaire
         function swapTeams() {
             const t1 = document.getElementById('inputTeam1').value;
             const t2 = document.getElementById('inputTeam2').value;
@@ -297,15 +323,12 @@
             document.getElementById('inputTeam2').value = t1;
         }
 
-        // Sauvegarder les modifications du modal vers le HTML
         function saveChanges() {
             const matchId = document.getElementById('currentMatchId').value;
             
-            // Mettre à jour l'affichage
             document.getElementById(matchId + '-team1').innerText = document.getElementById('inputTeam1').value;
             document.getElementById(matchId + '-team2').innerText = document.getElementById('inputTeam2').value;
             
-            // Formater la date pour l'affichage (JJ/MM - HH:MM)
             const dateVal = new Date(document.getElementById('inputDate').value);
             const day = String(dateVal.getDate()).padStart(2, '0');
             const month = String(dateVal.getMonth() + 1).padStart(2, '0');
@@ -314,13 +337,11 @@
             document.getElementById(matchId + '-time').innerText = `${day}/${month} - ${time}`;
             document.getElementById(matchId + '-admin').innerText = "Resp: " + document.getElementById('inputAdmin').value;
 
-            // Feedback visuel (Changer la couleur de bordure pour montrer que c'est modifié)
             document.getElementById(matchId + '-team1').closest('.match-card').style.borderLeft = "4px solid #b45309";
 
             closeModal();
         }
 
-        // Sauvegarde finale
         function saveAll() {
             if(confirm("Confirmer les modifications et publier le planning officiel ?")) {
                 alert("Planning mis à jour et publié avec succès !");
@@ -328,7 +349,6 @@
             }
         }
 
-        // Fermer le modal si on clique en dehors
         window.onclick = function(event) {
             if (event.target == modal) {
                 closeModal();
