@@ -32,7 +32,7 @@
         .main-container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
         
         .team-header-banner {
-            background-color: #112b4f; /* Couleur identique au header */
+            background-color: #112b4f;
             border-radius: 8px; padding: 40px; color: white;
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;
         }
@@ -45,10 +45,14 @@
         .card { background: white; border-radius: 8px; border: 1px solid #e2e8f0; padding: 25px; margin-bottom: 30px; }
         .card-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
 
+        /* Grille pour aligner les membres */
         .member-row {
-            display: flex; align-items: center; justify-content: space-between;
+            display: grid; 
+            grid-template-columns: 2fr 1fr 1fr; /* Nom | Dispo | Actions */
+            align-items: center; 
             padding: 12px 0; border-bottom: 1px solid #f1f5f9;
         }
+        
         .member-info { display: flex; align-items: center; gap: 12px; }
         .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f8fafc; }
         .member-tag { font-weight: 600; color: #1e293b; font-size: 15px; }
@@ -56,8 +60,11 @@
         .role-resp { background: #fef3c7; color: #b45309; }
         .role-player { background: #f1f5f9; color: #64748b; }
 
-        .status-available { color: #16a34a; font-size: 12px; font-weight: 500; }
-        .status-away { color: #ef4444; font-size: 12px; font-weight: 500; }
+        .status-col { font-size: 13px; font-weight: 500; }
+        .status-available { color: #16a34a; }
+        .status-away { color: #ef4444; }
+
+        .actions-col { display: flex; justify-content: flex-end; gap: 5px; }
 
         /* --- 5. BOUTONS --- */
         .btn { padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 13px; transition: 0.2s; }
@@ -78,6 +85,9 @@
         @media (max-width: 850px) {
             .dashboard-grid { grid-template-columns: 1fr; }
             .team-header-banner { flex-direction: column; text-align: center; gap: 20px; padding: 25px; }
+            .member-row { grid-template-columns: 1fr; gap: 10px; text-align: center; justify-items: center; }
+            .member-info { flex-direction: column; }
+            .actions-col { justify-content: center; }
         }
     </style>
 </head>
@@ -114,7 +124,7 @@
             <div class="team-title">
                 <div class="team-meta-top">Équipe Vinci Arena</div>
                 <h1>Dark Legion</h1>
-                <p>Membres actifs : 14 | Tournois gagnés : 2</p>
+                <p>Membres : 6 | Tournois gagnés : 2</p>
             </div>
             <button class="btn" style="background: #b45309; color: white; padding: 12px 24px;" onclick="quitResponsability()">Quitter mon rôle de responsable</button>
         </div>
@@ -129,47 +139,92 @@
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" class="member-avatar">
-                            <div>
+                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
                                 <span class="member-tag">SarahC (Vous)</span>
                                 <span class="role-badge role-resp">Responsable</span>
                             </div>
                         </div>
-                        <span class="status-available">● Disponible</span>
-                        <div></div>
-                    </div>
+                        <div class="status-col status-available">● Disponible</div>
+                        <div class="actions-col"></div> </div>
 
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Marc" class="member-avatar">
-                            <div>
+                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
                                 <span class="member-tag">MarcO</span>
                                 <span class="role-badge role-resp">Responsable</span>
                             </div>
                         </div>
-                        <span class="status-available">● Disponible</span>
-                        <button class="btn btn-outline" onclick="demoteMember('MarcO')">Retirer Responsabilité</button>
+                        <div class="status-col status-available">● Disponible</div>
+                    
                     </div>
 
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="member-avatar">
-                            <div>
+                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
                                 <span class="member-tag">ProGamer2024</span>
                                 <span class="role-badge role-player">Membre</span>
                             </div>
                         </div>
-                        <span class="status-away" title="Du 15/02 au 22/02">✈️ Indisponible</span>
-                        <div style="display: flex; gap: 5px;">
+                        <div class="status-col status-away" title="Du 15/02 au 22/02">✈️ Indisponible</div>
+                        <div class="actions-col">
                             <button class="btn btn-outline" onclick="promoteMember('ProGamer2024')">Nommer Resp.</button>
                             <button class="btn btn-danger" onclick="kickMember('ProGamer2024')">✕</button>
                         </div>
                     </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="member-avatar">
+                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                                <span class="member-tag">Felix_TheCat</span>
+                                <span class="role-badge role-player">Membre</span>
+                            </div>
+                        </div>
+                        <div class="status-col status-available">● Disponible</div>
+                        <div class="actions-col">
+                            <button class="btn btn-outline" onclick="promoteMember('Felix_TheCat')">Nommer Resp.</button>
+                            <button class="btn btn-danger" onclick="kickMember('Felix_TheCat')">✕</button>
+                        </div>
+                    </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Luna" class="member-avatar">
+                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                                <span class="member-tag">Luna_Starlight</span>
+                                <span class="role-badge role-player">Membre</span>
+                            </div>
+                        </div>
+                        <div class="status-col status-available">● Disponible</div>
+                        <div class="actions-col">
+                            <button class="btn btn-outline" onclick="promoteMember('Luna_Starlight')">Nommer Resp.</button>
+                            <button class="btn btn-danger" onclick="kickMember('Luna_Starlight')">✕</button>
+                        </div>
+                    </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Neo" class="member-avatar">
+                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
+                                <span class="member-tag">Neo_Matrix</span>
+                                <span class="role-badge role-player">Membre</span>
+                            </div>
+                        </div>
+                        <div class="status-col status-away">✈️ Indisponible</div>
+                        <div class="actions-col">
+                            <button class="btn btn-outline" onclick="promoteMember('Neo_Matrix')">Nommer Resp.</button>
+                            <button class="btn btn-danger" onclick="kickMember('Neo_Matrix')">✕</button>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
             <aside>
                 <div class="card">
-                    <div class="card-title" style="font-size: 16px;">⚡ Actions de gestion</div>
+                    <div class="card-title" style="font-size: 16px;">📅 Activité de l'équipe</div>
                     <div class="action-list">
                         <a href="gestion_adhesions.html" class="action-link">
                             <span>Demandes d'adhésion</span>
@@ -185,16 +240,14 @@
                         </a>
                     </div>
                 </div>
-
-               
             </aside>
         </div>
     </main>
 
     <script>
         function promoteMember(name) {
-            if(confirm(`Désigner ${name} comme second responsable ? [cite: 148, 152]`)) {
-                alert(`${name} dispose désormais des mêmes droits que vous[cite: 152].`);
+            if(confirm(`Désigner ${name} comme second responsable ?`)) {
+                alert(`${name} dispose désormais des mêmes droits que vous.`);
             }
         }
 
@@ -211,14 +264,14 @@
         }
 
         function quitResponsability() {
-            const hasOtherResp = true; // Simulé
+            const hasOtherResp = true; 
             if(hasOtherResp) {
-                if(confirm("Renoncer à votre rôle de responsable ? [cite: 154]")) {
+                if(confirm("Renoncer à votre rôle de responsable ?")) {
                     alert("Rôle abandonné. Redirection...");
                     window.location.href = "profil.html";
                 }
             } else {
-                alert("Erreur : Désignez d'abord un autre responsable avant de quitter votre rôle[cite: 156, 162].");
+                alert("Erreur : Désignez d'abord un autre responsable avant de quitter votre rôle.");
             }
         }
     </script>

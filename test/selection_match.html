@@ -59,18 +59,18 @@
         
         .btn-confirm { background: #d1d5db; color: #6b7280; cursor: not-allowed; }
         .btn-confirm.enabled { background: #16a34a; color: white; cursor: pointer; }
-                .nav-links a.active { color: #f59e0b; font-weight: 700; }
-                 .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; }
+        
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; }
         .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
 
-
+        /* Message d'avertissement masqué par défaut */
         .warning-msg { color: #dc2626; font-weight: 700; font-size: 0.9rem; text-align: center; margin-top: 15px; display: none; }
     </style>
 </head>
 <body>
 
-    
     <header class="navbar">
         <a href="accueil.html">
             <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img-nav">
@@ -109,7 +109,7 @@
         </div>
 
         <div id="playersGrid" class="players-grid"></div>
-        <div id="warning" class="warning-msg">⚠️ Limite de 4 joueurs atteinte</div>
+        <div id="warning" class="warning-msg">⚠️ Limite de 4 joueurs atteinte. Vous ne pouvez pas en sélectionner plus.</div>
     </main>
 
     <footer class="action-bar">
@@ -131,6 +131,7 @@
     let selectedCount = 0;
     const grid = document.getElementById("playersGrid");
     const confirmBtn = document.getElementById("confirmBtn");
+    const warningMsg = document.getElementById("warning");
 
     playersData.forEach(p => {
         const card = document.createElement("div");
@@ -150,17 +151,32 @@
         card.addEventListener("click", () => {
             const isSelected = card.classList.contains("selected");
             
-            if (!isSelected && selectedCount < 4) {
-                card.classList.add("selected");
-                selectedCount++;
-            } else if (isSelected) {
+            if (!isSelected) {
+                // Essayer d'ajouter un joueur
+                if (selectedCount < 4) {
+                    card.classList.add("selected");
+                    selectedCount++;
+                } else {
+                    // Empêcher l'ajout si déjà 4 (optionnel: secouer ou alerter, ici le message suffit)
+                    // Le message est déjà affiché
+                }
+            } else {
+                // Retirer un joueur
                 card.classList.remove("selected");
                 selectedCount--;
             }
 
+            // Mise à jour de l'UI
             document.getElementById("counter").innerText = `${selectedCount} / 4`;
-            document.getElementById("warning").style.display = (selectedCount === 4) ? "none" : "none";
             
+            // GESTION DU MESSAGE D'AVERTISSEMENT
+            if (selectedCount === 4) {
+                warningMsg.style.display = "block";
+            } else {
+                warningMsg.style.display = "none";
+            }
+            
+            // Gestion du bouton de confirmation
             confirmBtn.disabled = (selectedCount !== 4);
             confirmBtn.classList.toggle("enabled", selectedCount === 4);
         });
