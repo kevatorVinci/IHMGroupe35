@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mon Équipe - Vinci Arena</title>
+    <title>Mon Équipe (Admin) - Vinci Arena</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -39,6 +39,14 @@
         .team-title h1 { font-size: 32px; font-weight: 700; margin-bottom: 5px; }
         .team-meta-top { font-size: 14px; opacity: 0.9; }
 
+        /* --- BOUTON QUITTER (Danger) --- */
+        .btn-quit {
+            padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 13px;
+            transition: 0.3s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+            border: 1px solid rgba(255,255,255,0.3); background: transparent; color: white;
+        }
+        .btn-quit:hover { background-color: #ef4444; border-color: #ef4444; box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+
         .dashboard-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
 
         /* --- 4. CARTES & TABLEAUX --- */
@@ -54,11 +62,22 @@
         }
         
         .member-info { display: flex; align-items: center; gap: 12px; }
-        .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f8fafc; }
+        .member-avatar { width: 45px; height: 45px; border-radius: 50%; background: #f8fafc; border: 1px solid #e2e8f0; }
+        
+        /* Détails du membre (Nom + Rôle + Spécialité) */
+        .member-details { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+        .member-header { display: flex; align-items: center; gap: 8px; }
         .member-tag { font-weight: 600; color: #1e293b; font-size: 15px; }
-        .role-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase; }
+        
+        .role-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: 700; text-transform: uppercase; }
         .role-resp { background: #fef3c7; color: #b45309; }
         .role-player { background: #f1f5f9; color: #64748b; }
+
+        /* STYLE SPÉCIALITÉ */
+        .specialty-badge { 
+            font-size: 11px; color: #475569; background: #f8fafc; border: 1px solid #cbd5e1; 
+            padding: 1px 6px; border-radius: 4px; width: fit-content; font-weight: 600;
+        }
 
         .status-col { font-size: 13px; font-weight: 500; }
         .status-available { color: #16a34a; }
@@ -67,11 +86,11 @@
         .actions-col { display: flex; justify-content: flex-end; gap: 5px; }
 
         /* --- 5. BOUTONS --- */
-        .btn { padding: 8px 16px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 13px; transition: 0.2s; }
+        .btn { padding: 6px 12px; border-radius: 6px; font-weight: 600; cursor: pointer; border: none; font-size: 12px; transition: 0.2s; }
         .btn-outline { border: 1px solid #cbd5e1; background: white; color: #475569; }
         .btn-outline:hover { background: #f8fafc; border-color: #112b4f; color: #112b4f; }
-        .btn-danger { color: #ef4444; background: transparent; padding: 5px; }
-        .btn-danger:hover { background: #fef2f2; }
+        .btn-danger { color: #ef4444; background: transparent; padding: 6px; font-size: 14px; }
+        .btn-danger:hover { background: #fef2f2; border-radius: 4px; }
 
         /* --- 6. ASIDE --- */
         .action-list { display: flex; flex-direction: column; gap: 10px; }
@@ -101,7 +120,7 @@
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
             <a href="dashboard_membre.html">Espace personnel</a>
-            <a href="equipesVueAdmin.html" class="active">Ma Team</a>
+            <a href="equipesVueMembre.html" class="active">Ma Team</a>
             <a href="liste_tournois.html">Tournois</a>
             <a href="equipes_publique.html">Teams</a>
             
@@ -126,96 +145,118 @@
                 <h1>Dark Legion</h1>
                 <p>Membres : 6 | Tournois gagnés : 2</p>
             </div>
-            <button class="btn" style="background: #b45309; color: white; padding: 12px 24px;" onclick="quitResponsability()">Quitter mon rôle de responsable</button>
+            <button class="btn" style="background: #b45309; color: white; padding: 12px 24px; font-size: 13px;" onclick="quitResponsability()">Quitter mon rôle de responsable</button>
         </div>
 
         <div class="dashboard-grid">
             <section>
                 <div class="card">
                     <div class="card-title">
-                        <span>👥 Composition de l'équipe</span>
+                        <span>👥 Gestion des membres (6/14)</span>
                     </div>
                     
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" class="member-avatar">
-                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-                                <span class="member-tag">SarahC (Vous)</span>
-                                <span class="role-badge role-resp">Responsable</span>
+                            <div class="member-details">
+                                <div class="member-header">
+                                    <span class="member-tag">SarahC (Vous)</span>
+                                    <span class="role-badge role-resp">Responsable</span>
+                                </div>
+                                <span class="specialty-badge">📐 Architecte</span>
                             </div>
                         </div>
-                        <div class="status-col status-available">● Disponible</div>
-                        <div class="actions-col"></div> </div>
+                        <div class="status-col status-available">● En ligne</div>
+                        <div class="actions-col"></div>
+                    </div>
 
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Marc" class="member-avatar">
-                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-                                <span class="member-tag">MarcO</span>
-                                <span class="role-badge role-resp">Responsable</span>
+                            <div class="member-details">
+                                <div class="member-header">
+                                    <span class="member-tag">MarcO</span>
+                                    <span class="role-badge role-player">Membre</span>
+                                </div>
+                                <span class="specialty-badge">🛡️ Gardien</span>
                             </div>
                         </div>
                         <div class="status-col status-available">● Disponible</div>
-                    
+                       <div class="actions-col">
+                            <button class="btn btn-outline" onclick="promoteMember('ProGamer2024')">Nommer Resp.</button>
+                            <button class="btn btn-danger" onclick="kickMember('ProGamer2024')" title="Exclure">✕</button>
+                        </div>
                     </div>
 
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="member-avatar">
-                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-                                <span class="member-tag">ProGamer2024</span>
-                                <span class="role-badge role-player">Membre</span>
+                            <div class="member-details">
+                                <div class="member-header">
+                                    <span class="member-tag">ProGamer2024</span>
+                                    <span class="role-badge role-player">Membre</span>
+                                </div>
+                                <span class="specialty-badge">🔨 Exécuteur</span>
                             </div>
                         </div>
                         <div class="status-col status-away" title="Du 15/02 au 22/02">✈️ Indisponible jusqu'au 22/02</div>
                         <div class="actions-col">
                             <button class="btn btn-outline" onclick="promoteMember('ProGamer2024')">Nommer Resp.</button>
-                            <button class="btn btn-danger" onclick="kickMember('ProGamer2024')">✕</button>
+                            <button class="btn btn-danger" onclick="kickMember('ProGamer2024')" title="Exclure">✕</button>
                         </div>
                     </div>
 
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="member-avatar">
-                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-                                <span class="member-tag">Felix_TheCat</span>
-                                <span class="role-badge role-player">Membre</span>
+                            <div class="member-details">
+                                <div class="member-header">
+                                    <span class="member-tag">NoobSlayer</span>
+                                    <span class="role-badge role-player">Membre</span>
+                                </div>
+                                <span class="specialty-badge">♟️ Tacticien</span>
                             </div>
                         </div>
                         <div class="status-col status-available">● Disponible</div>
                         <div class="actions-col">
-                            <button class="btn btn-outline" onclick="promoteMember('Felix_TheCat')">Nommer Resp.</button>
-                            <button class="btn btn-danger" onclick="kickMember('Felix_TheCat')">✕</button>
+                            <button class="btn btn-outline" onclick="promoteMember('NoobSlayer')">Nommer Resp.</button>
+                            <button class="btn btn-danger" onclick="kickMember('NoobSlayer')" title="Exclure">✕</button>
                         </div>
                     </div>
 
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Luna" class="member-avatar">
-                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-                                <span class="member-tag">Luna_Starlight</span>
-                                <span class="role-badge role-player">Membre</span>
+                            <div class="member-details">
+                                <div class="member-header">
+                                    <span class="member-tag">Luna_Starlight</span>
+                                    <span class="role-badge role-player">Membre</span>
+                                </div>
+                                <span class="specialty-badge">❤️ Guérisseur</span>
                             </div>
                         </div>
                         <div class="status-col status-available">● Disponible</div>
                         <div class="actions-col">
                             <button class="btn btn-outline" onclick="promoteMember('Luna_Starlight')">Nommer Resp.</button>
-                            <button class="btn btn-danger" onclick="kickMember('Luna_Starlight')">✕</button>
+                            <button class="btn btn-danger" onclick="kickMember('Luna_Starlight')" title="Exclure">✕</button>
                         </div>
                     </div>
 
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Neo" class="member-avatar">
-                            <div style="display:flex; flex-direction:column; align-items:flex-start;">
-                                <span class="member-tag">Neo_Matrix</span>
-                                <span class="role-badge role-player">Membre</span>
+                            <div class="member-details">
+                                <div class="member-header">
+                                    <span class="member-tag">Neo_Matrix</span>
+                                    <span class="role-badge role-player">Membre</span>
+                                </div>
+                                <span class="specialty-badge">🔨 Exécuteur</span>
                             </div>
                         </div>
                         <div class="status-col status-away">✈️ Indisponible jusqu'au 18/02</div>
                         <div class="actions-col">
                             <button class="btn btn-outline" onclick="promoteMember('Neo_Matrix')">Nommer Resp.</button>
-                            <button class="btn btn-danger" onclick="kickMember('Neo_Matrix')">✕</button>
+                            <button class="btn btn-danger" onclick="kickMember('Neo_Matrix')" title="Exclure">✕</button>
                         </div>
                     </div>
 
