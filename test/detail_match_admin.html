@@ -34,8 +34,6 @@
             color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; 
         }
         .nav-links a:hover { color: white; }
-        
-        /* STYLE ACTIF ORANGE DEMANDÉ */
         .nav-links a.active { color: #f59e0b; font-weight: 700; }
 
         .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
@@ -49,20 +47,25 @@
         /* --- Layout --- */
         .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
 
-        /* Barre d'actions en haut (Retour + Modifier) */
+        /* Barre d'actions en haut */
         .top-actions {
             display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
         }
+        .actions-right { display: flex; gap: 10px; }
 
         .btn-back { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
         .btn-back:hover { color: #112b4f; }
 
-        .btn-edit {
-            background-color: #112b4f; color: white; padding: 8px 16px; border-radius: 6px;
+
+        .btn-edit:hover { background-color: #f8fafc; border-color: #94a3b8; color: #334155; }
+
+        /* Bouton Encoder (Vert) */
+        .btn-result {
+            background-color: #16a34a; color: white; padding: 8px 16px; border-radius: 6px;
             font-size: 13px; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-            transition: 0.2s;
+            transition: 0.2s; box-shadow: 0 2px 4px rgba(22, 163, 74, 0.2);
         }
-        .btn-edit:hover { background-color: #1e40af; }
+        .btn-result:hover { background-color: #15803d; transform: translateY(-1px); }
 
         /* --- En-tête du Match (Header) --- */
         .match-header-card {
@@ -82,12 +85,10 @@
         }
         .team-name-lg { font-size: 18px; font-weight: 800; color: #0f172a; }
         
-        /* Styles pour le vainqueur/perdant (Mode Terminé) */
         .team-winner .team-logo-lg { transform: scale(1.1); box-shadow: 0 0 0 4px #fbbf24; }
         .team-winner .team-name-lg { color: #b45309; }
         .team-loser { opacity: 0.6; }
 
-        /* Badge VS ou Score */
         .center-display {
             background-color: #f1f5f9; color: #475569; font-weight: 800; font-size: 16px;
             padding: 10px 20px; border-radius: 8px; min-width: 80px;
@@ -102,15 +103,9 @@
             background: #f8fafc; padding: 8px 16px; border-radius: 20px; border: 1px solid #e2e8f0;
         }
 
-        /* --- Compositions (Double Colonne) --- */
-        .rosters-container {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 30px;
-        }
-
-        .team-roster-column {
-            background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px;
-        }
-
+        /* --- Compositions --- */
+        .rosters-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .team-roster-column { background: white; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; }
         .section-title { 
             font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 20px; 
             display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px;
@@ -122,34 +117,20 @@
             background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; text-align: center;
             transition: 0.2s; position: relative;
         }
-        .player-card:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        
         .role-badge {
             position: absolute; top: 8px; right: 8px; font-size: 9px; font-weight: 700;
             padding: 2px 6px; border-radius: 10px; background: #f1f5f9; color: #64748b; text-transform: uppercase;
         }
-
-        .player-avatar {
-            width: 50px; height: 50px; border-radius: 50%; background: #f1f5f9; margin: 0 auto 10px auto;
-            display: block; border: 2px solid #cbd5e1;
-        }
+        .player-avatar { width: 50px; height: 50px; border-radius: 50%; background: #f1f5f9; margin: 0 auto 10px auto; display: block; border: 2px solid #cbd5e1; }
         .player-tag { font-weight: 700; font-size: 14px; color: #0f172a; margin-bottom: 3px; }
         .player-status { font-size: 11px; color: #166534; font-weight: 600; }
+        .mvp-badge { display: none; margin-top: 5px; font-size: 10px; background: #fef3c7; color: #d97706; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #fcd34d; }
 
-        /* Badge MVP */
-        .mvp-badge {
-            display: none; margin-top: 5px; font-size: 10px; background: #fef3c7; color: #d97706; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #fcd34d;
-        }
-
-        /* --- SIMULATEUR D'ÉTAT --- */
-        .simulator-box {
-            position: fixed; bottom: 20px; left: 20px; background: white; padding: 15px;
-            border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 9999; width: 220px;
-        }
+        /* --- SIMULATEUR --- */
+        .simulator-box { position: fixed; bottom: 20px; left: 20px; background: white; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 9999; width: 220px; }
         .sim-label { font-size: 12px; font-weight: 700; color: #64748b; margin-bottom: 8px; display: block; text-transform: uppercase; }
         .sim-select { width: 100%; padding: 8px; border-radius: 4px; border: 1px solid #cbd5e1; font-size: 13px; outline: none; cursor: pointer; }
 
-        /* Responsive */
         @media (max-width: 900px) {
             .rosters-container { grid-template-columns: 1fr; }
             .navbar { padding: 15px; flex-direction: column; height: auto; gap: 15px; }
@@ -185,10 +166,12 @@
                 Retour au planning
             </a>
 
-            <a href="edition_planning.html" class="btn-edit">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-                Modifier le match
-            </a>
+            <div class="actions-right">
+                <a href="encodage.html" class="btn-result">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                    Encoder le résultat
+                </a>
+            </div>
         </div>
 
         <div class="match-header-card">
@@ -310,7 +293,6 @@
             const mvpBadge = document.querySelector('.mvp-badge');
 
             if (etat === 'finished') {
-                // --- MODE TERMINÉ ---
                 centerDisplay.innerText = "3 - 1";
                 centerDisplay.className = "center-display score-display";
                 
@@ -324,10 +306,9 @@
                 matchDate.innerHTML = "📅 13 Fév 2026";
                 matchTime.innerHTML = "🏁 Fin : 21:45";
                 
-                mvpBadge.style.display = 'block'; // Montrer MVP
+                mvpBadge.style.display = 'block';
                 
             } else {
-                // --- MODE À VENIR ---
                 centerDisplay.innerText = "VS";
                 centerDisplay.className = "center-display vs-badge";
 
@@ -341,7 +322,7 @@
                 matchDate.innerHTML = "📅 15 Fév 2026";
                 matchTime.innerHTML = "⏰ 20:00";
 
-                mvpBadge.style.display = 'none'; // Cacher MVP
+                mvpBadge.style.display = 'none';
             }
         }
     </script>
