@@ -58,12 +58,19 @@
         .card-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; }
 
         .member-row { display: flex; align-items: center; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
-        .member-info { display: flex; align-items: center; gap: 12px; }
+        .member-info { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .member-avatar { width: 40px; height: 40px; border-radius: 50%; background: #f8fafc; }
         .member-tag { font-weight: 600; color: #1e293b; font-size: 15px; }
-        .role-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase; margin-left: 10px; }
+        
+        .role-badge { font-size: 11px; padding: 2px 8px; border-radius: 12px; font-weight: 700; text-transform: uppercase; margin-left: 5px; }
         .role-resp { background: #fef3c7; color: #b45309; }
         .role-player { background: #f1f5f9; color: #64748b; }
+
+        /* Style pour la spécialité */
+        .specialty-badge { 
+            font-size: 12px; color: #475569; background: #fff; border: 1px solid #cbd5e1; 
+            padding: 2px 8px; border-radius: 12px; margin-left: 10px; font-weight: 500;
+        }
 
         /* --- 5. MATCHS --- */
         .match-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; }
@@ -79,7 +86,7 @@
 
     <header class="navbar">
         <a href="index.html" class="logo">
-            <img src="/test/image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img">
+            <img src="image/imageLogo.png" alt="Logo Vinci Arena" class="logo-img">
         </a>
         
         <nav class="nav-links">
@@ -95,7 +102,7 @@
         <div class="team-header-banner">
             <div class="team-title">
                 <h1>Dark Legion</h1>
-                <p>Membres : 14 | Force Collective</p>
+                <p>Membres : 6</p>
             </div>
            
         </div>
@@ -104,48 +111,72 @@
             <section>
                 <div class="card">
                     <div class="card-title">👥 Effectif de la Team</div>
+                    
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" class="member-avatar">
-                            <span class="member-tag">SarahC</span><span class="role-badge role-resp">Responsable</span>
+                            <span class="member-tag">SarahC</span>
+                            <span class="role-badge role-resp">Responsable</span>
+                            <span class="specialty-badge">📐 Architecte</span>
                         </div>
                     </div>
+
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Marc" class="member-avatar">
-                            <span class="member-tag">MarcO</span><span class="role-badge role-resp">Responsable</span>
+                            <span class="member-tag">MarcO</span>
+                            <span class="role-badge role-player">Membre</span>
+                            <span class="specialty-badge">🛡️ Gardien</span>
                         </div>
                     </div>
+
                     <div class="member-row">
                         <div class="member-info">
                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="member-avatar">
-                            <span class="member-tag">ProGamer2024 (Vous)</span><span class="role-badge role-player">Membre</span>
+                            <span class="member-tag">ProGamer2024</span>
+                            <span class="role-badge role-player">Membre</span>
+                            <span class="specialty-badge">🔨 Exécuteur</span>
                         </div>
                     </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="member-avatar">
+                            <span class="member-tag">NoobSlayer</span>
+                            <span class="role-badge role-player">Membre</span>
+                            <span class="specialty-badge">♟️ Tacticien</span>
+                        </div>
+                    </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Luna" class="member-avatar">
+                            <span class="member-tag">Luna_Starlight</span>
+                            <span class="role-badge role-player">Membre</span>
+                            <span class="specialty-badge">❤️ Guérisseur</span>
+                        </div>
+                    </div>
+
+                    <div class="member-row">
+                        <div class="member-info">
+                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Neo" class="member-avatar">
+                            <span class="member-tag">Neo_Matrix</span>
+                            <span class="role-badge role-player">Membre</span>
+                            <span class="specialty-badge">🔨 Exécuteur</span>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="card">
-                    <div class="card-title">📅 3 Prochains Matchs</div>
+                    <div class="card-title">📅 Prochains Matchs</div>
+                    
                     <div class="match-item">
                         <div class="match-info-main">
-                            <span class="match-type">Championnat d'Hiver</span>
+                            <span class="match-type">Championnat d'Hiver 2025</span>
                             <span class="match-vs">VS Team Phoenix</span>
                         </div>
                         <div class="match-date">15 Février 2026<br>20:00</div>
-                    </div>
-                    <div class="match-item">
-                        <div class="match-info-main">
-                            <span class="match-type">Amical</span>
-                            <span class="match-vs">VS SkyWalkers</span>
-                        </div>
-                        <div class="match-date">22 Février 2026<br>18:30</div>
-                    </div>
-                    <div class="match-item" style="border-bottom: none;">
-                        <div class="match-info-main">
-                            <span class="match-type">Tournoi Qualifier</span>
-                            <span class="match-vs">VS Noobs United</span>
-                        </div>
-                        <div class="match-date">01 Mars 2026<br>21:00</div>
                     </div>
                 </div>
             </section>
