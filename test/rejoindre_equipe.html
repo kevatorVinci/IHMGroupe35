@@ -34,16 +34,13 @@
         .page-title { font-size: 32px; font-weight: 700; color: #0f172a; margin-bottom: 10px; }
         .page-subtitle { color: #64748b; font-size: 16px; }
 
-        /* --- Toolbar (Onglets & Recherche) --- */
+        /* --- Toolbar (Recherche) --- */
         .toolbar {
             display: flex; justify-content: space-between; align-items: center;
             background: white; padding: 15px 20px; border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px;
             border: 1px solid #cbd5e1; flex-wrap: wrap; gap: 20px;
         }
-        .tabs { display: flex; gap: 10px; background: #f1f5f9; padding: 5px; border-radius: 6px; }
-        .tab-btn { padding: 10px 25px; border: none; background: transparent; font-size: 15px; font-weight: 600; color: #64748b; border-radius: 4px; cursor: pointer; transition: 0.2s; }
-        .tab-btn.active { background: #112b4f; color: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .search-container { display: flex; gap: 10px; flex-grow: 1; max-width: 400px; }
         .search-input { flex-grow: 1; padding: 10px 15px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; outline: none; }
 
@@ -57,15 +54,9 @@
         
         /* Teams */
         .team-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .team-logo { width: 50px; height: 50px; background: #112b4f; color: white; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-weight: 700; font-size: 18px; }
+        .team-logo { width: 50px; height: 50px; color: white; border-radius: 8px; display: flex; justify-content: center; align-items: center; font-weight: 700; font-size: 18px; }
         .team-name { font-size: 18px; font-weight: 700; color: #0f172a; }
         .team-meta { font-size: 13px; color: #64748b; display: flex; flex-direction: column; gap: 5px; margin-bottom: 20px; flex-grow: 1;}
-
-        /* Players */
-        .player-header { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
-        .player-avatar { width: 50px; height: 50px; border-radius: 50%; background: #e2e8f0; }
-        .player-tag { font-size: 18px; font-weight: 700; color: #0f172a; }
-        .specialty-badge { display: inline-block; padding: 4px 10px; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px; font-weight: 600; color: #475569; text-transform: uppercase; margin-top: 5px; }
 
         /* Boutons d'action */
         .btn-action { text-align: center; padding: 10px; border-radius: 4px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; transition: 0.2s; text-decoration: none; }
@@ -114,18 +105,19 @@
 
         <div class="toolbar">
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom, tag..." onkeyup="filterItems()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom..." onkeyup="filterItems()">
             </div>
         </div>
 
         <div id="teams-grid" class="grid-view active">
+            
             <div class="card team-item">
                 <div class="team-header">
-                    <div class="team-logo">SK</div>
+                    <div class="team-logo" style="background: #112b4f;">SK</div>
                     <div class="team-name">SkyWalkers</div>
                 </div>
                 <div class="team-meta">
-                    <span>👑 Responsable : LucasP [cite: 148]</span>
+                    <span>👑 Responsable : ShadowLink</span>
                     <span>👥 8 Membres</span>
                 </div>
                 <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
@@ -137,8 +129,8 @@
                     <div class="team-name">Dark Legion</div>
                 </div>
                 <div class="team-meta">
-                    <span>👑 Responsable : SarahC </span>
-                    <span>👥 14 Membres</span>
+                    <span>👑 Responsable : SarahC</span>
+                    <span>👥 6 Membres</span>
                 </div>
                 <div class="btn-action status-pending">Demande en attente </div>
             </div>
@@ -149,7 +141,7 @@
                     <div class="team-name">Phoenix Rising</div>
                 </div>
                 <div class="team-meta">
-                    <span>👑 Responsable : MarcO</span>
+                    <span>👑 Responsable : IronTitan</span>
                     <span>👥 5 Membres</span>
                 </div>
                 <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
@@ -157,16 +149,42 @@
 
             <div class="card team-item">
                 <div class="team-header">
-                    <div class="team-logo" style="background: #112b4f;">LW</div>
-                    <div class="team-name">Les Warriors</div>
+                    <div class="team-logo" style="background: #be123c;">AS</div>
+                    <div class="team-name">Alpha Squad</div>
                 </div>
                 <div class="team-meta">
-                    <span>👑 Responsable : Pedrinho08</span>
-                    <span>👥 4 Membres</span>
+                    <span>👑 Responsable : NeonKnight</span>
+                    <span>👥 6 Membres</span>
                 </div>
                 <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
             </div>
+
+            <div class="card team-item">
+                <div class="team-header">
+                    <div class="team-logo" style="background: #047857;">TG</div>
+                    <div class="team-name">The Guardians</div>
+                </div>
+                <div class="team-meta">
+                    <span>👑 Responsable : StormBringer</span>
+                    <span>👥 5 Membres</span>
+                </div>
+                <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
+            </div>
+
+            <div class="card team-item">
+                <div class="team-header">
+                    <div class="team-logo" style="background: #6d28d9;">CW</div>
+                    <div class="team-name">Cyber Wolves</div>
+                </div>
+                <div class="team-meta">
+                    <span>👑 Responsable : CyberGhost</span>
+                    <span>👥 12 Membres</span>
+                </div>
+                <button class="btn-action btn-join" onclick="alert('Demande envoyée !')">Postuler</button>
+            </div>
+
         </div>
+
     </main>
 
     <script>
