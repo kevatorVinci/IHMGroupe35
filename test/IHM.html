@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plan du projet - Vinci Arena (Final)</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
     <style>
         /* --- Styles globaux --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,6 +26,8 @@
         .ihm-item a { text-decoration: none; color: #334155; font-weight: 500; flex-grow: 1; display: flex; align-items: center; gap: 10px; }
         .ihm-item a:hover { color: #2563eb; }
         
+        .badge-group { display: flex; gap: 10px; align-items: center; }
+
         .badge { 
             padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: 700; 
             text-transform: uppercase; cursor: pointer; user-select: none; transition: 0.2s; min-width: 85px; text-align: center;
@@ -31,15 +36,31 @@
         .badge-done { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
         .badge-todo { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
+        /* --- Bouton Capture --- */
+        .btn-capture {
+            background: #cbd5e1; color: #0f172a; border: none; padding: 6px 10px; border-radius: 4px;
+            font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 5px;
+        }
+        .btn-capture:hover { background: #112b4f; color: white; transform: scale(1.05); }
+
         #save-btn-container { position: fixed; bottom: 30px; right: 30px; display: none; z-index: 1000; animation: slideIn 0.3s ease-out; }
         .btn-save { background-color: #2563eb; color: white; border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4); display: flex; align-items: center; gap: 10px; }
         .btn-import { background-color: #10b981; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-size: 15px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.2s; }
         .btn-import:hover { background-color: #059669; transform: translateY(-2px); }
 
+        /* Overlay de chargement pour la capture */
+        #loading-overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(17, 43, 79, 0.8); color: white; z-index: 9999;
+            justify-content: center; align-items: center; flex-direction: column; font-size: 20px; font-weight: bold;
+        }
+
         @keyframes slideIn { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
+
+<div id="loading-overlay">📸 Capture en cours... Fixation des images...</div>
 
 <div class="container">
     <div class="header">
@@ -55,75 +76,68 @@
     <div class="category-block" style="border-left-color: #64748b;">
         <h2 class="category-title">🌍 1. Accès Public</h2>
         <ul class="ihm-list">
-            <li class="ihm-item"><a href="accueil.html"><span>IHM 1</span> Accueil (Visiteur/Connecté)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="connexion.html"><span>IHM 2</span> Connexion</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="inscription.html"><span>IHM 3</span> Inscription</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="equipes_publique.html"><span>IHM 4</span> Annuaire des membres (Public)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="equipes_publique.html"><span>IHM 5</span> Liste de toutes les équipes</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="liste_tournois.html"><span>IHM 6</span> Liste des tournois</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="detailsTournoi.html"><span>IHM 7</span> Détail d’un tournoi</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="details_equipe.html"><span>IHM 8</span> Details equipe</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="details_match.html"><span>IHM 9</span> Details mactch</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-
+            <li class="ihm-item"><a href="accueil.html"><span>IHM 1</span> Accueil (Visiteur/Connecté)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('accueil.html', 'IHM_1_Accueil')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="connexion.html"><span>IHM 2</span> Connexion</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('connexion.html', 'IHM_2_Connexion')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="inscription.html"><span>IHM 3</span> Inscription</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('inscription.html', 'IHM_3_Inscription')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="equipes_publique.html"><span>IHM 4</span> Annuaire des membres (Public)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('equipes_publique.html', 'IHM_4_Annuaire')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="equipes_publique.html"><span>IHM 5</span> Liste de toutes les équipes</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('equipes_publique.html', 'IHM_5_ListeEquipes')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="liste_tournois.html"><span>IHM 6</span> Liste des tournois</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('liste_tournois.html', 'IHM_6_ListeTournois')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="detailsTournoi.html"><span>IHM 7</span> Détail d’un tournoi</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('detailsTournoi.html', 'IHM_7_DetailTournoi')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="details_equipe.html"><span>IHM 8</span> Details equipe</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('details_equipe.html', 'IHM_8_DetailEquipe')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
         </ul>
     </div>
 
     <div class="category-block" style="border-left-color: #2563eb;">
         <h2 class="category-title">👤 2. Espace Membre (Connecté)</h2>
         <ul class="ihm-list">
-            <li class="ihm-item"><a href="tableauDeborSansEquipe.html"><span>IHM 10</span> Dashboard (Sans équipe)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="tableauDeborEquipe.html"><span>IHM 11</span> Dashboard (Avec équipe)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="profil.html"><span>IHM 12</span> Mon Profil (Vue)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="edtiProfil.html"><span>IHM 13</span> Édition de profil</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="disponibilite.html"><span>IHM 14</span> Gestion des indisponibilités</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="monActivite.html"><span>IHM 15</span> Historique "Mon activité"</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="notifications.html"><span>IHM 16</span> Centre de notifications</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="rejoindre_equipe.html"><span>IHM 17</span> Rejoindre une équipe</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="creer_equipe.html"><span>IHM 18</span> Créer une équipe</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="detailsmatch_membre.html"><span>IHM 19</span> Détail d'un match (Vue Membre)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="historiqueMatch.html"><span>IHM 20</span> Historique </a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-
-            
-
+            <li class="ihm-item"><a href="tableauDeborSansEquipe.html"><span>IHM 10</span> Dashboard (Sans équipe)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('tableauDeborSansEquipe.html', 'IHM_10_Dash_SansEquipe')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="tableauDeborEquipe.html"><span>IHM 11</span> Dashboard (Avec équipe)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('tableauDeborEquipe.html', 'IHM_11_Dash_Equipe')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="profil.html"><span>IHM 12</span> Mon Profil (Vue)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('profil.html', 'IHM_12_Profil')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="edtiProfil.html"><span>IHM 13</span> Édition de profil</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('edtiProfil.html', 'IHM_13_EditProfil')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="disponibilite.html"><span>IHM 14</span> Gestion des indisponibilités</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('disponibilite.html', 'IHM_14_Dispo')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="monActivite.html"><span>IHM 15</span> Historique "Mon activité"</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('monActivite.html', 'IHM_15_Activite')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="notifications.html"><span>IHM 16</span> Centre de notifications</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('notifications.html', 'IHM_16_Notifs')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="rejoindre_equipe.html"><span>IHM 17</span> Rejoindre une équipe</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('rejoindre_equipe.html', 'IHM_17_Rejoindre')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="creer_equipe.html"><span>IHM 18</span> Créer une équipe</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('creer_equipe.html', 'IHM_18_CreerEquipe')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="detailsmatch_membre.html"><span>IHM 9</span> Détail d’un match (Vue Membre)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('detailsmatch_membre.html', 'IHM_9_DetailMatch')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
         </ul>
     </div>
 
     <div class="category-block" style="border-left-color: #f59e0b;">
         <h2 class="category-title">🛡️ 3. Gestion d'Équipe (Responsable)</h2>
         <ul class="ihm-list">
-            <li class="ihm-item"><a href="equipesVueAdmin.html"><span>IHM 21</span> Mon équipe (Vue Responsable)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="equipesVueMembre.html"><span>IHM 22</span> Mon équipe (Vue Membre)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="gestion_adhesions.html"><span>IHM 23</span> Demandes d'adhésion</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="match_a_venir.html"><span>IHM 24</span> Liste des matchs de la team</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="selection_match.html"><span>IHM 25</span> Sélection des joueurs (4/4)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="detailsmatch_membre.html"><span>IHM 26</span> Détail match (Vue Responsable et Membre)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="resultat_responsable.html"><span>IHM 27</span> Valider / Contester résultat</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="equipesVueAdmin.html"><span>IHM 19</span> Mon équipe (Vue Responsable)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('equipesVueAdmin.html', 'IHM_19_EquipeResp')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="equipesVueMembre.html"><span>IHM 20</span> Mon équipe (Vue Membre)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('equipesVueMembre.html', 'IHM_20_EquipeMembre')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="gestion_adhesions.html"><span>IHM 21</span> Demandes d’adhésion</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('gestion_adhesions.html', 'IHM_21_Adhesions')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="match_a_venir.html"><span>IHM 22</span> Liste des matchs de la team</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('match_a_venir.html', 'IHM_22_ListeMatchs')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="selection_match.html"><span>IHM 23</span> Sélection des joueurs (4/4)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('selection_match.html', 'IHM_23_Selection')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="detail_match.html"><span>IHM 24</span> Détail match (Vue Responsable et Membre)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('detail_match.html', 'IHM_24_DetailMatchComplet')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="resultat_responsable.html"><span>IHM 25</span> Valider / Contester résultat</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('resultat_responsable.html', 'IHM_25_Validation')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
         </ul>
     </div>
 
     <div class="category-block" style="border-left-color: #dc2626;">
         <h2 class="category-title">👑 4. Administration Globale (Admin)</h2>
         <ul class="ihm-list">
-            <li class="ihm-item"><a href="gestionTournoiAdmin.html"><span>IHM 28</span> Dashboard Gestion Tournois</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="gestionAdmin.html"><span>IHM 29</span> Gestion des Administrateurs</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="creer_tournoi.html"><span>IHM 30</span> Créer un tournoi</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="detail_tournoi_admin.html"><span>IHM 31</span> Détail tournoi (Vue Admin)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="generation_planning.html"><span>IHM 32</span> Génération du planning</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="edition_planning.html"><span>IHM 33</span> Édition manuelle planning</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="encodage.html"><span>IHM 34</span> Saisie du résultat officiel</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="detail_match_admin.html"><span>IHM 35</span> Détails match (Vue Admin)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-
+            <li class="ihm-item"><a href="gestionTournoiAdmin.html"><span>IHM 27</span> Dashboard Gestion Tournois</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('gestionTournoiAdmin.html', 'IHM_27_DashAdmin')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="gestionAdmin.html"><span>IHM 28</span> Gestion des Administrateurs</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('gestionAdmin.html', 'IHM_28_GestionAdmins')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="creer_tournoi.html"><span>IHM 29</span> Créer un tournoi</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('creer_tournoi.html', 'IHM_29_CreerTournoi')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="detail_tournoi_admin.html"><span>IHM 31</span> Détail tournoi (Vue Admin)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('detail_tournoi_admin.html', 'IHM_31_DetailTournoiAdmin')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="generation_planning.html"><span>IHM 33</span> Génération du planning</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('generation_planning.html', 'IHM_33_GenPlanning')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="edition_planning.html"><span>IHM 34</span> Édition manuelle planning</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('edition_planning.html', 'IHM_34_EditPlanning')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="detail_match.html"><span>IHM 35</span> Saisie du résultat officiel</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('detail_match.html', 'IHM_35_SaisieResultat')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="detail_match_admin.html"><span>IHM 36</span> Détails match (Vue Admin)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('detail_match_admin.html', 'IHM_36_DetailMatchAdmin')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
         </ul>
     </div>
 
     <div class="category-block" style="border-left-color: #10b981;">
         <h2 class="category-title">🏗️ 5. Navigation Dynamique (IHM 36-40)</h2>
         <ul class="ihm-list">
-            <li class="ihm-item"><a href="accueil.html"><span>IHM 36</span> Header Visiteur</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="tableauDeborSansEquipe.html"><span>IHM 37</span> Header Membre (Sans équipe)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="tableauDeborEquipe.html"><span>IHM 38</span> Header Membre / Responsable (Avec équipe)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="headerAdmin.html"><span>IHM 39</span> Header Administrateur Global</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
-            <li class="ihm-item"><a href="gestionAdmin.html"><span>IHM 40</span> Header Admin (Vue Gestion interne)</a> <span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></li>
+            <li class="ihm-item"><a href="accueil.html"><span>IHM 36</span> Header Visiteur</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('accueil.html', 'IHM_36_HeaderVisiteur', '.navbar')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="tableauDeborSansEquipe.html"><span>IHM 37</span> Header Membre (Sans équipe)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('tableauDeborSansEquipe.html', 'IHM_37_HeaderMembre', '.navbar')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="tableauDeborEquipe.html"><span>IHM 38</span> Header Membre / Responsable (Avec équipe)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('tableauDeborEquipe.html', 'IHM_38_HeaderResp', '.navbar')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="headerAdmin.html"><span>IHM 39</span> Header Administrateur Global</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('headerAdmin.html', 'IHM_39_HeaderAdminGlobal', '.navbar')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
+            <li class="ihm-item"><a href="gestionAdmin.html"><span>IHM 40</span> Header Admin (Vue Gestion interne)</a> <div class="badge-group"><button class="btn-capture" onclick="takeScreenshot('gestionAdmin.html', 'IHM_40_HeaderGestionAdmin', '.navbar')">📸 PNG</button><span class="badge badge-todo" onclick="toggleStatus(this)">À faire</span></div></li>
         </ul>
     </div>
 </div>
@@ -195,6 +209,82 @@
                 alert('✅ Statuts rechargés !');
             })
             .catch(() => alert('⚠️ Fichier JSON non trouvé.'));
+    }
+
+    // --- FONCTION DE CAPTURE AVEC FIX POUR LES IMAGES EXTERNES ---
+    async function takeScreenshot(url, fileName, selector = 'body') {
+        const overlay = document.getElementById('loading-overlay');
+        overlay.style.display = 'flex';
+
+        try {
+            // 1. Créer une iframe invisible
+            const iframe = document.createElement('iframe');
+            iframe.style.width = '1280px'; 
+            iframe.style.height = '1080px';
+            iframe.style.position = 'fixed';
+            iframe.style.top = '-10000px'; 
+            iframe.style.visibility = 'hidden';
+            iframe.src = url;
+            document.body.appendChild(iframe);
+
+            // 2. Attendre que la page charge dans l'iframe
+            await new Promise(resolve => {
+                iframe.onload = () => {
+                    setTimeout(resolve, 800); // Laisse un peu de temps à la page pour s'afficher
+                };
+            });
+
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+            // 3. SUPER HACK : Convertir toutes les images externes en code "Base64"
+            // Cela empêche le navigateur de bloquer html2canvas à cause de la sécurité CORS
+            const images = iframeDocument.querySelectorAll('img');
+            for (let img of images) {
+                if (img.src && img.src.includes('http')) {
+                    try {
+                        const res = await fetch(img.src);
+                        const blob = await res.blob();
+                        const base64data = await new Promise(resolve => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => resolve(reader.result);
+                            reader.readAsDataURL(blob);
+                        });
+                        img.src = base64data;
+                    } catch(err) {
+                        console.warn("Impossible de forcer le rendu de cette image :", img.src);
+                    }
+                }
+            }
+
+            // 4. Déterminer quel élément capturer
+            const targetElement = iframeDocument.querySelector(selector);
+            if (!targetElement) {
+                console.warn(`Sélecteur "${selector}" introuvable, capture de la page entière à la place.`);
+            }
+            const elementToCapture = targetElement || iframeDocument.body;
+
+            // 5. Capturer avec html2canvas (sans allowTaint car on a déjà géré les images !)
+            const canvas = await html2canvas(elementToCapture, {
+                useCORS: true, 
+                scale: 1, 
+                backgroundColor: null // Garde la transparence
+            });
+
+            // 6. Télécharger le PNG
+            const link = document.createElement('a');
+            link.download = fileName + '.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+
+            // 7. Nettoyer
+            document.body.removeChild(iframe);
+
+        } catch (error) {
+            console.error(error);
+            alert("❌ Erreur lors de la capture. Vérifiez que la page existe et que le serveur local est actif.");
+        } finally {
+            overlay.style.display = 'none';
+        }
     }
 </script>
 
