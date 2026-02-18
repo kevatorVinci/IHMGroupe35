@@ -56,9 +56,6 @@
         .btn-back { display: inline-flex; align-items: center; gap: 8px; color: #64748b; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
         .btn-back:hover { color: #112b4f; }
 
-
-        .btn-edit:hover { background-color: #f8fafc; border-color: #94a3b8; color: #334155; }
-
         /* Bouton Encoder (Vert) */
         .btn-result {
             background-color: #16a34a; color: white; padding: 8px 16px; border-radius: 6px;
@@ -123,8 +120,6 @@
         }
         .player-avatar { width: 50px; height: 50px; border-radius: 50%; background: #f1f5f9; margin: 0 auto 10px auto; display: block; border: 2px solid #cbd5e1; }
         .player-tag { font-weight: 700; font-size: 14px; color: #0f172a; margin-bottom: 3px; }
-        .player-status { font-size: 11px; color: #166534; font-weight: 600; }
-        .mvp-badge { display: none; margin-top: 5px; font-size: 10px; background: #fef3c7; color: #d97706; padding: 2px 6px; border-radius: 4px; font-weight: 700; border: 1px solid #fcd34d; }
 
         /* --- SIMULATEUR --- */
         .simulator-box { position: fixed; bottom: 20px; left: 20px; background: white; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.15); z-index: 9999; width: 220px; }
@@ -167,7 +162,7 @@
             </a>
 
             <div class="actions-right">
-                <a href="encodage.html" class="btn-result">
+                <a href="encodage.html" class="btn-result" id="btnEncode">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
                     Encoder le résultat
                 </a>
@@ -196,7 +191,7 @@
                 <div class="info-pill" id="matchTime">⏰ 20:00</div>
                 <div class="info-pill" style="background: #e0f2fe; color: #0369a1; border-color: #7dd3fc;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-                    Admin : AdminBoss
+                    Admin : MasterChief
                 </div>
                 <div class="info-pill" id="matchStatus" style="color: #b45309; background: #fffbeb; border-color: #fcd34d;">
                     ℹ️ Statut : Compositions prêtes
@@ -215,26 +210,21 @@
                         <span class="role-badge">Tacticien</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="player-avatar">
                         <div class="player-tag">Pedrinho08</div>
-                        <div class="player-status">✅ Validé</div>
-                        <div class="mvp-badge">★ MVP</div>
                     </div>
                     <div class="player-card">
                         <span class="role-badge">Exécuteur</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jack" class="player-avatar">
                         <div class="player-tag">SniperElite</div>
-                        <div class="player-status">✅ Validé</div>
                     </div>
                     <div class="player-card">
                         <span class="role-badge">Gardien</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Aneka" class="player-avatar">
                         <div class="player-tag">TankGirl99</div>
-                        <div class="player-status">✅ Validé</div>
                     </div>
                     <div class="player-card">
                         <span class="role-badge">Guérisseur</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sara" class="player-avatar">
                         <div class="player-tag">MedicX</div>
-                        <div class="player-status">✅ Validé</div>
                     </div>
                 </div>
             </div>
@@ -249,25 +239,21 @@
                         <span class="role-badge">Perturbateur</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Leo" class="player-avatar">
                         <div class="player-tag">FireStarter</div>
-                        <div class="player-status">✅ Validé</div>
                     </div>
                     <div class="player-card">
                         <span class="role-badge">Exécuteur</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Max" class="player-avatar">
                         <div class="player-tag">ShadowOps</div>
-                        <div class="player-status">✅ Validé</div>
                     </div>
                     <div class="player-card">
                         <span class="role-badge">Tacticien</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Nora" class="player-avatar">
                         <div class="player-tag">Strategist_X</div>
-                        <div class="player-status">✅ Validé</div>
                     </div>
                     <div class="player-card">
                         <span class="role-badge">Catalyseur</span>
                         <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Zoe" class="player-avatar">
                         <div class="player-tag">BufferPro</div>
-                        <div class="player-status">✅ Validé</div>
                     </div>
                 </div>
             </div>
@@ -290,7 +276,9 @@
             const teamA = document.getElementById('teamA');
             const matchDate = document.getElementById('matchDate');
             const matchTime = document.getElementById('matchTime');
-            const mvpBadge = document.querySelector('.mvp-badge');
+            
+            // Sélection du bouton encoder via son ID
+            const btnEncode = document.getElementById('btnEncode');
 
             if (etat === 'finished') {
                 centerDisplay.innerText = "3 - 1";
@@ -306,7 +294,8 @@
                 matchDate.innerHTML = "📅 13 Fév 2026";
                 matchTime.innerHTML = "🏁 Fin : 21:45";
                 
-                mvpBadge.style.display = 'block';
+                // MASQUER LE BOUTON
+                btnEncode.style.display = 'none';
                 
             } else {
                 centerDisplay.innerText = "VS";
@@ -322,7 +311,8 @@
                 matchDate.innerHTML = "📅 15 Fév 2026";
                 matchTime.innerHTML = "⏰ 20:00";
 
-                mvpBadge.style.display = 'none';
+                // AFFICHER LE BOUTON (remet la valeur par défaut du CSS, ici inline-flex)
+                btnEncode.style.display = ''; 
             }
         }
     </script>
