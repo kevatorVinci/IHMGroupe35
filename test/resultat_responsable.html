@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vinci Arena – Confirmation du Résultat</title>
 
+    <link rel="icon" href="image/imageLogo.png" type="image/png">
+
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <style>
@@ -22,13 +24,23 @@
         .nav-links { display: flex; align-items: center; gap: 25px; }
         .nav-links a { color: white; text-decoration: none; font-weight: 500; font-size: 14px; transition: 0.2s; }
         .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+        
+        /* Partie Utilisateur (Notif + Avatar) */
         .nav-user { display: flex; align-items: center; gap: 15px; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 20px; margin-left: 10px; }
-        .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; }
+        .nav-notification { position: relative; color: white; display: flex; align-items: center; margin-right: 10px; text-decoration: none; }
         .notification-badge { position: absolute; top: -6px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: bold; padding: 2px 5px; border-radius: 10px; border: 2px solid #112b4f; }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; }
 
         /* --- Layout --- */
         .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+
+        /* --- Bouton Retour --- */
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none; color: #64748b; font-weight: 500; font-size: 15px;
+            margin-bottom: 20px; transition: 0.2s; cursor: pointer;
+        }
+        .btn-back:hover { color: #112b4f; transform: translateX(-3px); }
 
         /* --- Match Header Card --- */
         .match-header-card {
@@ -127,32 +139,36 @@
 
 <body>
 
-    <!-- NAVBAR -->
     <header class="navbar">
         <a href="accueil.html"><img src="image/imageLogo.png" alt="Logo" class="logo-img-nav"></a>
         <nav class="nav-links">
             <a href="accueil.html">Accueil</a>
-            <a href="dashboard_membre_equipe.html">Tableau de bord</a>
+            <a href="dashboard_membre_equipe.html">Espace personnel</a>
+            <a href="equipeVueMembre.html">Ma Team</a>
             <a href="liste_tournois.html">Tournois</a>
             <a href="equipes_publique.html">Teams</a>
             <div class="nav-user">
                 <a href="#" class="nav-notification">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
-                        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
-                    </svg>
-                    <span class="notification-badge">1</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                    <span class="notification-badge">2</span>
                 </a>
+                
                 <a href="connexion.html" style="color:white; text-decoration:none; font-size:13px;">Se déconnecter</a>
                 <a href="profil.html"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar"></a>
             </div>
         </nav>
     </header>
 
-    <!-- MAIN CONTENT -->
     <main class="main-container">
 
-        <!-- MATCH HEADER -->
+        <a href="dashboard_membre_equipe.html" class="btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Retour au notifications
+        </a>
+
         <div class="match-header-card">
             <div class="match-context">CHAMPIONNAT HIVER 2025 — QUART DE FINALE — 15/12/2025 — 20:00 — MATCH #M42</div>
 
@@ -173,7 +189,6 @@
             <div class="status-badge">EN ATTENTE</div>
         </div>
 
-        <!-- TEAM COMPOSITIONS -->
         <div class="teams-wrapper">
 
             <div class="team-column">
@@ -196,12 +211,10 @@
 
         </div>
 
-        <!-- BOTTOM MESSAGE -->
         <div class="bottom-message">
             L'admin a encodé 3‑1. En tant qu'équipe, confirmez ou refusez ce résultat.
         </div>
 
-        <!-- ACTION BUTTONS -->
         <div class="action-buttons">
             <button class="btn-refuser">❌ Refuser</button>
             <button class="btn-confirmer">✔ Confirmer le résultat</button>

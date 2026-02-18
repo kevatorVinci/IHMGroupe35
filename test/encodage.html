@@ -4,18 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Saisie Résultat - Vinci Arena</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 
     <style>
         /* --- Styles globaux --- */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background-color: #f0f2f5; color: #334155; }
+        body { 
+            font-family: 'Roboto', sans-serif; 
+            background-color: #f0f2f5; 
+            color: #334155; 
+        }
 
         /* --- Navbar Admin --- */
         .navbar {
             background-color: #112b4f; height: 70px; padding: 0 40px;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2); position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000;
         }
         .nav-brand { display: flex; align-items: center; gap: 10px; }
         .logo-img-nav { height: 45px; width: auto; border-radius: 4px; display: block; }
@@ -25,9 +29,12 @@
         }
         .nav-right-group { display: flex; align-items: center; gap: 30px; }
         .nav-links { display: flex; align-items: center; gap: 20px; }
-        .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; }
+        .nav-links a { 
+            color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 500; font-size: 15px; transition: 0.2s; 
+        }
         .nav-links a:hover { color: white; }
-        .nav-links a.active { color: white; font-weight: 700; border-bottom: 2px solid #b45309; padding-bottom: 4px; }
+        .nav-links a.active { color: #f59e0b; font-weight: 700; }
+
         .nav-user { display: flex; align-items: center; gap: 20px; padding-left: 20px; border-left: 1px solid rgba(255,255,255,0.2); }
         .nav-avatar { width: 35px; height: 35px; border-radius: 4px; background-color: white; padding: 2px; display: block; }
         .btn-exit {
@@ -41,7 +48,7 @@
 
         .page-header { margin-bottom: 20px; text-align: center; }
         .page-title { font-size: 24px; font-weight: 700; color: #0f172a; margin-bottom: 5px; }
-        .match-context { color: #64748b; font-size: 14px; }
+        .match-context { color: #64748b; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
         /* --- Carte de Score --- */
         .score-card {
@@ -56,9 +63,17 @@
 
         /* Team Block */
         .team-block { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 15px; }
-        .team-logo { width: 80px; height: 80px; background: #f1f5f9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; border: 2px solid #e2e8f0; }
-        .team-name { font-weight: 700; font-size: 18px; color: #1e293b; }
-        .team-status { font-size: 12px; color: #166534; background: #dcfce7; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+        
+        .team-logo { 
+            width: 80px; height: 80px; 
+            color: white; /* Texte blanc */
+            border-radius: 12px; /* Carré arrondi comme page détail */
+            display: flex; align-items: center; justify-content: center; 
+            font-size: 24px; font-weight: 900;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .team-name { font-weight: 800; font-size: 18px; color: #1e293b; }
 
         /* Input Score */
         .score-input {
@@ -81,7 +96,6 @@
         .btn-submit { background: #b45309; color: white; box-shadow: 0 4px 6px rgba(180, 83, 9, 0.2); }
         .btn-submit:hover { background: #92400e; transform: translateY(-1px); }
 
-        /* Responsive */
         @media (max-width: 600px) {
             .versus-container { flex-direction: column; gap: 20px; }
             .vs-badge { margin: 10px 0; transform: rotate(90deg); }
@@ -110,16 +124,16 @@
     <main class="main-container">
         
         <div class="page-header">
-            <a href="admin_planning.html" style="text-decoration: none; color: #64748b; font-size: 14px; display:block; margin-bottom:10px;">&larr; Retour au planning</a>
+            <a href="admin_details_match.html" style="text-decoration: none; color: #64748b; font-size: 14px; display:block; margin-bottom:10px;">&larr; Retour aux détails</a>
             <h1 class="page-title">Encoder le résultat</h1>
-            <div class="match-context">Coupe de Printemps 2026 • Quart de Finale • #M-104</div>
+            <div class="match-context">Championnat d'Hiver 2026 • Quart de Finale</div>
         </div>
 
         <div class="score-card">
             
             <div class="versus-container">
                 <div class="team-block">
-                    <div class="team-logo">🦁</div>
+                    <div class="team-logo" style="background-color: #112b4f;">LW</div>
                     <div class="team-name">Les Warriors</div>
                     <input type="number" id="scoreA" class="score-input" min="0" placeholder="0">
                 </div>
@@ -127,14 +141,14 @@
                 <div class="vs-badge">VS</div>
 
                 <div class="team-block">
-                    <div class="team-logo">🐉</div>
+                    <div class="team-logo" style="background-color: #be123c;">TP</div>
                     <div class="team-name">Team Phoenix</div>
                     <input type="number" id="scoreB" class="score-input" min="0" placeholder="0">
                 </div>
             </div>
 
             <div class="actions">
-                <button class="btn btn-cancel" onclick="window.location.href='admin_planning.html'">Annuler</button>
+                <button class="btn btn-cancel" onclick="window.location.href='admin_details_match.html'">Annuler</button>
                 <button class="btn btn-submit" onclick="submitResult()">Valider le résultat</button>
             </div>
 
@@ -153,21 +167,19 @@
                 return;
             }
 
-            [cite_start]// 2. Validation : Match Nul Interdit [cite: 22]
-            // "Le tournoi suit un format à élimination directe, sans possibilité de match nul."
+            // 2. Validation : Match Nul Interdit
             if (scoreA == scoreB) {
                 alert("Impossible d'enregistrer un match nul.\nLe format du tournoi exige un vainqueur.");
                 return;
             }
 
-            // 3. Confirmation
-            const winner = (parseInt(scoreA) > parseInt(scoreB)) ? "Alpha Squad" : "Omega Team";
+            // 3. Détermination du vainqueur pour la confirmation
+            const winner = (parseInt(scoreA) > parseInt(scoreB)) ? "Les Warriors" : "Team Phoenix";
             
-            if(confirm(`Confirmer le score : Alpha Squad ${scoreA} - ${scoreB} Omega Team ?\n\nVainqueur : ${winner}\n\nUne notification sera envoyée aux deux équipes pour validation.`)) {
-                [cite_start]// Simulation de la notification [cite: 105]
-                // "Une fois le résultat encodé, les deux teams concernées en sont notifiées et doivent le confirmer"
+            if(confirm(`Confirmer le score :\nLes Warriors ${scoreA} - ${scoreB} Team Phoenix\n\nVainqueur : ${winner}\n\nUne notification sera envoyée aux deux équipes pour validation.`)) {
                 alert("Résultat enregistré ! En attente de la confirmation des équipes.");
-                window.location.href = "admin_planning.html";
+                // Redirection vers la page de détails Admin
+                window.location.href = "admin_details_match.html";
             }
         }
     </script>

@@ -70,6 +70,14 @@
             border-left: 4px solid #2563eb; /* Bordure bleue à gauche */
             border-color: #bfdbfe;
         }
+        
+        /* Style spécial pour action urgente (orange) */
+        .notif-urgent {
+            background-color: #fff7ed; /* Orange très pâle */
+            border-left: 4px solid #f59e0b; /* Bordure orange */
+            border-color: #fed7aa;
+        }
+
         .notif-read {
             background-color: white;
             border-left: 4px solid transparent;
@@ -84,6 +92,7 @@
         .icon-alert { background-color: #fee2e2; color: #dc2626; } /* Rouge */
         .icon-system { background-color: #f1f5f9; color: #475569; } /* Gris */
         .icon-success { background-color: #dcfce7; color: #166534; } /* Vert */
+        .icon-warning { background-color: #ffedd5; color: #c2410c; } /* Orange */
 
         /* Contenu */
         .notif-content { flex-grow: 1; }
@@ -101,6 +110,11 @@
         /* Indicateur Point bleu pour non lu */
         .unread-dot {
             width: 8px; height: 8px; background-color: #2563eb; border-radius: 50%;
+            position: absolute; top: 20px; right: 20px;
+        }
+        /* Indicateur orange pour urgent */
+        .urgent-dot {
+            width: 8px; height: 8px; background-color: #f59e0b; border-radius: 50%;
             position: absolute; top: 20px; right: 20px;
         }
 
@@ -153,7 +167,7 @@
         <div class="page-header">
             <h1 class="page-title">
                 Notifications
-                <span style="font-size: 14px; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; vertical-align: middle;">2 nouvelles</span>
+                <span style="font-size: 14px; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; vertical-align: middle;">3 nouvelles</span>
             </h1>
             <button class="btn-text-action" onclick="markAllRead()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>
@@ -169,22 +183,26 @@
 
         <div class="notif-list" id="notifContainer">
             
-            <div class="notif-card notif-unread" data-status="unread">
-                <div class="notif-icon-box icon-match">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            <div class="notif-card notif-urgent" data-status="unread">
+                <div class="notif-icon-box icon-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
                 </div>
                 <div class="notif-content">
                     <div class="notif-header">
-                        <div class="notif-title">Rappel de match imminent</div>
-                        <div class="notif-time">Il y a 30 min</div>
+                        <div class="notif-title">Action requise : Valider un score</div>
+                        <div class="notif-time">À l'instant</div>
                     </div>
                     <div class="notif-desc">
-                        Votre match contre <b>Team Phoenix</b> commence dans moins de 2 heures. Vérifiez votre équipement !
+                        L'admin a encodé le résultat du match <b>SkyWalkers vs Dark Legion</b> (3-1). En tant que responsable de l'équipe, vous devez confirmer ou contester ce résultat.
                     </div>
                     <div class="notif-actions">
-                        <a href="detail_match.html" class="action-link">Voir le détail du match</a>
+                        <a href="resultat_responsable.html" class="action-link" style="color:#c2410c; font-weight:700;">➔ Vérifier le résultat</a>
                         <a href="#" class="action-link" style="color:#64748b" onclick="markAsRead(this)">Marquer comme lu</a>
                     </div>
+                </div>
+                <div class="urgent-dot"></div>
+            </div>
+               
                 </div>
                 <div class="unread-dot"></div>
             </div>
@@ -282,7 +300,8 @@
                 if (filter === 'all') {
                     card.style.display = 'flex';
                 } else if (filter === 'unread') {
-                    if (card.classList.contains('notif-unread')) {
+                    // Modifié pour inclure la classe 'notif-urgent' dans les non-lues
+                    if (card.classList.contains('notif-unread') || card.classList.contains('notif-urgent')) {
                         card.style.display = 'flex';
                     } else {
                         card.style.display = 'none';
@@ -306,12 +325,12 @@
             card.style.borderLeftColor = 'transparent';
             card.style.opacity = '0.8';
             
-            // Retirer le point bleu
-            const dot = card.querySelector('.unread-dot');
+            // Retirer le point bleu ou orange
+            const dot = card.querySelector('.unread-dot, .urgent-dot');
             if(dot) dot.remove();
 
             // Changer la classe
-            card.classList.remove('notif-unread');
+            card.classList.remove('notif-unread', 'notif-urgent');
             card.classList.add('notif-read');
             card.setAttribute('data-status', 'read');
 
@@ -323,7 +342,8 @@
 
         // Tout marquer comme lu
         function markAllRead() {
-            const unreadCards = document.querySelectorAll('.notif-unread');
+            // Modifié pour sélectionner aussi les urgentes
+            const unreadCards = document.querySelectorAll('.notif-unread, .notif-urgent');
             unreadCards.forEach(card => {
                 const link = card.querySelector('.action-link:last-child');
                 markAsRead(link);

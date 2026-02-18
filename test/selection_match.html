@@ -20,6 +20,15 @@
 
         /* --- Layout --- */
         .main-container { max-width: 1000px; margin: 40px auto; padding: 0 20px; padding-bottom: 100px; }
+        
+        /* --- Bouton Retour (Nouveau) --- */
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none; color: #64748b; font-weight: 500; font-size: 15px;
+            margin-bottom: 20px; transition: 0.2s; cursor: pointer;
+        }
+        .btn-back:hover { color: #112b4f; transform: translateX(-3px); }
+
         .top-center { text-align: center; margin-bottom: 35px; }
         .top-center h1 { color: #112b4f; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
         
@@ -98,6 +107,15 @@
     </header>
 
     <main class="main-container">
+        
+        <a href="dashboard_membre_equipe.html" class="btn-back">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Retour
+        </a>
+
         <div class="top-center">
             <h1>MATCH #M42 – SÉLECTION</h1>
             <p>Choisissez les 4 spécialistes pour affronter <b>Dark Legion</b>.</p>
@@ -156,9 +174,6 @@
                 if (selectedCount < 4) {
                     card.classList.add("selected");
                     selectedCount++;
-                } else {
-                    // Empêcher l'ajout si déjà 4 (optionnel: secouer ou alerter, ici le message suffit)
-                    // Le message est déjà affiché
                 }
             } else {
                 // Retirer un joueur
