@@ -126,7 +126,7 @@
                     Vue Joueur
                 </a>
                 <a href="profil.html">
-                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=AdminBoss" class="nav-avatar" alt="Mon Profil">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" class="nav-avatar" alt="Mon Profil">
                 </a>
             </div>
         </div>
@@ -173,8 +173,12 @@
         let admins = [
             { id: 1, tag: "MasterChief", email: "chief@vinci-arena.be", avatarSeed: "Felix", date: "12/01/2025" },
             { id: 2, tag: "ViperQueen", email: "viper@vinci-arena.be", avatarSeed: "Aneka", date: "02/02/2026" },
-            { id: 3, tag: "Strategist01", email: "strat@vinci-arena.be", avatarSeed: "Bob", date: "10/02/2026" }
+            // Changé de Bob à Jack
+            { id: 3, tag: "Strategist01", email: "strat@vinci-arena.be", avatarSeed: "Jack", date: "10/02/2026" }
         ];
+
+        // Liste des avatars autorisés pour les nouveaux admins
+        const allowedAvatars = ["Felix", "Aneka", "Jack", "Sara", "Brian", "Alex"];
 
         function renderTable() {
             const tbody = document.getElementById('adminTableBody');
@@ -210,11 +214,14 @@
                 return;
             }
 
+            // Sélection aléatoire d'un avatar valide
+            const randomSeed = allowedAvatars[Math.floor(Math.random() * allowedAvatars.length)];
+
             const newAdmin = {
                 id: Date.now(),
                 tag: input.value,
                 email: input.value.toLowerCase().replace(/[^a-z0-9]/g, '') + "@mail.com",
-                avatarSeed: Math.random().toString(36).substring(7),
+                avatarSeed: randomSeed, // Modifié pour utiliser la liste autorisée
                 date: new Date().toLocaleDateString('fr-FR')
             };
 
