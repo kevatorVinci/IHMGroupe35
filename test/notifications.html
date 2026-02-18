@@ -93,6 +93,8 @@
         .icon-system { background-color: #f1f5f9; color: #475569; } /* Gris */
         .icon-success { background-color: #dcfce7; color: #166534; } /* Vert */
         .icon-warning { background-color: #ffedd5; color: #c2410c; } /* Orange */
+        .icon-purple { background-color: #f3e8ff; color: #9333ea; } /* Violet pour event */
+        .icon-indigo { background-color: #e0e7ff; color: #4338ca; } /* Indigo pour recrutement */
 
         /* Contenu */
         .notif-content { flex-grow: 1; }
@@ -167,7 +169,7 @@
         <div class="page-header">
             <h1 class="page-title">
                 Notifications
-                <span style="font-size: 14px; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; vertical-align: middle;">3 nouvelles</span>
+                <span style="font-size: 14px; background: #ef4444; color: white; padding: 2px 8px; border-radius: 12px; vertical-align: middle;">2 nouvelles</span>
             </h1>
             <button class="btn-text-action" onclick="markAllRead()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/></svg>
@@ -202,10 +204,6 @@
                 </div>
                 <div class="urgent-dot"></div>
             </div>
-               
-                </div>
-                <div class="unread-dot"></div>
-            </div>
 
             <div class="notif-card notif-unread" data-status="unread">
                 <div class="notif-icon-box icon-success">
@@ -225,6 +223,44 @@
                     </div>
                 </div>
                 <div class="unread-dot"></div>
+            </div>
+
+            <div class="notif-card notif-read" data-status="read">
+                <div class="notif-icon-box icon-purple">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                </div>
+                <div class="notif-content">
+                    <div class="notif-header">
+                        <div class="notif-title">Nouveau Tournoi : Summer Clash</div>
+                        <div class="notif-time">Il y a 2 jours</div>
+                    </div>
+                    <div class="notif-desc">
+                        Les inscriptions pour le <b>Summer Clash 2026</b> sont ouvertes ! Rassemblez votre équipe et préparez-vous pour l'été.
+                    </div>
+                    <div class="notif-actions">
+                        <a href="liste_tournois.html" class="action-link">Voir le tournoi</a>
+                        <a href="#" class="action-link" style="color:#ef4444" onclick="deleteNotif(this)">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notif-card notif-read" data-status="read">
+                <div class="notif-icon-box icon-indigo">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+                </div>
+                <div class="notif-content">
+                    <div class="notif-header">
+                        <div class="notif-title">Demande de recrutement</div>
+                        <div class="notif-time">Il y a 5 jours</div>
+                    </div>
+                    <div class="notif-desc">
+                        Le joueur <b>NoobSlayer</b> souhaite rejoindre votre équipe.
+                    </div>
+                    <div class="notif-actions">
+                        <a href="equipeVueMembre.html" class="action-link">Gérer la demande</a>
+                        <a href="#" class="action-link" style="color:#ef4444" onclick="deleteNotif(this)">Supprimer</a>
+                    </div>
+                </div>
             </div>
 
             <div class="notif-card notif-read" data-status="read">
