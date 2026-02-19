@@ -109,6 +109,29 @@
             color: #94a3b8;
         }
 
+        /* --- NOUVEAU : Case à cocher "Se souvenir de moi" --- */
+        .remember-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .remember-checkbox {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: #112b4f; /* Couleur de la case cochée */
+        }
+
+        .remember-label {
+            font-size: 13px;
+            color: #475569;
+            cursor: pointer;
+            font-weight: 500;
+            user-select: none;
+        }
+
         /* Bouton de soumission (Bleu foncé) */
         .btn-submit {
             width: 100%;
@@ -121,7 +144,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.2s;
-            margin-top: 10px;
             margin-bottom: 25px;
         }
 
@@ -195,16 +217,20 @@
                     <input type="email" id="email" name="email" class="form-control" placeholder="nom@exemple.com" required>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 15px;">
                     <label for="password" class="form-label">Mot de passe</label>
                     <input type="password" id="password" name="password" class="form-control" placeholder="Mot de passe" required>
+                </div>
+
+                <div class="remember-group"  >
+                    <input type="checkbox" id="remember" name="remember" class="remember-checkbox">
+                    <label for="remember" class="remember-label">Se souvenir de moi</label>
                 </div>
 
                 <button type="submit" class="btn-submit">Se connecter</button>
             </form>
 
             <div class="secondary-links">
-
                 <a href="inscription.html" class="text-link">Créer un compte</a>
             </div>
 
